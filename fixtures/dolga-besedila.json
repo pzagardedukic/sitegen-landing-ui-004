@@ -1,11 +1,11 @@
 {
-  "description": "Ime studia in naslovi sekcij so precej daljsi od demo vsebine.",
+  "description": "Ime salona in naslovi sekcij so precej daljsi od demo vsebine.",
   "patch": {
     "home": {
-      "name": "Reforma Pilates in Gibalna Terapija Ljubljana Center",
+      "name": "Mirna Spa & Beauty — Salon za masaze, nego obraza in nohtov Ljubljana",
       "slogan": {
-        "SL": "Studio za reformer in matt pilates, gibalno terapijo, rehabilitacijo po poskodbah in pripravo na sezono, z majhnimi skupinami in individualno obravnavo vsakega clana.",
-        "EN": "A studio for reformer and matt pilates, movement therapy, rehabilitation after injury and pre-season preparation, with small groups and individual attention for every member."
+        "SL": "Salon za masaze, nego obraza, manikuro in pedikuro ter nego las ob Ljubljanici, z dovolj casa za vsak obisk, naravno kozmetiko in terapevtkami z mednarodnimi certifikati.",
+        "EN": "A salon for massage, facials, manicures, pedicures and hair care by the Ljubljanica, with enough time for every visit, natural skincare and internationally certified therapists."
       }
     }
   }

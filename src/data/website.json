@@ -7,50 +7,49 @@
   },
   "home": {
     "websiteName": {
-      "SL": "Reforma Pilates",
-      "EN": "Reforma Pilates"
+      "SL": "Mirna Spa & Beauty",
+      "EN": "Mirna Spa & Beauty"
     },
     "slogan": {
-      "SL": "Studio za reformer in matt pilates v Ljubljani. Majhne skupine, vadba po meri telesa in inštruktorji, ki popravljajo vsak gib.",
-      "EN": "A reformer and mat Pilates studio in Ljubljana. Small groups, training shaped to your body, and instructors who correct every movement."
+      "SL": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "EN": "Massage, facials and manicures by the Ljubljanica. Enough time for every visit, natural skincare, and therapists who know what they are doing."
     },
     "companyLogo": {
-      "text": "REFORMA",
-      "file": "/images/logo-reforma.png"
+      "text": "MIRNA"
     }
   },
   "contactInfo": {
     "company": {
-      "name": "Reforma Pilates demo d.o.o.",
+      "name": "Mirna Spa & Beauty demo d.o.o.",
       "country": "Slovenia",
-      "address": "Poljanski nasip 24",
+      "address": "Trnovski pristan 14",
       "postalCode": "1000",
       "postalOffice": "Ljubljana"
     },
     "contact": [
       {
         "type": "PHONE",
-        "value": "+386 1 555 01 24"
+        "value": "+386 1 555 02 14"
       },
       {
         "type": "EMAIL",
-        "value": "pozdravljeni@reforma-pilates.example"
+        "value": "pozdravljeni@mirna-spa.example"
       },
       {
         "type": "WEBSITE",
-        "value": "https://reforma-pilates.example"
+        "value": "https://mirna-spa.example"
       },
       {
         "type": "INSTAGRAM",
-        "value": "https://instagram.com/reforma.pilates.example"
+        "value": "https://instagram.com/mirna.spa.example"
+      },
+      {
+        "type": "FACEBOOK",
+        "value": "https://facebook.com/mirna.spa.example"
       },
       {
         "type": "LINKEDIN",
         "value": "https://www.linkedin.com/company/example"
-      },
-      {
-        "type": "FACEBOOK",
-        "value": "https://facebook.com/reforma.pilates.example"
       }
     ]
   },
@@ -74,51 +73,51 @@
   },
   "blog": {
     "slugs": [
-      "1-zakaj-vas-po-prvi-uri-boli-tam-kjer-niste-pricakovali",
-      "2-nevtralna-medenica-najbolj-ponavljano-navodilo-v-dvorani",
-      "3-koliko-vzmeti-je-prav-in-zakaj-vec-ni-tezje",
-      "4-dvakrat-tedensko-je-meja-pod-katero-se-ne-pozna",
-      "5-vrnitev-k-vadbi-po-porodu-prvih-sest-tednov"
+      "1-maska-iz-gline-kolikokrat-na-teden-je-dovolj",
+      "2-katero-olje-za-masazo-in-zakaj-ne-vsako",
+      "3-zakaj-se-po-masazi-pocutite-utrujeni",
+      "4-limfna-drenaza-obraza-ki-jo-zmorete-sami",
+      "5-zascita-pred-soncem-tudi-pozimi"
     ]
   },
   "portfolio": {
     "slugs": [
-      "1-reformer-za-zacetnike",
-      "2-reformer-nadaljevalni",
-      "3-jutranji-matt-pilates",
-      "4-pilates-za-pisarnisko-telo",
-      "5-pilates-po-poskodbi",
-      "6-nosecniski-in-poporodni-pilates"
+      "1-ritual-globinske-nege-obraza",
+      "2-masaza-s-toplimi-kamni",
+      "3-manikura-z-masazo-rok",
+      "4-spa-pedikura",
+      "5-nega-las-in-lasisca",
+      "6-lifting-obraza-brez-igel"
     ]
   },
   "pricing": {
     "slugs": [
-      "1-clanstvo-4-mesecno",
-      "2-clanstvo-8-mesecno",
-      "3-neomejeno-clanstvo",
-      "4-jutranje-clanstvo",
-      "5-paket-10-ur",
-      "6-paket-20-ur",
-      "7-posamezna-ura",
-      "8-individualna-ura",
-      "9-individualno-v-paru",
-      "10-program-za-podjetja"
+      "1-paket-umiritev",
+      "2-paket-mirna",
+      "3-paket-za-dva",
+      "4-klasicna-masaza",
+      "5-masaza-s-toplimi-kamni",
+      "6-nosecniska-masaza",
+      "7-ritual-obraza",
+      "8-serija-liftinga-obraza",
+      "9-manikura-s-trajnim-lakom",
+      "10-porocni-paket"
     ]
   },
   "careers": {
     "slugs": [
-      "1-instruktor-oziroma-instruktorica-reformer-pilatesa",
-      "2-instruktor-za-rehabilitacijski-program",
-      "3-vodja-recepcije-in-clanstev"
+      "1-masazni-terapevt-oziroma-terapevtka",
+      "2-kozmeticarka",
+      "3-receptor-oziroma-receptorka"
     ]
   },
   "events": {
     "slugs": [
-      "1-dihanje-in-globoke-trebusne-misice",
-      "2-pilates-za-tekace-kolki-in-stopala",
-      "3-kaj-se-zgodi-s-telesom-po-porodu",
-      "4-odprti-dan-reformer-brez-rezervacije",
-      "5-ergonomija-pisarne-in-vaje-med-delom"
+      "1-vecer-aromaterapije",
+      "2-masaza-za-nosecnice-in-partnerje",
+      "3-manikura-doma-ki-zdrzi",
+      "4-dan-odprtih-vrat",
+      "5-priceske-za-praznike"
     ]
   }
 }

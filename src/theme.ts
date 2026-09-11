@@ -223,12 +223,12 @@ const themeOptions: ThemeOptions = {
       lineHeight: 1,
     },
 
-    // Slogan — 16/28
+    // Slogan — 15/26, the body size, as the hero frames set it
     slogan: {
       fontFamily: sloganFont,
       fontWeight: 400,
-      fontSize: "16px",
-      lineHeight: 1.75,
+      fontSize: "15px",
+      lineHeight: 26 / 15,
     },
 
     // Logo set as type when there is no artwork — 24 / 28 / 30

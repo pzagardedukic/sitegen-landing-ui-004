@@ -90,8 +90,8 @@ export function brandSurfaces({ primary, secondary }: BrandColors) {
     border: LUMIERA.border,
     /** Stand-in shown where a photograph is missing. */
     placeholder: lighten(primary, 0.73),
-    /** Laid over photographs that carry white copy. */
-    scrim: alpha(LUMIERA.overlay, 0.4),
+    /** Laid over photographs that carry white copy — 35 %, as the photo variant of the hero. */
+    scrim: alpha(LUMIERA.overlay, 0.35),
     /*
      * Ground of the glass caption card, under a 12px blur. The Figma frames record this fill
      * as solid overlay, but the card carries a background blur, which only reads on a

@@ -1,39 +1,31 @@
 "use client";
 
-import ImageCarousel from "./ImageCarousel";
-import { getAboutItems, getAboutSection } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
-import {
-  getAboutTranslation,
-  getButtonTranslation,
-} from "@/core/translations";
-import DualColumnSection from "../common/DualColumnSection";
-import EstablishedAndClients from "../common/EstablishedAndClients";
+import { getAboutItems, getAboutSection, useLanguage } from "@/core/runtime";
+import { getAboutTranslation, getButtonTranslation } from "@/core/translations";
 import { getPageSlugByKeyWithBasePath } from "@/core/static";
+import EstablishedAndClients from "../common/EstablishedAndClients";
+import AboutBlock from "./AboutBlock";
 
+/* The about preview on the home page: the section name, and a button on to /o-nas. */
 export default function AboutPreviewSection() {
   const { lang } = useLanguage();
   const aboutTranslation = getAboutTranslation(lang);
   const buttonTranslation = getButtonTranslation(lang);
-
   const aboutSection = getAboutSection(lang);
-  const AboutItems = getAboutItems(lang);
+  const aboutItems = getAboutItems(lang);
 
   return (
     <>
-      <DualColumnSection
+      <AboutBlock
         title={aboutSection.sectionName || aboutTranslation.title}
         description={aboutSection.text}
+        items={aboutItems}
         callToAction={{
           label: buttonTranslation.learnMore,
           href: getPageSlugByKeyWithBasePath("about"),
         }}
-      >
-        {/* Same intro with or without photographs — only the carousel is conditional. */}
-        {AboutItems.length > 0 && <ImageCarousel items={AboutItems} />}
-      </DualColumnSection>
+      />
 
-      {/* Year + Happy Clients - full screen width */}
       <EstablishedAndClients />
     </>
   );

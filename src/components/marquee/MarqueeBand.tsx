@@ -39,7 +39,7 @@ export default function MarqueeBand({
         right: "50%",
         marginLeft: "-50vw",
         marginRight: "-50vw",
-        height: 72,
+        height: { xs: 56, sm: 64, md: 72 },
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
@@ -59,8 +59,8 @@ export default function MarqueeBand({
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: "28px",
-              pr: "28px",
+              gap: { xs: "22px", md: "28px" },
+              pr: { xs: "22px", md: "28px" },
               /* autoFill counts copies from the measured group width; a group that can
                * shrink asks for ever more copies. Same trap as ClientLogoSlider. */
               flexShrink: 0,

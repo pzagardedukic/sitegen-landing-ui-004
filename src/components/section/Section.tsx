@@ -46,7 +46,8 @@ export default function Section({
           sm: ANCHOR_OFFSET.sm,
           md: ANCHOR_OFFSET.md,
         },
-        py: { xs: 8, sm: 11, md: 15 },
+        // Lumiera's section rhythm: 72 / 96 / 120 above and below.
+        py: { xs: "72px", sm: "96px", md: "120px" },
         backgroundColor: resolvedHeaderImage
           ? "transparent"
           : (color ?? "transparent"),

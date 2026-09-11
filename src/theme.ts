@@ -250,11 +250,20 @@ const themeOptions: ThemeOptions = {
   components: {
     /*
      * Content margins from Figma: 36 mobile, 60 tablet, 120 desktop.
-     * At 1440 the lg container caps content at 1200, which leaves exactly 120 a side,
-     * so the desktop margin comes from maxWidth rather than from padding.
+     *
+     * The desktop margin comes from the width cap rather than from padding: content is
+     * capped at 1200, which at 1440 leaves exactly 120 a side. MUI's lg cap of 1200 includes
+     * the container's own 24px padding, so on its own it capped content at 1152 and put
+     * every section 144 in — ui-002 shipped that. The cap is raised by the padding so the
+     * content itself is 1200.
      */
     MuiContainer: {
       styleOverrides: {
+        maxWidthLg: ({ theme }) => ({
+          [theme.breakpoints.up("lg")]: {
+            maxWidth: 1200 + 2 * 24,
+          },
+        }),
         root: ({ theme }) => ({
           paddingLeft: 36,
           paddingRight: 36,

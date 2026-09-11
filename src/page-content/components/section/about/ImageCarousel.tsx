@@ -1,38 +1,39 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material/styles";
 import Carousel from "@/components/carousel/Carousel";
+import GlassCaption from "@/components/media/GlassCaption";
 
 export type ImageCarouselItem = {
   image: string;
   text: string;
 };
 
-type ImageCarouselProps = {
-  items: ImageCarouselItem[];
-};
-
 /*
- * The about carousel from the Figma frame: slides 470 tall with the item's copy over the
- * photograph in a bottom band. Desktop shows an unequal pair — 740 and 428 of a 1200 track
- * — and mobile one slide with no peek of the next.
- *
- * The frame also draws a small label at the top of each slide, but nothing in the data
- * feeds it (items carry only an image and a text), so it is left out rather than invented.
+ * One about photograph as Lumiera draws it: cover-cropped, rounded 20 on phones and 24
+ * above, with the item's text in the glass card inset 16 / 16 / 24 from the bottom edge.
+ * The size comes from the caller — a carousel slide or the single photograph.
  */
-export default function ImageCarousel({ items }: ImageCarouselProps) {
-  if (items.length === 0) return null;
-
-  const slides = items.map((item, index) => (
+export function AboutPhoto({
+  item,
+  sx,
+}: {
+  item: ImageCarouselItem;
+  sx?: SxProps<Theme>;
+}) {
+  return (
     <Box
-      key={`${item.image}-${index}`}
-      sx={(theme) => ({
-        position: "relative",
-        height: { xs: 380, sm: 430, md: 470 },
-        borderRadius: "25px",
-        overflow: "hidden",
-        backgroundColor: theme.palette.surfaces.placeholder,
-      })}
+      sx={[
+        (theme) => ({
+          position: "relative",
+          overflow: "hidden",
+          width: "100%",
+          borderRadius: { xs: "20px", sm: "24px" },
+          backgroundColor: theme.palette.surfaces.placeholder,
+        }),
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Box
         component="img"
@@ -49,42 +50,50 @@ export default function ImageCarousel({ items }: ImageCarouselProps) {
       />
 
       {item.text && (
-        <>
-          <Box
-            aria-hidden
-            sx={(theme) => ({
-              position: "absolute",
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: "55%",
-              background: `linear-gradient(to top, ${theme.palette.surfaces.scrim}, transparent)`,
-            })}
-          />
-
-          <Typography
-            variant="body2"
-            sx={{
-              position: "absolute",
-              left: { xs: 20, md: 28 },
-              right: { xs: 20, md: 28 },
-              bottom: { xs: 20, md: 28 },
-              color: "common.white",
-            }}
-          >
-            {item.text}
-          </Typography>
-        </>
+        <GlassCaption
+          sx={{
+            position: "absolute",
+            left: { xs: 16, md: 24 },
+            right: { xs: 16, md: 24 },
+            bottom: { xs: 16, md: 24 },
+          }}
+        >
+          {item.text}
+        </GlassCaption>
       )}
     </Box>
+  );
+}
+
+type ImageCarouselProps = {
+  items: ImageCarouselItem[];
+};
+
+/*
+ * The about carousel from the Lumiera frames: square-ish slides of a fixed width — 560 on
+ * desktop, 520 × 440 on tablet, one full-width square on a phone — 24 / 20 / 16 apart, with
+ * the controls under the first slide and no wider than it. On tablet and desktop the track
+ * runs past the page margin to the screen edge (see AboutBlock), so the next photograph
+ * shows as a peek.
+ */
+export default function ImageCarousel({ items }: ImageCarouselProps) {
+  if (items.length === 0) return null;
+
+  const slides = items.map((item, index) => (
+    <AboutPhoto
+      key={`${item.image}-${index}`}
+      item={item}
+      sx={{ height: { sm: 440, md: 560 }, aspectRatio: { xs: "1 / 1", sm: "auto" } }}
+    />
   ));
 
   return (
     <Carousel
       items={slides}
-      perView={{ mobile: 1, desktop: 2 }}
-      weights={[0.633, 0.367]}
-      gap={32}
+      slideWidth={{ xs: "100%", sm: 520, md: 560 }}
+      gap={{ xs: 16, sm: 20, md: 24 }}
+      controlsGap={{ xs: 24, sm: 28, md: 32 }}
+      controlsSx={{ maxWidth: { sm: 520, md: 560 } }}
       ariaLabel="Galerija o nas"
     />
   );

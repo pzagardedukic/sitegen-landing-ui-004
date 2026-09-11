@@ -19,8 +19,8 @@ export default function GlassCaption({ children, sx }: GlassCaptionProps) {
     <Box
       sx={[
         (theme) => ({
-          px: "22px",
-          py: "18px",
+          px: { xs: "18px", md: "22px" },
+          py: { xs: "14px", md: "18px" },
           borderRadius: "12px",
           backgroundColor: theme.palette.surfaces.glass,
           backdropFilter: "blur(12px)",

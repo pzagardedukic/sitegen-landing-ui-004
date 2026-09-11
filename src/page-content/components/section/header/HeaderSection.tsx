@@ -3,76 +3,89 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useBannerImage } from "@/app/theme/utils/UseBannerImage";
+import { HEADER_HEIGHT } from "@/app/theme/headerMetrics";
 
 export type HeaderSectionProps = {
   title: string;
   /*
-   * Anchor for the band, set on the photograph card. ui-001 wrapped this component in a
-   * Section carrying the page anchor; here the band draws itself, so the pages that had an
-   * anchor of their own pass it through and their fragment links keep working. The outer
-   * element keeps `section-header`, which ui-001 also renders on every subpage.
+   * Anchor for the band. The pages that had an anchor of their own in ui-001 pass it
+   * through so their fragment links keep working; the outer element keeps
+   * `section-header`, which every subpage renders.
    */
   id?: string;
 };
 
+const LIP = { xs: 24, sm: 32, md: 40 } as const;
+
 /*
- * The title band that opens every subpage, from the Figma frame (1440x440): the same
- * construction as the hero but shorter — the photograph in a card inset 20px with a 25
- * radius, a flat black overlay at 60 %, the white notch carrying the site logo, and the page
- * title centred inside.
- *
- * It draws its own card rather than sitting inside a Section with a full-bleed background,
- * which is how ui-001 did it. That version ran the photograph edge to edge and butted it
- * against the section below with a hard horizontal seam.
+ * The title band that opens every subpage, from the Lumiera Figma frames (1440×440,
+ * 768×300, 390×300):
+ *   - the banner photograph runs edge to edge under the floating header, with the overlay
+ *     colour laid over it;
+ *   - the page title, in the h2 size, is centred in the space between the header and the
+ *     band's lower edge;
+ *   - a white lip rounded 40 / 32 / 24 closes the band, so the section below seems to curve
+ *     up over the photograph instead of meeting it in a straight seam.
  */
 export default function HeaderSection({ title, id }: HeaderSectionProps) {
-  const resolvedHeaderImage = useBannerImage();
+  const bannerImage = useBannerImage();
 
   return (
     <Box
       component="section"
       id="section-header"
-      sx={{ position: "relative", p: { xs: "12px", sm: "24px", md: "20px" } }}
+      sx={(theme) => ({
+        position: "relative",
+        overflow: "hidden",
+        height: { xs: 300, md: 440 },
+        pt: {
+          xs: `${HEADER_HEIGHT.xs}px`,
+          sm: `${HEADER_HEIGHT.sm}px`,
+          md: `${HEADER_HEIGHT.md}px`,
+        },
+        pb: { xs: `${LIP.xs}px`, sm: `${LIP.sm}px`, md: `${LIP.md}px` },
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: theme.palette.surfaces.placeholder,
+        backgroundImage: `url("${bannerImage}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        color: theme.palette.surfaces.onImage,
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          backgroundColor: theme.palette.surfaces.scrim,
+        },
+        "&::after": {
+          content: '""',
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: { xs: LIP.xs, sm: LIP.sm, md: LIP.md },
+          backgroundColor: theme.palette.background.default,
+          borderTopLeftRadius: { xs: `${LIP.xs}px`, sm: `${LIP.sm}px`, md: `${LIP.md}px` },
+          borderTopRightRadius: { xs: `${LIP.xs}px`, sm: `${LIP.sm}px`, md: `${LIP.md}px` },
+        },
+      })}
     >
       <Box
         id={id}
-        sx={(theme) => ({
+        sx={{
           position: "relative",
-          overflow: "hidden",
-          borderRadius: "25px",
-          minHeight: { xs: 240, sm: 320, md: 401 },
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: theme.palette.surfaces.placeholder,
-          backgroundImage: `url("${resolvedHeaderImage}")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        })}
+          zIndex: 1,
+          width: "100%",
+          maxWidth: { md: 1128 },
+          mx: "auto",
+          px: { xs: "36px", sm: "64px" },
+          textAlign: "center",
+        }}
       >
-        <Box
-          aria-hidden
-          sx={(theme) => ({
-            position: "absolute",
-            inset: 0,
-            backgroundColor: theme.palette.surfaces.scrim,
-            zIndex: 1,
-          })}
-        />
-
-        <Box
-          sx={{
-            position: "relative",
-            zIndex: 3,
-            px: { xs: "24px", sm: "40px", md: "100px" },
-            textAlign: "center",
-            color: "common.white",
-          }}
-        >
-          <Typography variant="h2" component="h1">
-            {title}
-          </Typography>
-        </Box>
+        <Typography variant="h2" component="h1" sx={{ color: "inherit" }}>
+          {title}
+        </Typography>
       </Box>
     </Box>
   );

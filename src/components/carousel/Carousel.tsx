@@ -23,7 +23,7 @@ type CarouselProps = {
    * Fixed slide width per breakpoint, in pixels or "100%". The track then runs as wide as
    * its container — which may bleed past the page margin — and pages one slide at a time.
    */
-  slideWidth?: Responsive<number | "100%">;
+  slideWidth?: Responsive<number | string>;
   /** Space above the controls, in pixels per breakpoint. */
   controlsGap?: Responsive<number>;
   /** Extra styles for the controls row, e.g. a width matching one slide. */
@@ -108,8 +108,15 @@ export default function Carousel({
     if (!node) return;
 
     const step = stepOf(node);
+    /*
+     * Slides fully in view: n slides take n widths and n − 1 gaps, so the track holds
+     * floor((width + gap) / step) of them. Without the gap two half-width slides counted
+     * as one and the controls offered a step too many.
+     */
+    const columnGap = parseFloat(getComputedStyle(node).columnGap) || 0;
+    const inView = Math.max(1, Math.floor((node.clientWidth + columnGap + 1) / step));
     const count = fixedSlides
-      ? Math.max(1, items.length - Math.max(1, Math.floor((node.clientWidth + 1) / step)) + 1)
+      ? Math.max(1, items.length - inView + 1)
       : Math.max(1, Math.ceil(items.length / visible));
     const maxScroll = node.scrollWidth - node.clientWidth;
     const atEnd = node.scrollLeft >= maxScroll - 2;

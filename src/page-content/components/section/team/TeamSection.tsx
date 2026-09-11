@@ -1,59 +1,70 @@
 "use client";
 
 import { Box } from "@mui/material";
-import { getTeamItems, getTeamSection } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
+import Carousel from "@/components/carousel/Carousel";
+import { getTeamItems, getTeamSection, useLanguage } from "@/core/runtime";
 import { getTeamTranslation } from "@/core/translations";
-import DualColumnSection from "../common/DualColumnSection";
+import CenteredIntro from "../common/CenteredIntro";
 import TeamCard from "./TeamCard";
 
 /*
- * Figma frame 1440x973: the 560/80/560 intro, then four cards of 277 across the 1200 grid.
- * Every second card is dropped by 60px — the stagger is what stops four portraits in a row
- * from reading as a row of passport photographs.
+ * The team section from the Lumiera frames: the centred intro, then the members —
+ *   desktop  up to four cards 282 wide and 24 apart in a row, centred when there are fewer,
+ *            wrapping onto a new row when there are more;
+ *   tablet   a carousel two cards wide;
+ *   phone    a carousel one card wide.
+ * The row and the carousel are switched in CSS, so the static page carries no layout jump.
  */
 export default function TeamSection() {
   const { lang } = useLanguage();
   const teamTranslation = getTeamTranslation(lang);
-
   const teamSection = getTeamSection(lang);
+
   if (!teamSection) {
     return null;
   }
+
   const teamItems = getTeamItems(lang);
+  const columns = Math.min(Math.max(teamItems.length, 1), 4);
+
+  const cards = teamItems.map((member, index) => (
+    <TeamCard
+      key={index}
+      name={member.name}
+      text={member.text}
+      image={member.image}
+      contact={member.contact}
+    />
+  ));
 
   return (
-    <DualColumnSection
-      title={teamTranslation.title}
-      description={teamSection.text}
-      columns="560fr 80fr 560fr"
-    >
-      <Box
-        sx={{
-          display: "grid",
-          gap: "30px",
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(4, 1fr)",
-          },
-          alignItems: "start",
-        }}
-      >
-        {teamItems.map((member, index) => (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "44px", md: "64px" } }}>
+      <CenteredIntro title={teamTranslation.title} description={teamSection.text} />
+
+      {cards.length > 0 && (
+        <>
           <Box
-            key={index}
-            sx={{ mt: { md: index % 2 === 1 ? "60px" : 0 } }}
+            sx={{
+              display: { xs: "none", md: "grid" },
+              gridTemplateColumns: `repeat(${columns}, minmax(0, 282px))`,
+              justifyContent: "center",
+              gap: "24px",
+            }}
           >
-            <TeamCard
-              name={member.name}
-              text={member.text}
-              image={member.image}
-              contact={member.contact}
+            {cards}
+          </Box>
+
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            <Carousel
+              items={cards}
+              slideWidth={{ xs: "100%", sm: "calc(50% - 12px)" }}
+              gap={24}
+              controlsGap={{ xs: 24 }}
+              ariaLabel={teamTranslation.title}
             />
           </Box>
-        ))}
-      </Box>
-    </DualColumnSection>
+        </>
+      )}
+    </Box>
   );
 }

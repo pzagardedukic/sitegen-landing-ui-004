@@ -9,7 +9,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
 import { getContacts } from "@/core/runtime";
 
-function TikTokIcon(props: SvgIconProps) {
+export function TikTokIcon(props: SvgIconProps) {
   return (
     <SvgIcon {...props} viewBox="0 0 24 24">
       <path d="M21 8.5a6.5 6.5 0 0 1-4-1.36v6.12a6.26 6.26 0 1 1-6.26-6.26c.3 0 .6.03.89.08v3.18a3.11 3.11 0 1 0 2.22 2.98V2h3.19a6.47 6.47 0 0 0 4.96 4.93V8.5z" />

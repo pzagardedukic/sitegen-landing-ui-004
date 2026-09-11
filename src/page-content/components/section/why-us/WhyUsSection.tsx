@@ -1,10 +1,10 @@
 "use client";
 
 import { Fragment } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { getExperienceSection, useLanguage } from "@/core/runtime";
 import { getWhyUsTranslation } from "@/core/translations";
-import RichText from "../common/RichText";
+import CenteredIntro from "../common/CenteredIntro";
 import StatBox from "./StatBox";
 import ExperienceItems from "./ExperienceItems";
 
@@ -16,7 +16,7 @@ function formatStat(value: unknown, locale: string): string {
 
 /*
  * The experience section from the Lumiera frames, everything centred on one axis:
- *   - the title, and the description under it capped at 640;
+ *   - the title and description (see CenteredIntro);
  *   - the two figures abreast (420 / 300 wide) with a hairline between them — stacked on a
  *     phone, with a short horizontal rule instead; a single figure stands alone;
  *   - the certificates in their cream panel (see ExperienceItems).
@@ -45,28 +45,7 @@ export default function WhyUsSection() {
         gap: { xs: "44px", sm: "56px", md: "72px" },
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-          gap: { xs: "20px", md: "24px" },
-        }}
-      >
-        <Typography variant="h2" component="h2">
-          {whyUsTranslation.title}
-        </Typography>
-
-        {experience?.text && (
-          <Typography component="div" variant="body1" sx={{ maxWidth: { md: 640 } }}>
-            <RichText
-              text={experience.text}
-              allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
-            />
-          </Typography>
-        )}
-      </Box>
+      <CenteredIntro title={whyUsTranslation.title} description={experience?.text} />
 
       {stats.length > 0 && (
         <Box

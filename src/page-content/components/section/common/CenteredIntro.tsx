@@ -8,6 +8,8 @@ type CenteredIntroProps = {
   description?: string | null;
   /** `left` is the projects opening: flush with the page margin, the block capped at 760. */
   align?: "center" | "left";
+  /** Cap on the centred description's width on desktop; 640 unless a frame draws it wider. */
+  descriptionMaxWidth?: number;
 };
 
 /*
@@ -16,7 +18,12 @@ type CenteredIntroProps = {
  *   centre  the description capped at 640 on desktop, 20 / 24 apart;
  *   left    the whole block capped at 760, 18 / 20 apart.
  */
-export default function CenteredIntro({ title, description, align = "center" }: CenteredIntroProps) {
+export default function CenteredIntro({
+  title,
+  description,
+  align = "center",
+  descriptionMaxWidth = 640,
+}: CenteredIntroProps) {
   const left = align === "left";
 
   return (
@@ -35,7 +42,7 @@ export default function CenteredIntro({ title, description, align = "center" }: 
       </Typography>
 
       {description && (
-        <Typography component="div" variant="body1" sx={{ maxWidth: { md: left ? "none" : 640 } }}>
+        <Typography component="div" variant="body1" sx={{ maxWidth: { md: left ? "none" : descriptionMaxWidth } }}>
           <RichText
             text={description}
             allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}

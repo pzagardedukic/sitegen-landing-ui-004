@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, Box, Typography } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { ArrowOutwardIcon } from "@/components/icons/icons";
 
 type Review = {
   text: string;
@@ -12,17 +12,27 @@ type Review = {
 
 type Props = {
   review: Review;
-  minHeight?: number;
 };
 
+/* The link as a reader would name it: the host, without the scheme or "www.". */
+function linkLabel(href: string): string {
+  try {
+    return new URL(href).hostname.replace(/^www\./, "");
+  } catch {
+    return href;
+  }
+}
+
 /*
- * A review card from the Figma frame (373 wide, 26 padding): the avatar and author on one
- * row, the review below it, and the optional source link at the bottom.
- *
- * The frame also has a caption line under the author, but review items carry only a title,
- * text, url and image — there is no role or company to put there.
+ * A review card from the Lumiera frames: white, rounded 12, 28 / 30 padding, 18 between
+ * its parts —
+ *   - an opening quotation mark in the heading face, 56, in primary;
+ *   - the review in the text colour;
+ *   - the source link, when there is one, as the muted underlined host with a small arrow;
+ *   - the author under a hairline: the round avatar (50) and the name (h6).
+ * With a link the whole card opens it, as the spec asks; without one it is not clickable.
  */
-export default function ReviewCard({ review, minHeight }: Props) {
+export default function ReviewCard({ review }: Props) {
   const { text, author, image, url } = review;
   const isLink = Boolean(url);
 
@@ -32,45 +42,78 @@ export default function ReviewCard({ review, minHeight }: Props) {
         ? { component: "a", href: url, target: "_blank", rel: "noopener noreferrer" }
         : {})}
       sx={(theme) => ({
+        height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: 2,
-        p: "26px",
-        minHeight,
-        borderRadius: "25px",
-        border: `1px solid ${theme.palette.surfaces.border}`,
-        backgroundColor: theme.palette.surfaces.tint,
+        gap: "18px",
+        px: "30px",
+        py: "28px",
+        borderRadius: "12px",
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
         textDecoration: "none",
-        color: "inherit",
-        transition: theme.transitions.create(["border-color", "transform"]),
         ...(isLink && {
-          "&:hover": {
-            borderColor: theme.palette.primary.main,
-            transform: "translateY(-2px)",
+          "&:hover .review-link, &:focus-visible .review-link": {
+            color: theme.palette.primary.main,
           },
         }),
       })}
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-        <Avatar src={image} alt="" sx={{ width: 44, height: 44 }} />
+      <Typography
+        aria-hidden
+        component="span"
+        sx={(theme) => ({
+          fontFamily: theme.typography.h1.fontFamily,
+          fontSize: "56px",
+          lineHeight: "36px",
+          height: 36,
+          color: theme.palette.primary.main,
+        })}
+      >
+        “
+      </Typography>
 
-        <Typography variant="subtitle1" component="p">
-          {author}
-        </Typography>
-      </Box>
-
-      <Typography variant="body2" sx={{ opacity: 0.75, flex: 1 }}>
+      <Typography variant="body1" sx={{ flex: 1 }}>
         {text}
       </Typography>
 
       {isLink && (
-        <Box sx={{ display: "inline-flex", alignItems: "center", gap: 0.75 }}>
-          <Typography variant="subtitle2" component="span" color="primary.main">
-            {new URL(url!).hostname.replace(/^www\./, "")}
-          </Typography>
-          <ArrowOutwardIcon sx={{ fontSize: 15, color: "primary.main" }} />
+        <Box
+          component="span"
+          className="review-link"
+          sx={(theme) => ({
+            ...theme.typography.caption,
+            alignSelf: "flex-start",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            color: theme.palette.text.secondary,
+            textDecoration: "underline",
+            textUnderlineOffset: "3px",
+            transition: theme.transitions.create(["color"], {
+              duration: theme.transitions.duration.short,
+            }),
+          })}
+        >
+          {linkLabel(url!)}
+          <ArrowOutwardIcon size={7} />
         </Box>
       )}
+
+      <Box
+        sx={(theme) => ({
+          display: "flex",
+          alignItems: "center",
+          gap: "14px",
+          pt: "18px",
+          borderTop: `1px solid ${theme.palette.surfaces.border}`,
+        })}
+      >
+        <Avatar src={image} alt="" sx={{ width: 50, height: 50 }} />
+        <Typography variant="h6" component="p">
+          {author}
+        </Typography>
+      </Box>
     </Box>
   );
 }

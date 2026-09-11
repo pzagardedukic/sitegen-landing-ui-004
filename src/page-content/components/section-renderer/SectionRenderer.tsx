@@ -12,6 +12,8 @@ export type SectionItem = {
   sectionId?: string;
   useHeaderImage?: boolean;
   headerHeight?: string;
+  /** Section ground as a palette path, e.g. "surfaces.mint" for the reviews. */
+  color?: string;
 };
 
 /*
@@ -35,6 +37,7 @@ export function renderSectionsWithDividers(sections: SectionItem[]) {
           id={section.sectionId}
           useHeaderImage={section.useHeaderImage}
           headerHeight={section.headerHeight}
+          color={section.color}
         >
           {section.render}
         </Section>

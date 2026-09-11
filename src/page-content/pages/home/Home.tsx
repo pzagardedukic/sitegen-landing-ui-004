@@ -62,6 +62,8 @@ export default function HomePage() {
       kind: "content",
       enabled: isSectionEnabled("reviews"),
       sectionId: "reviews",
+      // Lumiera sets the reviews on the mint wash, edge to edge.
+      color: "surfaces.mint",
       render: <ReviewSection />,
     },
     {

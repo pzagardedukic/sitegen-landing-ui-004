@@ -1,163 +1,152 @@
 "use client";
 
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { Box, Typography } from "@mui/material";
-import Tag from "@/components/common/Tag";
+import ArrowButton from "@/components/button/ArrowButton";
 import { stripRichText, truncateWordSafe } from "@/core/utils";
 
 type PortfolioPreviewCardProps = {
   image: string;
   title: string;
-  text: string;
+  text?: string;
   href: string;
   category?: string;
-  client?: string;
-  openLabel: string;
+  openLabel?: string;
+  /** `compact` is the related-projects card: a smaller photograph and the title only. */
+  variant?: "full" | "compact";
 };
 
 /*
- * A project card from the Figma frame (373x420): the photograph with a scrim at the top so
- * the category badge and client line stay readable, and a second scrim at the bottom under
- * the title.
+ * A project card from the Lumiera frames: rounded 12 on the surface wash, the photograph
+ * across the top (300 tall) with the category in a dark tag in its corner, then the title
+ * (h5) 20 / 24 in.
  *
- * The frame draws two states. At rest only the title shows; the active card also reveals the
- * description and an open link, and its bottom scrim grows from 170 to 250 to carry them.
- * That is a hover state on a pointer device — on touch there is nothing to hover, so the
- * expanded state is simply the default below the desktop breakpoint.
+ * The active card — hovered or focused — also shows the text, cut to 100 characters, under
+ * the title, and a dark "open" button over the bottom of the photograph; the card grows to
+ * carry them, and the row does not stretch the others to match. On a device that cannot
+ * hover there is no way to reach that state, so there every card shows it.
+ *
+ * The compact variant closes a project page: 200 of photograph and the title (h6) only.
  */
 export default function PortfolioPreviewCard({
   image,
   title,
-  text,
+  text = "",
   href,
   category,
-  client,
   openLabel,
+  variant = "full",
 }: PortfolioPreviewCardProps) {
-  const truncated = stripRichText(truncateWordSafe(text, 90));
+  const compact = variant === "compact";
+  const truncated = compact ? "" : stripRichText(truncateWordSafe(text, 100));
 
   return (
     <Box
       component="a"
       href={href}
       sx={(theme) => ({
-        position: "relative",
-        display: "block",
-        height: { xs: 380, md: 420 },
-        borderRadius: "25px",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: "12px",
         overflow: "hidden",
         textDecoration: "none",
-        color: theme.palette.common.white,
-        backgroundColor: theme.palette.surfaces.placeholder,
-
-        "&:hover .card-img": { transform: "scale(1.04)" },
-        [theme.breakpoints.up("md")]: {
-          "& .card-reveal": {
-            opacity: 0,
-            maxHeight: 0,
-            transform: "translateY(6px)",
-            transition: theme.transitions.create([
-              "opacity",
-              "max-height",
-              "transform",
-            ]),
-          },
-          "&:hover .card-reveal, &:focus-visible .card-reveal": {
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.surfaces.surface,
+        "& .card-img": {
+          transition: theme.transitions.create(["transform"], {
+            duration: theme.transitions.duration.standard,
+          }),
+        },
+        "&:hover .card-img, &:focus-visible .card-img": { transform: "scale(1.04)" },
+        "@media (hover: hover)": {
+          "& .card-reveal": { display: "none" },
+          "& .card-open": { opacity: 0, transform: "translate(-50%, 8px)" },
+          "&:hover .card-reveal, &:focus-visible .card-reveal": { display: "block" },
+          "&:hover .card-open, &:focus-visible .card-open": {
             opacity: 1,
-            maxHeight: 120,
-            transform: "none",
+            transform: "translate(-50%, 0)",
           },
         },
       })}
     >
       <Box
-        component="img"
-        src={image}
-        alt=""
-        loading="lazy"
-        className="card-img"
         sx={(theme) => ({
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          transition: theme.transitions.create("transform"),
+          position: "relative",
+          flexShrink: 0,
+          height: compact ? 200 : 300,
+          overflow: "hidden",
+          backgroundColor: theme.palette.surfaces.placeholder,
         })}
-      />
+      >
+        <Box
+          component="img"
+          src={image}
+          alt=""
+          loading="lazy"
+          className="card-img"
+          sx={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        />
 
-      {/* Top scrim — carries the category badge and the client line. */}
-      <Box
-        aria-hidden
-        sx={(theme) => ({
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 130,
-          background: `linear-gradient(to bottom, ${theme.palette.surfaces.scrim}, transparent)`,
-        })}
-      />
+        {!compact && category && (
+          <Box
+            sx={(theme) => ({
+              ...theme.typography.caption,
+              position: "absolute",
+              top: 12,
+              left: 12,
+              px: "10px",
+              py: "5px",
+              borderRadius: "6px",
+              backgroundColor: theme.palette.text.primary,
+              color: theme.palette.background.default,
+            })}
+          >
+            {category}
+          </Box>
+        )}
 
-      {/* Bottom scrim — carries the title and, when revealed, the rest. */}
-      <Box
-        aria-hidden
-        sx={(theme) => ({
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: "62%",
-          background: `linear-gradient(to top, ${theme.palette.surfaces.scrim}, transparent)`,
-        })}
-      />
+        {!compact && openLabel && (
+          <Box
+            className="card-open"
+            sx={(theme) => ({
+              position: "absolute",
+              left: "50%",
+              bottom: { xs: 20, md: 24 },
+              transform: "translateX(-50%)",
+              transition: theme.transitions.create(["opacity", "transform"], {
+                duration: theme.transitions.duration.short,
+              }),
+            })}
+          >
+            <ArrowButton tone="dark" component="span" tabIndex={-1} sx={{ whiteSpace: "nowrap" }}>
+              {openLabel}
+            </ArrowButton>
+          </Box>
+        )}
+      </Box>
 
       <Box
         sx={{
-          position: "relative",
-          height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          p: "24px",
+          gap: "8px",
+          ...(compact
+            ? { px: "16px", pt: "14px", pb: "16px" }
+            : {
+                px: { xs: "20px", md: "24px" },
+                pt: { xs: "18px", md: "20px" },
+                pb: { xs: "22px", md: "24px" },
+              }),
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, alignItems: "flex-start" }}>
-          {category && <Tag label={category} tone="brand" />}
+        <Typography variant={compact ? "h6" : "h5"} component="h3">
+          {title}
+        </Typography>
 
-          {client && (
-            <Typography variant="caption" sx={{ opacity: 0.85 }}>
-              {client}
-            </Typography>
-          )}
-        </Box>
-
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography variant="h4" component="h3">
-            {title}
+        {truncated && (
+          <Typography className="card-reveal" variant="body1" sx={{ color: "text.secondary" }}>
+            {truncated}
           </Typography>
-
-          <Box className="card-reveal" sx={{ overflow: "hidden" }}>
-            {truncated && (
-              <Typography variant="body2" sx={{ opacity: 0.9, mb: 1.5 }}>
-                {truncated}
-              </Typography>
-            )}
-
-            <Box
-              sx={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 0.75,
-              }}
-            >
-              <Typography variant="subtitle2" component="span">
-                {openLabel}
-              </Typography>
-              <ArrowOutwardIcon sx={{ fontSize: 16 }} />
-            </Box>
-          </Box>
-        </Box>
+        )}
       </Box>
     </Box>
   );

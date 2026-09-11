@@ -25,7 +25,7 @@ export default function PortfolioItemPage({ slug }: { slug: string }) {
     <PageLayout header={<Header />} footer={<Footer />}>
       <HeaderSection title={portfolioItem.title} />
 
-      <Section id="portfolio-item">
+      <Section id="portfolio-item" paddingY={{ xs: "64px", sm: "80px", md: "100px" }}>
         <PortfolioItemSection id={portfolioItem.id} />
       </Section>
     </PageLayout>

@@ -1,11 +1,13 @@
 "use client";
 
-import { Box, IconButton, Tooltip } from "@mui/material";
-import type { SxProps, Theme } from "@mui/material/styles";
+import { useState } from "react";
+import { Box, Typography } from "@mui/material";
+import type { Theme } from "@mui/material/styles";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import XIcon from "@mui/icons-material/X"; // MUI X (Twitter)
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import XIcon from "@mui/icons-material/X";
+import LinkIcon from "@mui/icons-material/Link";
+import { CheckIcon } from "@/components/icons/icons";
 import { useLanguage } from "@/core/runtime";
 import { getButtonTranslation } from "@/core/translations";
 
@@ -14,77 +16,92 @@ type ShareActionsProps = {
   title?: string;
 };
 
+/* Lumiera's small round buttons: 32 across on the hairline, the icon in the text colour. */
+const circleSx = (theme: Theme) => ({
+  width: 32,
+  height: 32,
+  flexShrink: 0,
+  display: "grid",
+  placeItems: "center",
+  p: 0,
+  border: 0,
+  borderRadius: "50%",
+  cursor: "pointer",
+  background: "none",
+  color: theme.palette.text.primary,
+  boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
+  "& .MuiSvgIcon-root": { fontSize: 15 },
+  transition: theme.transitions.create(["background-color", "color", "box-shadow"], {
+    duration: theme.transitions.duration.short,
+  }),
+  "&:hover, &:focus-visible": {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    boxShadow: "none",
+  },
+});
+
+/*
+ * The share row on detail pages: the label in the muted caption face, then Facebook,
+ * LinkedIn and X — the order Lumiera draws them — and copy link, which shows a tick for two
+ * seconds once the address is on the clipboard.
+ */
 export default function ShareActions({
   url = typeof window !== "undefined" ? window.location.href : "",
   title = "",
 }: ShareActionsProps) {
   const { lang } = useLanguage();
   const buttonTranslations = getButtonTranslation(lang);
+  const [copied, setCopied] = useState(false);
 
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(url);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard access can be refused (insecure origin, permissions); nothing to show then.
+    }
   };
 
+  const links = [
+    { name: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, icon: <FacebookIcon /> },
+    { name: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`, icon: <LinkedInIcon /> },
+    { name: "X", href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`, icon: <XIcon /> },
+  ];
+
   return (
-    <Box display="flex" gap={1}>
-      <Tooltip title={`${buttonTranslations.shareOn} Facebook`}>
-        <IconButton
+    <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+      <Typography variant="caption" sx={{ color: "text.secondary", mr: "4px" }}>
+        {buttonTranslations.shareOn}
+      </Typography>
+
+      {links.map((link) => (
+        <Box
+          key={link.name}
           component="a"
-          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+          href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          sx={circleStyle}
+          aria-label={`${buttonTranslations.shareOn} ${link.name}`}
+          sx={circleSx}
         >
-          <FacebookIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+          {link.icon}
+        </Box>
+      ))}
 
-      <Tooltip title={`${buttonTranslations.shareOn} X`}>
-        <IconButton
-          component="a"
-          href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={circleStyle}
-        >
-          <XIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-
-      <Tooltip title={`${buttonTranslations.shareOn} LinkedIn`}>
-        <IconButton
-          component="a"
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={circleStyle}
-        >
-          <LinkedInIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-
-      <Tooltip title={buttonTranslations.copyLink}>
-        <IconButton onClick={handleCopy} sx={circleStyle}>
-          <ContentCopyIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      <Box
+        component="button"
+        type="button"
+        onClick={handleCopy}
+        aria-label={buttonTranslations.copyLink ?? "Copy link"}
+        sx={circleSx}
+      >
+        {copied ? <CheckIcon size={11} /> : <LinkIcon />}
+      </Box>
     </Box>
   );
 }
-
-/* Same border token as the back button and the cards, so the detail footer reads as one row. */
-const circleStyle: SxProps<Theme> = (theme) => ({
-  width: 40,
-  height: 40,
-  borderRadius: "50%",
-  border: `1px solid ${theme.palette.surfaces.border}`,
-  color: theme.palette.text.secondary,
-  transition: theme.transitions.create(["border-color", "color"]),
-  "&:hover": {
-    color: theme.palette.primary.main,
-    borderColor: theme.palette.primary.main,
-  },
-});

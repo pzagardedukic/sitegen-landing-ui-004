@@ -1,161 +1,278 @@
 "use client";
 
-import { useState } from "react";
-import { getPortfolioItems } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
-import { Box, Typography } from "@mui/material";
-import BackButton from "@/components/button/BackButton";
-import SectionDescription from "../common/SectionDescription";
-import { getPortfolioTranslation } from "@/core/translations";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import RelatedProjects from "./RelatedProjects";
+import { Box, Typography } from "@mui/material";
+import type PhotoSwipeLightbox from "photoswipe/lightbox";
+import "photoswipe/style.css";
+import BackButton from "@/components/button/BackButton";
+import { getPortfolioItems, useLanguage } from "@/core/runtime";
+import { getPortfolioTranslation } from "@/core/translations";
 import { getPageSlugByKey } from "@/core/static";
+import { formatEventDate } from "@/core/utils";
+import RichText from "../common/RichText";
 import ShareActions from "../common/ShareActions";
+import RelatedProjects from "./RelatedProjects";
+
+type ImageSize = { width: number; height: number };
+
+/* PhotoSwipe needs each picture's own proportions, so they are read once the files load. */
+function useImageSizes(sources: string[]) {
+  const [sizes, setSizes] = useState<Record<string, ImageSize>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+
+    sources.forEach((src) => {
+      const image = new Image();
+      image.onload = () => {
+        if (cancelled) return;
+        setSizes((previous) => ({
+          ...previous,
+          [src]: { width: image.naturalWidth, height: image.naturalHeight },
+        }));
+      };
+      image.src = src;
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [sources]);
+
+  return sizes;
+}
 
 /*
- * Project detail from the Figma frame (1440x1842): a back button, the main picture at
- * 1200x540 with thumbnails beneath, the title on the left and the description on the right,
- * a rule, then date / client / category as three labelled columns, and the related projects.
+ * Project detail from the Lumiera frames:
+ *   - the back pill;
+ *   - on desktop the gallery (55 % — 660 of 1200) beside the project's column (476): the
+ *     title, the text, the details as a hairline table — label left, value right in the
+ *     muted colour — and the share buttons; stacked below desktop;
+ *   - the related projects, same category, up to five.
  *
- * The thumbnails swap the main picture rather than opening a lightbox — on a project page
- * the pictures are one story, and a lightbox takes the reader out of it.
+ * The gallery is the main picture over a row of thumbnails, four to a row, the current one
+ * outlined in the text colour. A thumbnail swaps the main picture; the main picture opens
+ * the whole set in a lightbox, and paging there keeps the main picture in step, so closing
+ * it leaves the reader on the picture they stopped at.
  */
 export default function PortfolioItemSection({ id }: { id: number }) {
   const router = useRouter();
   const { lang } = useLanguage();
   const projectTranslations = getPortfolioTranslation(lang).project;
   const [activeImage, setActiveImage] = useState(0);
+  const lightboxRef = useRef<PhotoSwipeLightbox | null>(null);
 
-  const portfolioItem = getPortfolioItems(lang).find((item) => item.id === id);
+  const allItems = getPortfolioItems(lang);
+  const portfolioItem = allItems.find((item) => item.id === id);
+  const images = portfolioItem?.images ?? [];
+  const sizes = useImageSizes(images);
+
+  useEffect(() => () => lightboxRef.current?.destroy(), []);
+
   if (!portfolioItem) {
     return null;
   }
 
-  const relatedItemIds = getPortfolioItems(lang)
-    .filter(
-      (item) =>
-        item.id !== portfolioItem.id &&
-        item.category === portfolioItem.category,
-    )
-    .map((item) => item.id);
+  const openLightbox = async (index: number) => {
+    const { default: Lightbox } = await import("photoswipe/lightbox");
 
-  const images = portfolioItem.images ?? [];
+    lightboxRef.current?.destroy();
+    const lightbox = new Lightbox({
+      dataSource: images.map((src) => ({
+        src,
+        width: sizes[src]?.width ?? 1600,
+        height: sizes[src]?.height ?? 1200,
+      })),
+      pswpModule: () => import("photoswipe"),
+      loop: true,
+      wheelToZoom: true,
+    });
+    lightbox.on("change", () => {
+      if (lightbox.pswp) setActiveImage(lightbox.pswp.currIndex);
+    });
+    lightbox.init();
+    lightbox.loadAndOpen(index);
+    lightboxRef.current = lightbox;
+  };
+
+  const related = portfolioItem.category
+    ? allItems.filter(
+        (item) => item.id !== portfolioItem.id && item.category === portfolioItem.category,
+      )
+    : [];
 
   const details = [
-    { label: projectTranslations.details.date, value: portfolioItem.date },
+    {
+      label: projectTranslations.details.date,
+      value: portfolioItem.date ? formatEventDate(portfolioItem.date, lang) : "",
+    },
     { label: projectTranslations.details.client, value: portfolioItem.client },
     { label: projectTranslations.details.category, value: portfolioItem.category },
   ].filter((detail) => Boolean(detail.value));
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 5, md: 8 } }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "56px" } }}>
       <BackButton
         label={projectTranslations.backToPortfolio}
         onClick={() => router.push(`/${getPageSlugByKey("portfolio")}`)}
       />
 
-      {images.length > 0 && (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: "flex-start",
+          gap: { xs: "36px", md: "64px" },
+        }}
+      >
+        {images.length > 0 && (
           <Box
-            sx={(theme) => ({
-              height: { xs: 260, sm: 380, md: 540 },
-              borderRadius: "25px",
-              overflow: "hidden",
-              backgroundColor: theme.palette.surfaces.placeholder,
-            })}
+            sx={{
+              width: "100%",
+              flex: { md: "0 0 55%" },
+              display: "flex",
+              flexDirection: "column",
+              gap: { xs: "10px", md: "12px" },
+            }}
           >
             <Box
-              component="img"
-              src={images[activeImage]}
-              alt=""
-              sx={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          </Box>
-
-          {images.length > 1 && (
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: `repeat(${Math.min(images.length, 4)}, 1fr)`,
-                gap: "16px",
-              }}
+              component="button"
+              type="button"
+              onClick={() => openLightbox(activeImage)}
+              aria-label={`${portfolioItem.title} — ${activeImage + 1} / ${images.length}`}
+              sx={(theme) => ({
+                display: "block",
+                width: "100%",
+                height: { xs: 300, sm: 480, md: 600 },
+                p: 0,
+                border: 0,
+                borderRadius: "12px",
+                overflow: "hidden",
+                cursor: "zoom-in",
+                backgroundColor: theme.palette.surfaces.placeholder,
+              })}
             >
-              {images.slice(0, 4).map((image, index) => (
+              <Box
+                component="img"
+                src={images[activeImage]}
+                alt=""
+                sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </Box>
+
+            {images.length > 1 && (
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                  gap: { xs: "10px", md: "12px" },
+                }}
+              >
+                {images.map((image, index) => (
+                  <Box
+                    key={`${image}-${index}`}
+                    component="button"
+                    type="button"
+                    aria-label={`${index + 1} / ${images.length}`}
+                    aria-pressed={index === activeImage}
+                    onClick={() => setActiveImage(index)}
+                    sx={(theme) => ({
+                      position: "relative",
+                      height: { xs: 70, sm: 110, md: 140 },
+                      p: 0,
+                      border: 0,
+                      borderRadius: "12px",
+                      overflow: "hidden",
+                      cursor: "pointer",
+                      backgroundColor: theme.palette.surfaces.placeholder,
+                      "&::after": {
+                        content: '""',
+                        position: "absolute",
+                        inset: 0,
+                        borderRadius: "12px",
+                        boxShadow:
+                          index === activeImage
+                            ? `inset 0 0 0 2px ${theme.palette.text.primary}`
+                            : "none",
+                      },
+                    })}
+                  >
+                    <Box
+                      component="img"
+                      src={image}
+                      alt=""
+                      loading="lazy"
+                      sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </Box>
+        )}
+
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: { xs: "24px", md: "28px" },
+          }}
+        >
+          <Typography variant="h2" component="h2">
+            {portfolioItem.title}
+          </Typography>
+
+          {portfolioItem.text && (
+            <Typography component="div" variant="body1">
+              <RichText
+                text={portfolioItem.text}
+                allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+              />
+            </Typography>
+          )}
+
+          {details.length > 0 && (
+            <Box
+              component="dl"
+              aria-label={projectTranslations.details.label}
+              sx={(theme) => ({ m: 0, borderTop: `1px solid ${theme.palette.surfaces.border}` })}
+            >
+              {details.map((detail) => (
                 <Box
-                  key={image}
-                  component="button"
-                  type="button"
-                  aria-label={`${index + 1}`}
-                  onClick={() => setActiveImage(index)}
+                  key={detail.label}
                   sx={(theme) => ({
-                    height: { xs: 64, md: 104 },
-                    borderRadius: "16px",
-                    overflow: "hidden",
-                    padding: 0,
-                    cursor: "pointer",
-                    border: `2px solid ${
-                      index === activeImage
-                        ? theme.palette.primary.main
-                        : "transparent"
-                    }`,
-                    backgroundColor: theme.palette.surfaces.placeholder,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: { xs: "16px", md: "24px" },
+                    py: { xs: "14px", md: "16px" },
+                    borderBottom: `1px solid ${theme.palette.surfaces.border}`,
                   })}
                 >
-                  <Box
-                    component="img"
-                    src={image}
-                    alt=""
-                    loading="lazy"
-                    sx={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
+                  <Typography component="dt" variant="subtitle1">
+                    {detail.label}
+                  </Typography>
+                  <Typography
+                    component="dd"
+                    variant="body1"
+                    sx={{ m: 0, color: "text.secondary", textAlign: "right" }}
+                  >
+                    {detail.value}
+                  </Typography>
                 </Box>
               ))}
             </Box>
           )}
-        </Box>
-      )}
 
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "620fr 80fr 500fr" },
-          gap: { xs: 3, md: 0 },
-          alignItems: "start",
-        }}
-      >
-        <Typography variant="h2" component="h1" sx={{ gridColumn: { md: "1" } }}>
-          {portfolioItem.title}
-        </Typography>
-
-        <Box sx={{ gridColumn: { md: "3" } }}>
-          <SectionDescription description={portfolioItem.text} />
+          <ShareActions title={portfolioItem.title} />
         </Box>
       </Box>
 
-      {details.length > 0 && (
-        <Box
-          sx={(theme) => ({
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: `repeat(${details.length}, 1fr)` },
-            gap: { xs: 3, sm: "40px" },
-            pt: { xs: 3, md: 4 },
-            borderTop: `1px solid ${theme.palette.surfaces.border}`,
-          })}
-        >
-          {details.map((detail) => (
-            <Box key={detail.label} sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              <Typography variant="caption" sx={{ opacity: 0.6 }}>
-                {detail.label}
-              </Typography>
-              <Typography variant="body1">{detail.value}</Typography>
-            </Box>
-          ))}
-        </Box>
-      )}
-
-      <ShareActions title={portfolioItem.title} />
-
-      {relatedItemIds.length > 0 && <RelatedProjects projectIds={relatedItemIds} />}
+      {related.length > 0 && <RelatedProjects items={related} />}
     </Box>
   );
 }

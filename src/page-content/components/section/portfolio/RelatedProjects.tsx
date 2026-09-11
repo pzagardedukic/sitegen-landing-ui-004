@@ -1,67 +1,64 @@
 "use client";
 
-import { getPortfolioItems } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
-import {
-  getButtonTranslation,
-  getPortfolioTranslation,
-} from "@/core/translations";
 import { Box, Typography } from "@mui/material";
+import Carousel from "@/components/carousel/Carousel";
+import { getPortfolioItems, useLanguage } from "@/core/runtime";
+import { getPortfolioTranslation } from "@/core/translations";
+import { getPageSlugByKey, getPortfolioSlugById, withBasePath } from "@/core/static";
 import PortfolioPreviewCard from "./PortfolioPreviewCard";
-import {
-  getPageSlugByKey,
-  getPortfolioSlugById,
-  withBasePath,
-} from "@/core/static";
+
+type PortfolioItem = ReturnType<typeof getPortfolioItems>[number];
 
 type RelatedProjectsProps = {
-  projectIds: number[];
+  items: PortfolioItem[];
 };
 
-export default function RelatedProjects({ projectIds }: RelatedProjectsProps) {
+/*
+ * The row that closes a project page: its heading (h4), then up to five compact cards —
+ * five abreast on desktop, 20 apart, and a carousel two cards wide below that, as the
+ * Lumiera frames draw it on tablet and phone alike.
+ */
+export default function RelatedProjects({ items }: RelatedProjectsProps) {
   const { lang } = useLanguage();
   const projectTranslations = getPortfolioTranslation(lang).project;
-  const buttonTranslation = getButtonTranslation(lang);
 
-  const relatedItems = getPortfolioItems(lang)
-    .filter((item) => projectIds.includes(item.id))
-    .slice(0, 3);
+  if (items.length === 0) return null;
 
-  if (relatedItems.length === 0) return null;
+  const cards = items.slice(0, 5).map((item) => (
+    <PortfolioPreviewCard
+      key={item.id}
+      variant="compact"
+      title={item.title}
+      image={item.images[0]}
+      href={withBasePath(`/${getPageSlugByKey("portfolio")}/${getPortfolioSlugById(item.id)}`)}
+    />
+  ));
 
   return (
-    <Box display="flex" flexDirection="column" gap={{ xs: 3, md: 5 }}>
-      <Typography variant="h3" component="h2">
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      <Typography variant="h4" component="h2">
         {projectTranslations.relatedProjects}
       </Typography>
 
-      {/* Same three-across grid as the section itself, so a project reads the same
-          wherever it appears. */}
       <Box
         sx={{
-          display: "grid",
-          gap: "40px",
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-          },
+          display: { xs: "none", md: "grid" },
+          gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+          gap: "20px",
+          alignItems: "start",
         }}
       >
-        {relatedItems.map((item) => (
-          <PortfolioPreviewCard
-            key={item.id}
-            title={item.title}
-            image={item.images[0]}
-            text={item.text}
-            category={item.category}
-            client={item.client}
-            openLabel={buttonTranslation.learnMore}
-            href={withBasePath(
-              `/${getPageSlugByKey("portfolio")}/${getPortfolioSlugById(item.id)}`,
-            )}
-          />
-        ))}
+        {cards}
+      </Box>
+
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Carousel
+          items={cards}
+          slideWidth={{ xs: "calc(50% - 10px)" }}
+          gap={20}
+          controlsGap={{ xs: 24 }}
+          ariaLabel={projectTranslations.relatedProjects}
+        />
       </Box>
     </Box>
   );

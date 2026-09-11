@@ -10,6 +10,8 @@ type CarouselControlsProps = {
   pageCount: number;
   onPrev: () => void;
   onNext: () => void;
+  /** The back arrow's ground: cream on white, white when the carousel sits on cream. */
+  prevTone?: "soft" | "white";
 };
 
 const ARROW = { xs: 44, sm: 48, md: 52 };
@@ -25,6 +27,7 @@ export default function CarouselControls({
   pageCount,
   onPrev,
   onNext,
+  prevTone = "soft",
 }: CarouselControlsProps) {
   const share = 100 / Math.max(1, pageCount);
 
@@ -54,7 +57,7 @@ export default function CarouselControls({
 
       <Box sx={{ display: "flex", gap: "12px" }}>
         <CircleButton
-          tone="soft"
+          tone={prevTone}
           onClick={onPrev}
           disabled={page === 0}
           aria-label="Prejšnje"

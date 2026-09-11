@@ -64,6 +64,21 @@ export function LongArrowIcon({
   );
 }
 
+/* The 9 × 9 arrow in the link badge on certificate tiles. */
+export function ArrowOutwardIcon({ size = 9, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 9 9" fill="none" aria-hidden {...props}>
+      <path
+        d="M1 8L8 1M3 1h5v5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function ArrowUpIcon({ size = 14, ...props }: IconProps) {
   return (
     <svg width={size * (10 / 14)} height={size} viewBox="0 0 10 14" fill="none" aria-hidden {...props}>

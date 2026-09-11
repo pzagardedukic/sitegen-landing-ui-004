@@ -28,6 +28,8 @@ type CarouselProps = {
   controlsGap?: Responsive<number>;
   /** Extra styles for the controls row, e.g. a width matching one slide. */
   controlsSx?: SxProps<Theme>;
+  /** Back arrow ground — `white` when the carousel sits on the cream wash. */
+  controlsPrevTone?: "soft" | "white";
 };
 
 const px = <T extends number | string>(value: T) =>
@@ -59,6 +61,7 @@ export default function Carousel({
   slideWidth,
   controlsGap = { xs: 24, sm: 28, md: 32 },
   controlsSx,
+  controlsPrevTone = "soft",
 }: CarouselProps) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
@@ -179,6 +182,7 @@ export default function Carousel({
             pageCount={pageCount}
             onPrev={() => goTo(page - 1)}
             onNext={() => goTo(page + 1)}
+            prevTone={controlsPrevTone}
           />
         </Box>
       )}

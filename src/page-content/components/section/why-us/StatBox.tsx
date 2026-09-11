@@ -6,29 +6,38 @@ type StatBoxProps = {
 };
 
 /*
- * One figure from the Figma frame: the number set very large with its label underneath.
- * The number carries the brand gradient — it is the only place in this section that does.
+ * One figure as Lumiera sets it: the number in the heading face, 70 on desktop and 52
+ * below, in the text colour with its "+" in primary, and the label under it in the muted
+ * text colour. Centred, 14 / 10 apart.
  */
 export default function StatBox({ value, label }: StatBoxProps) {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        gap: { xs: "10px", md: "14px" },
+      }}
+    >
       <Typography
         component="p"
         sx={(theme) => ({
           fontFamily: theme.typography.h1.fontFamily,
-          fontSize: { xs: "56px", sm: "72px", md: "96px" },
-          lineHeight: 1.05,
-          letterSpacing: "-2px",
-          backgroundImage: theme.palette.brandGradient,
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          color: "transparent",
+          fontWeight: 400,
+          fontSize: { xs: "52px", md: "70px" },
+          lineHeight: 1.1,
+          color: theme.palette.text.primary,
         })}
       >
         {value}
+        <Box component="span" sx={{ color: "primary.main" }}>
+          +
+        </Box>
       </Typography>
 
-      <Typography variant="body1" sx={{ color: "inherit", opacity: 0.72 }}>
+      <Typography variant="body1" sx={{ color: "text.secondary", maxWidth: 340 }}>
         {label}
       </Typography>
     </Box>

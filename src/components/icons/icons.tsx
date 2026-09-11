@@ -64,6 +64,21 @@ export function LongArrowIcon({
   );
 }
 
+/* The tick in front of a feature in a list. */
+export function CheckIcon({ size = 10, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size * 0.8} viewBox="0 0 10 8" fill="none" aria-hidden {...props}>
+      <path
+        d="M1 4.2l2.8 2.8L9 1"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /* The 9 × 9 arrow in the link badge on certificate tiles. */
 export function ArrowOutwardIcon({ size = 9, ...props }: IconProps) {
   return (

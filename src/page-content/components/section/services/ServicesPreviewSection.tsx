@@ -1,41 +1,47 @@
 "use client";
 
 import { Box } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import { getServicesSection } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
+import ArrowButton from "@/components/button/ArrowButton";
+import { getServicesSection, useLanguage } from "@/core/runtime";
 import { getServicesTranslation } from "@/core/translations";
-import DualColumnSection from "../common/DualColumnSection";
-import GradientButton from "@/components/button/GradientButton";
-import Services from "./Services";
 import { getPageSlugByKeyWithBasePath } from "@/core/static";
+import CenteredIntro from "../common/CenteredIntro";
+import Services from "./Services";
 
-export default function ServicesSection() {
+/*
+ * The services preview on the home page: the centred intro, up to six cards whose open
+ * buttons lead to the services page, and the call to action centred under them — full width
+ * on a phone. 64 / 44 between the blocks.
+ */
+export default function ServicesPreviewSection() {
   const { lang } = useLanguage();
   const servicesTranslation = getServicesTranslation(lang);
-
   const servicesSection = getServicesSection(lang);
+
   if (!servicesSection) {
     return null;
   }
 
-  return (
-    <DualColumnSection
-      title={servicesTranslation.title}
-      description={servicesSection.text}
-      columns="560fr 80fr 560fr"
-    >
-      <Services maxCnt={6} />
+  const servicesHref = getPageSlugByKeyWithBasePath("services");
 
-      {/* The frame centres a single call to action under the grid. */}
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <GradientButton
-          href={getPageSlugByKeyWithBasePath("services")}
-          endIcon={<ArrowOutwardIcon />}
-        >
-          {servicesTranslation.callToAction}
-        </GradientButton>
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: { xs: "44px", md: "64px" },
+      }}
+    >
+      <CenteredIntro title={servicesTranslation.title} description={servicesSection.text} />
+
+      <Box sx={{ width: "100%" }}>
+        <Services maxCnt={6} href={servicesHref} />
       </Box>
-    </DualColumnSection>
+
+      <ArrowButton component="a" href={servicesHref} sx={{ width: { xs: "100%", sm: "auto" } }}>
+        {servicesTranslation.callToAction}
+      </ArrowButton>
+    </Box>
   );
 }

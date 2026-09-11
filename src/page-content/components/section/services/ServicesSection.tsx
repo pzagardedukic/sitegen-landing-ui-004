@@ -1,16 +1,15 @@
 "use client";
 
-import { getServicesSection } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
+import { Box } from "@mui/material";
+import { getServicesSection, useLanguage } from "@/core/runtime";
 import { getServicesTranslation } from "@/core/translations";
-import DualColumnSection from "../common/DualColumnSection";
+import CenteredIntro from "../common/CenteredIntro";
 import Services from "./Services";
 
 /*
- * The services page shows the same card grid as the home-page block, with every item
- * rather than the first six. The Figma has one services treatment, so ui-001's alternating
- * left/right rows (ServiceRow) are gone — keeping two different looks for the same content
- * was what made the page read as a different site from the section that links to it.
+ * The services page: the same cards as the home-page preview, every item rather than the
+ * first six, and without the open buttons or the call to action — this is the page they
+ * lead to. Lumiera has one services treatment, so ui-001's alternating rows stay gone.
  */
 export default function ServicesSection() {
   const { lang } = useLanguage();
@@ -18,12 +17,9 @@ export default function ServicesSection() {
   const servicesSection = getServicesSection(lang);
 
   return (
-    <DualColumnSection
-      title={servicesTranslation.title}
-      description={servicesSection?.text ?? ""}
-      columns="560fr 80fr 560fr"
-    >
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "44px", md: "64px" } }}>
+      <CenteredIntro title={servicesTranslation.title} description={servicesSection?.text} />
       <Services />
-    </DualColumnSection>
+    </Box>
   );
 }

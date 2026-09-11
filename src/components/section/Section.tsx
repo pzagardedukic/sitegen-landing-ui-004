@@ -11,6 +11,8 @@ type SectionProps = {
   headerColor?: string;
   useHeaderImage?: boolean;
   headerHeight?: number | string;
+  /** Vertical padding per breakpoint, for the few sections Figma draws off the usual rhythm. */
+  paddingY?: { xs: string; sm?: string; md?: string };
   children: React.ReactNode;
 };
 
@@ -21,6 +23,7 @@ export default function Section({
   headerColor,
   useHeaderImage = false,
   headerHeight = "100%",
+  paddingY,
   children,
 }: SectionProps) {
   /*
@@ -47,7 +50,7 @@ export default function Section({
           md: ANCHOR_OFFSET.md,
         },
         // Lumiera's section rhythm: 72 / 96 / 120 above and below.
-        py: { xs: "72px", sm: "96px", md: "120px" },
+        py: paddingY ?? { xs: "72px", sm: "96px", md: "120px" },
         backgroundColor: resolvedHeaderImage
           ? "transparent"
           : (color ?? "transparent"),

@@ -37,7 +37,7 @@ export default function AboutPage() {
       )}
 
       {isSectionEnabled("clients") && (
-        <Section id="clients">
+        <Section id="clients" paddingY={{ xs: "56px", sm: "72px", md: "90px" }}>
           <ClientsSection />
         </Section>
       )}

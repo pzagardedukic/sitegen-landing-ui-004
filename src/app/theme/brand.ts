@@ -92,6 +92,12 @@ export function brandSurfaces({ primary, secondary }: BrandColors) {
     placeholder: lighten(primary, 0.73),
     /** Laid over photographs that carry white copy. */
     scrim: alpha(LUMIERA.overlay, 0.4),
+    /*
+     * Ground of the glass caption card, under a 12px blur. The Figma frames record this fill
+     * as solid overlay, but the card carries a background blur, which only reads on a
+     * translucent fill: the opacity was lost when the paint was bound to its variable.
+     */
+    glass: alpha(LUMIERA.overlay, 0.45),
     onImage: LUMIERA.white,
     /** Hover and selection wash; kept under its old name for the sections not yet rebuilt. */
     tint: bgAlt,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 type FilterOption = {
   value: string;
@@ -15,9 +15,11 @@ type FilterChipsProps = {
 };
 
 /*
- * Category filters. The row wraps rather than scrolling out of view: in the wireframes the
- * mobile row ran 70 px past the frame and the last category was simply cut off, which reads
- * as a bug rather than as something scrollable.
+ * Category filters as Lumiera draws them: pills 46 tall, 10 apart, Figtree medium 15 — the
+ * selected one filled in the text colour, the rest on the hairline.
+ *
+ * The row wraps rather than scrolling out of view: a row that runs past the edge reads as
+ * a cut-off bug rather than as something scrollable.
  */
 export default function FilterChips({
   options,
@@ -31,7 +33,7 @@ export default function FilterChips({
     <Box
       role="group"
       aria-label={ariaLabel}
-      sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}
+      sx={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
     >
       {options.map((option) => {
         const selected = option.value === value;
@@ -44,37 +46,33 @@ export default function FilterChips({
             aria-pressed={selected}
             onClick={() => onChange(option.value)}
             sx={(theme) => ({
+              ...theme.typography.subtitle1,
               cursor: "pointer",
-              borderRadius: 999,
-              px: 2,
-              py: 1.25,
-              transition: theme.transitions.create([
-                "background-color",
-                "border-color",
-                "color",
-              ]),
+              border: 0,
+              borderRadius: "999px",
+              px: "20px",
+              py: "10px",
+              whiteSpace: "nowrap",
+              transition: theme.transitions.create(
+                ["background-color", "box-shadow", "color"],
+                { duration: theme.transitions.duration.short },
+              ),
               ...(selected
                 ? {
-                    border: "1px solid transparent",
-                    backgroundImage: theme.palette.brandGradient,
-                    color: theme.palette.primary.contrastText,
+                    backgroundColor: theme.palette.text.primary,
+                    color: theme.palette.background.default,
                   }
                 : {
-                    border: `1px solid ${theme.palette.surfaces.border}`,
                     backgroundColor: "transparent",
                     color: theme.palette.text.primary,
+                    boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
                     "&:hover": {
-                      backgroundColor: theme.palette.surfaces.tint,
+                      boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
                     },
                   }),
             })}
           >
-            <Typography
-              variant="caption"
-              sx={{ fontWeight: 500, lineHeight: 1, whiteSpace: "nowrap" }}
-            >
-              {option.label}
-            </Typography>
+            {option.label}
           </Box>
         );
       })}

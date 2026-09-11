@@ -1,9 +1,8 @@
 "use client";
 
-import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBackRounded";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForwardRounded";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
+import CarouselControls from "./CarouselControls";
 
 type CarouselProps = {
   items: React.ReactNode[];
@@ -12,9 +11,8 @@ type CarouselProps = {
   gap?: number;
   ariaLabel?: string;
   /**
-   * Relative widths of the visible slides, cycled across the track. The about carousel is
-   * drawn as an unequal pair (740 / 428 of 1200), so it passes [0.633, 0.367]; leaving this
-   * out gives equal columns. Only used at the desktop count.
+   * Relative widths of the visible slides, cycled across the track. Leaving this out gives
+   * equal columns. Only used at the desktop count.
    */
   weights?: number[];
 };
@@ -24,8 +22,8 @@ type CarouselProps = {
  * scrolling then come from the browser, and there is no state to fall out of sync when
  * the slide count changes with the data.
  *
- * Controls follow the design system — arrows bottom-left, dots bottom-right, both in one
- * row under the slides. Mobile shows a single full-width slide with no peek of the next.
+ * Controls are Lumiera's (see CarouselControls), 32 under the slides. Mobile shows a single
+ * full-width slide with no peek of the next.
  */
 export default function Carousel({
   items,
@@ -112,66 +110,13 @@ export default function Carousel({
       </Box>
 
       {showControls && (
-        <Box
-          sx={{
-            mt: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 2,
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <IconButton
-              onClick={() => goTo(page - 1)}
-              disabled={page === 0}
-              aria-label="Prejšnje"
-              sx={(t) => ({
-                border: `1px solid ${t.palette.surfaces.border}`,
-                color: t.palette.text.primary,
-              })}
-            >
-              <ArrowBackIcon fontSize="small" />
-            </IconButton>
-
-            <IconButton
-              onClick={() => goTo(page + 1)}
-              disabled={page >= pageCount - 1}
-              aria-label="Naslednje"
-              sx={(t) => ({
-                border: `1px solid ${t.palette.surfaces.border}`,
-                color: t.palette.text.primary,
-              })}
-            >
-              <ArrowForwardIcon fontSize="small" />
-            </IconButton>
-          </Box>
-
-          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-            {Array.from({ length: pageCount }).map((_, index) => (
-              <Box
-                key={index}
-                component="button"
-                type="button"
-                aria-label={`Stran ${index + 1}`}
-                aria-current={index === page}
-                onClick={() => goTo(index)}
-                sx={(t) => ({
-                  cursor: "pointer",
-                  border: 0,
-                  padding: 0,
-                  height: 4,
-                  width: index === page ? 28 : 12,
-                  borderRadius: 999,
-                  transition: t.transitions.create(["width", "background-color"]),
-                  backgroundImage:
-                    index === page ? t.palette.brandGradient : "none",
-                  backgroundColor:
-                    index === page ? "transparent" : t.palette.surfaces.border,
-                })}
-              />
-            ))}
-          </Box>
+        <Box sx={{ mt: "32px" }}>
+          <CarouselControls
+            page={page}
+            pageCount={pageCount}
+            onPrev={() => goTo(page - 1)}
+            onNext={() => goTo(page + 1)}
+          />
         </Box>
       )}
     </Box>

@@ -37,6 +37,7 @@ declare module "@mui/material/styles" {
       border: string;
       placeholder: string;
       scrim: string;
+      glass: string;
       onImage: string;
       tint: string;
     };

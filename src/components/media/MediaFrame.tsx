@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
+import GlassCaption from "./GlassCaption";
 
 type MediaFrameProps = {
   src?: string | null;
@@ -9,20 +10,22 @@ type MediaFrameProps = {
   /** Aspect ratio as width / height, e.g. 16 / 9. Ignored when `height` is given. */
   ratio?: number;
   height?: number | string;
-  /** Flat black overlay at 60 %. On by default — copy is meant to sit over the image. */
+  /** Overlay over the whole image. On by default — copy is meant to sit over the image. */
   scrim?: boolean;
-  /** Sits on the image in a bottom band, never as grey text underneath it. */
+  /** Set in the glass card at the bottom of the image, never as grey text underneath it. */
   caption?: string | null;
-  radius?: number;
+  /** Lumiera rounds images 12, 16 or 24; 24 is the large photograph. */
+  radius?: 12 | 16 | 24;
   /** Content laid over the image, e.g. a title and a button. */
   children?: React.ReactNode;
   sx?: SxProps<Theme>;
 };
 
 /*
- * The single image treatment for the whole theme: cover-cropped photograph, flat black
- * overlay at 60 %, white copy above it, caption in a band at the bottom of the image.
- * Where a photograph is missing, a neutral placeholder takes its place rather than a gap.
+ * The single image treatment for the whole theme: cover-cropped photograph on a rounded
+ * frame, an optional overlay under white copy, and the caption in a glass card inset 24
+ * from the bottom edge. Where a photograph is missing, the cream placeholder takes its
+ * place rather than a gap.
  */
 export default function MediaFrame({
   src,
@@ -31,7 +34,7 @@ export default function MediaFrame({
   height,
   scrim = true,
   caption,
-  radius = 25,
+  radius = 24,
   children,
   sx,
 }: MediaFrameProps) {
@@ -94,18 +97,16 @@ export default function MediaFrame({
       )}
 
       {caption && (
-        <Typography
-          variant="caption"
+        <GlassCaption
           sx={{
             position: "absolute",
-            left: { xs: 20, sm: 24, md: 32 },
-            right: { xs: 20, sm: 24, md: 32 },
-            bottom: { xs: 16, md: 20 },
-            color: "common.white",
+            left: { xs: 16, md: 24 },
+            right: { xs: 16, md: 24 },
+            bottom: { xs: 16, md: 24 },
           }}
         >
           {caption}
-        </Typography>
+        </GlassCaption>
       )}
     </Box>
   );

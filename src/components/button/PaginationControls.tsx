@@ -1,17 +1,35 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import CircleButton from "./CircleButton";
+import { LongArrowIcon } from "../icons/icons";
 
 interface PaginationControlsProps {
+  /** One-based. */
   page: number;
   pageCount: number;
   onChange: (page: number) => void;
 }
 
 /*
- * Pagination as the design draws it: a small label with the position, and a row of dashes
- * underneath where the current page is the long one. ui-001 used MUI's numbered Pagination,
- * which is a stock control and reads as a different design language from everything else.
+ * Page numbers to show. Up to seven pages are all listed; beyond that the first, the last
+ * and the neighbours of the current page, with a gap marker where pages are skipped, so a
+ * long gallery never grows a row wider than a phone.
+ */
+function pageList(page: number, count: number): (number | "gap")[] {
+  if (count <= 7) return Array.from({ length: count }, (_, i) => i + 1);
+
+  const shown = [1, count, page - 1, page, page + 1]
+    .filter((n) => n >= 1 && n <= count)
+    .sort((a, b) => a - b)
+    .filter((n, i, all) => all.indexOf(n) === i);
+
+  return shown.flatMap((n, i) => (i > 0 && n - shown[i - 1] > 1 ? ["gap" as const, n] : [n]));
+}
+
+/*
+ * Numbered pagination as Lumiera draws it: round buttons 40 across, 8 apart — the arrows on
+ * the hairline, the current page on the mint wash, the others bare.
  */
 export default function PaginationControls({
   page,
@@ -22,48 +40,73 @@ export default function PaginationControls({
 
   return (
     <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-end",
-        gap: 1,
-      }}
+      component="nav"
+      aria-label="Paginacija"
+      sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "8px" }}
     >
-      <Typography variant="caption" sx={{ color: "inherit", opacity: 0.7 }}>
-        {page} / {pageCount}
-      </Typography>
+      <CircleButton
+        size={40}
+        onClick={() => onChange(page - 1)}
+        disabled={page <= 1}
+        aria-label="Prejšnja stran"
+      >
+        <LongArrowIcon direction="left" />
+      </CircleButton>
 
-      <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        {Array.from({ length: pageCount }).map((_, index) => {
-          const current = index + 1 === page;
+      {pageList(page, pageCount).map((entry, index) =>
+        entry === "gap" ? (
+          <Box
+            key={`gap-${index}`}
+            component="span"
+            aria-hidden
+            sx={(theme) => ({
+              ...theme.typography.subtitle1,
+              width: 40,
+              textAlign: "center",
+            })}
+          >
+            …
+          </Box>
+        ) : (
+          <Box
+            key={entry}
+            component="button"
+            type="button"
+            aria-label={`Stran ${entry}`}
+            aria-current={entry === page ? "page" : undefined}
+            onClick={() => onChange(entry)}
+            sx={(theme) => ({
+              ...theme.typography.subtitle1,
+              lineHeight: 1,
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              border: 0,
+              cursor: "pointer",
+              color: theme.palette.text.primary,
+              backgroundColor: entry === page ? theme.palette.surfaces.mint : "transparent",
+              transition: theme.transitions.create(["background-color"], {
+                duration: theme.transitions.duration.short,
+              }),
+              "&:hover": {
+                backgroundColor:
+                  entry === page ? theme.palette.surfaces.mint : theme.palette.surfaces.bgAlt,
+              },
+            })}
+          >
+            {entry}
+          </Box>
+        ),
+      )}
 
-          return (
-            <Box
-              key={index}
-              component="button"
-              type="button"
-              aria-label={`Stran ${index + 1}`}
-              aria-current={current}
-              onClick={() => onChange(index + 1)}
-              sx={(theme) => ({
-                cursor: "pointer",
-                border: 0,
-                padding: 0,
-                height: 3,
-                width: current ? 34 : 24,
-                borderRadius: 999,
-                transition: theme.transitions.create(["width", "opacity"]),
-                backgroundImage: current
-                  ? theme.palette.brandGradient
-                  : "none",
-                backgroundColor: current
-                  ? "transparent"
-                  : theme.palette.surfaces.border,
-              })}
-            />
-          );
-        })}
-      </Box>
+      <CircleButton
+        size={40}
+        onClick={() => onChange(page + 1)}
+        disabled={page >= pageCount}
+        aria-label="Naslednja stran"
+      >
+        <LongArrowIcon />
+      </CircleButton>
     </Box>
   );
 }

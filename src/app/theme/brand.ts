@@ -1,14 +1,18 @@
-import { alpha, darken, decomposeColor, getLuminance, lighten } from "@mui/material/styles";
+import { alpha, lighten } from "@mui/material/styles";
 
 /*
  * Everything in this file is derived from the three colors a customer can actually
- * choose: primary, secondary and text.
+ * choose — primary, secondary and text — or is a fixed Lumiera token.
  *
  * It exists because createPreviewTheme() has an early `if (!hasOverrides) return baseTheme`,
  * which means the theme is built along two different paths. Anything computed from the
  * brand colors has to be computed identically on both, or the site freezes on the
  * defaults while still looking correct locally. Both paths call the functions below,
  * so there is only one definition to keep right.
+ *
+ * The lighten amounts are fitted so the defaults land on the Figma tokens of the
+ * `sitegen / barve` collection: primary #b48e5a gives bg-alt #f7f3ef, surface #faf7f6 and
+ * placeholder #e9e1d8 to within a step; secondary #d9a7a0 gives the rose wash.
  */
 
 export type BrandColors = {
@@ -17,107 +21,79 @@ export type BrandColors = {
   text: string;
 };
 
-/** Perceptual-ish distance in 0..1. Good enough to tell "two brand colors" from "the same color twice". */
-function colorDistance(a: string, b: string): number {
-  try {
-    const [ar, ag, ab] = decomposeColor(a).values;
-    const [br, bg, bb] = decomposeColor(b).values;
-
-    return (
-      Math.sqrt((ar - br) ** 2 + (ag - bg) ** 2 + (ab - bb) ** 2) / (255 * Math.sqrt(3))
-    );
-  } catch {
-    return 1;
-  }
-}
-
-/**
- * The brand gradient used on CTAs and marquee bands.
- *
- * When a customer picks a primary and secondary that sit close together the gradient
- * would read as a flat block, so the end stop is derived from primary instead. Same
- * when secondary is nearly black or nearly white, which is common — the demo data
- * ships `secondary: "#171714"`, and a purple-to-black band is not a gradient anyone asked for.
+/*
+ * Fixed Lumiera tokens. They are part of the theme rather than of the customer's brand:
+ * mint is the wash under team and review cards, the hairline is the one neutral border the
+ * whole design uses, overlay is the colour laid over photographs, and the slate is the
+ * footer ground. A customer's colours do not reach them, on purpose — they are what keeps
+ * any brand colour looking like this theme.
  */
-export function brandGradient(primary: string, secondary: string, angle = "135deg"): string {
-  const distance = colorDistance(primary, secondary);
-  const secondaryLuminance = getLuminance(secondary);
-  const unusable = distance < 0.18 || secondaryLuminance < 0.02 || secondaryLuminance > 0.92;
+const LUMIERA = {
+  mint: "#ECF5F4",
+  border: "#E7E9EB",
+  overlay: "#1A1A1A",
+  slate: "#4C5C68",
+  white: "#FFFFFF",
+} as const;
 
-  const end = unusable
-    ? getLuminance(primary) > 0.4
-      ? darken(primary, 0.32)
-      : lighten(primary, 0.28)
-    : secondary;
-
-  return `linear-gradient(${angle}, ${primary} 0%, ${end} 100%)`;
-}
-
-/** Pull a colour towards its own grey. 1 lands on the grey, 0 leaves the colour alone. */
-function desaturate(color: string, amount: number): string {
-  try {
-    const [red, green, blue] = decomposeColor(color).values;
-    const grey = 0.299 * red + 0.587 * green + 0.114 * blue;
-    const mix = (channel: number) => Math.round(channel + (grey - channel) * amount);
-
-    return `rgb(${mix(red)}, ${mix(green)}, ${mix(blue)})`;
-  } catch {
-    return color;
-  }
-}
-
-/**
- * Header chrome. `ui-001` hardcoded this to black and the theme editor could not reach
- * it (see ui-001#3); here it follows the customer. Secondary is used as the base because
- * that is the darker of the two brand colors in practice, and it is forced dark when it
- * is not, so header text stays legible whatever gets picked.
- *
- * Darkening alone kept the hue: a blue secondary gave a navy bar, which read as a second
- * brand colour competing with the logo rather than as chrome. The base is pulled most of
- * the way to its own grey, so the bar is near-neutral but still shifts with the customer's
- * colours instead of being a hardcoded black.
+/*
+ * Lumiera draws no gradients. The palette keeps its `brandGradient` key only because the
+ * sections still to be rebuilt read it; until each one is redone it gets a flat fill of
+ * primary, which is what a Lumiera button is.
  */
-export function headerPalette({ primary, secondary }: BrandColors) {
-  const dark = getLuminance(secondary) > 0.16 ? darken(secondary, 0.74) : secondary;
-  const base = desaturate(dark, 0.85);
+export function brandFill(primary: string): string {
+  return `linear-gradient(${primary}, ${primary})`;
+}
 
+/*
+ * The header pill. Over the banner photograph it is frosted glass — white at 6 % on a
+ * white hairline, with white type. Once the page moves it is solid white on the Lumiera
+ * hairline, with the customer's text colour.
+ */
+export function headerPalette({ text }: BrandColors) {
   return {
-    background: alpha(base, 0.92),
-    /*
-     * The same colour with nothing let through. The bar is deliberately translucent over
-     * the hero, but the full-screen mobile menu used that value too and the page read
-     * straight through it — headings and body copy of the page behind crossed the menu
-     * labels.
-     */
-    solid: base,
-    text: alpha("#ffffff", 0.82),
-    hoverText: "#ffffff",
-    selectedText: "#ffffff",
-    hoverBg: alpha(primary, 0.9),
+    glass: alpha(LUMIERA.white, 0.06),
+    glassBorder: LUMIERA.white,
+    onImage: LUMIERA.white,
+    surface: LUMIERA.white,
+    border: LUMIERA.border,
+    text,
   };
 }
 
-/** Footer chrome, kept light and quiet: a wash of the brand rather than a slab of it. */
-export function footerPalette({ secondary, text }: BrandColors) {
-  const base = getLuminance(secondary) > 0.75 ? darken(secondary, 0.1) : secondary;
-
+/* The footer from the approved Figma frame: slate ground, white type, a faint white rule. */
+export function footerPalette() {
   return {
-    background: lighten(base, 0.94),
+    background: LUMIERA.slate,
     text: {
-      primary: text,
-      secondary: alpha(text, 0.62),
+      primary: LUMIERA.white,
+      secondary: alpha(LUMIERA.white, 0.85),
     },
+    divider: alpha(LUMIERA.white, 0.18),
+    buttonBorder: alpha(LUMIERA.white, 0.5),
   };
 }
 
-/** Tints used for section washes, card borders and image scrims. */
-export function brandSurfaces({ primary, text }: BrandColors) {
+/* Section washes, card grounds, hairlines and image treatments. */
+export function brandSurfaces({ primary, secondary }: BrandColors) {
+  const bgAlt = lighten(primary, 0.895);
+
   return {
-    tint: alpha(primary, 0.06),
-    border: alpha(text, 0.12),
-    /** Design system: photographs carry a flat black overlay at 60 %, white copy above it. */
-    scrim: alpha("#000000", 0.6),
-    /** Neutral stand-in shown where a photograph is missing. */
-    placeholder: "#A8A8B0",
+    /** Cream section wash (bg-alt). */
+    bgAlt,
+    /** Lighter cream, for cards laid on white (surface). */
+    surface: lighten(primary, 0.93),
+    /** Fixed mint wash (accent-soft). */
+    mint: LUMIERA.mint,
+    /** Rose wash from the secondary colour. */
+    rose: lighten(secondary, 0.8),
+    border: LUMIERA.border,
+    /** Stand-in shown where a photograph is missing. */
+    placeholder: lighten(primary, 0.73),
+    /** Laid over photographs that carry white copy. */
+    scrim: alpha(LUMIERA.overlay, 0.4),
+    onImage: LUMIERA.white,
+    /** Hover and selection wash; kept under its old name for the sections not yet rebuilt. */
+    tint: bgAlt,
   };
 }

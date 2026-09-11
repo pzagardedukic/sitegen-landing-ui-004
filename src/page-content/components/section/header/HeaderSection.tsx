@@ -3,7 +3,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useBannerImage } from "@/app/theme/utils/UseBannerImage";
-import HeroNotch from "../home/HeroNotch";
 
 export type HeaderSectionProps = {
   title: string;
@@ -75,8 +74,6 @@ export default function HeaderSection({ title, id }: HeaderSectionProps) {
           </Typography>
         </Box>
       </Box>
-
-      <HeroNotch />
     </Box>
   );
 }

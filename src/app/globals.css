@@ -25,7 +25,7 @@ body {
 }
 
 body {
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-figtree), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

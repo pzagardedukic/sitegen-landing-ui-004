@@ -1,7 +1,7 @@
 import "./globals.css";
 import AppProviders from "./AppProviders";
 import { getHomeMeta } from "@/core/static";
-import { manrope, sora } from "@/app/theme/fonts";
+import { figtree, fraunces } from "@/app/theme/fonts";
 
 const homeMeta = getHomeMeta();
 
@@ -17,7 +17,7 @@ export default function RootLayout({
         through loadGoogleFont, driven by whatever the editor sends. These stay only
         as the fallback the page starts from.
       */}
-      <body className={`${sora.variable} ${manrope.variable}`}>
+      <body className={`${fraunces.variable} ${figtree.variable}`}>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

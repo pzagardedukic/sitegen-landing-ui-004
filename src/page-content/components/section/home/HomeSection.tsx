@@ -9,7 +9,6 @@ import { getButtonTranslation } from "@/core/translations";
 import { getPageSlugByKey } from "@/core/static";
 import GradientButton from "@/components/button/GradientButton";
 import ScrollLink from "@/components/button/ScrollLink";
-import HeroNotch from "./HeroNotch";
 
 /*
  * Hero, laid out from the Figma frame (1440x900):
@@ -132,8 +131,6 @@ export default function HomeSection() {
           />
         </Box>
       </Box>
-
-      <HeroNotch />
     </Box>
   );
 }

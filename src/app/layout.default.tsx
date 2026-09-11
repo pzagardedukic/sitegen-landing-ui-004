@@ -1,7 +1,7 @@
 import "./globals.css";
 import AppProviders from "./AppProviders";
 import { getHomeMeta } from "@/core/static";
-import { manrope, sora } from "@/app/theme/fonts";
+import { figtree, fraunces } from "@/app/theme/fonts";
 import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
 
 const homeMeta = getHomeMeta();
@@ -19,7 +19,7 @@ export default function RootLayout({
         can replace both, and components pick them up through typography variants,
         never by name.
       */}
-      <body className={`${sora.variable} ${manrope.variable}`}>
+      <body className={`${fraunces.variable} ${figtree.variable}`}>
         <OrganizationJsonLd />
         <AppProviders>{children}</AppProviders>
       </body>

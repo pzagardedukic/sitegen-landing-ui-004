@@ -1,4 +1,4 @@
-import { Manrope, Sora } from "next/font/google";
+import { Figtree, Fraunces } from "next/font/google";
 
 /*
  * Defaults only. The site's theme settings (fonts: heading / body / banner) override
@@ -9,24 +9,27 @@ import { Manrope, Sora } from "next/font/google";
  * Weights are limited to 300-700 on purpose: in theme-editor mode fonts are fetched
  * by loadGoogleFont, which requests exactly `wght@300;400;500;600;700`. A heavier
  * cut would silently fall back there while looking correct in the default build.
+ *
+ * Lumiera sets headings in Fraunces and everything else in Figtree. latin-ext is
+ * required for č, š and ž.
  */
 
-export const sora = Sora({
+export const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-sora",
+  variable: "--font-fraunces",
 });
 
-export const manrope = Manrope({
+export const figtree = Figtree({
   subsets: ["latin", "latin-ext"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-figtree",
 });
 
 export const fontConfig = {
-  body: manrope,
-  heading: sora,
-  slogan: manrope,
+  body: figtree,
+  heading: fraunces,
+  slogan: figtree,
 };

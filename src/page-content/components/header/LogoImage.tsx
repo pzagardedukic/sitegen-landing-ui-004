@@ -10,52 +10,32 @@ interface LogoImageProps {
 }
 
 /*
- * The logo is hung on the AppBar rather than carried in the header row.
+ * The customer's logo artwork in the centre of the header pill.
  *
- * In the row it inherited the content grid and started 144px in on a 1440 screen, which is
- * near the middle of the 350-wide notch drawn for it — the notch itself begins 20px from
- * the page edge. Position and size now come from the bar as --logo-x / --logo-y, so the
- * artwork sits where the notch is instead of where the text column happens to start.
+ * Sized in pixels with both dimensions capped: a logo is customer-supplied artwork of
+ * unknown proportions, and it has to fit the pill (60 / 64 / 72 tall) whatever it is.
+ *
+ * `--logo-filter` comes from the pill. Over the banner photograph it flattens the artwork to
+ * white — a customer's logo is usually dark or coloured and would sink into the photograph,
+ * and `brightness(0) invert(1)` keeps the shape without knowing the colours. On the solid
+ * pill the artwork shows as supplied.
  */
 function LogoImage({ imageSrc, name }: LogoImageProps) {
   return (
     <Box
       component="a"
       href={withBasePath("/")}
-      sx={(theme) => ({
-        position: "fixed",
-        left: "var(--logo-x, 16px)",
-        top: "var(--logo-y, 36px)",
-        transform: "translateY(-50%)",
-        display: "flex",
-        alignItems: "center",
-        transition: theme.transitions.create(["top"], {
-          duration: theme.transitions.duration.short,
-        }),
-      })}
+      sx={{ display: "flex", alignItems: "center" }}
     >
-      {/*
-        Sized in pixels, not as a percentage of the bar.
-        A logo is customer-supplied artwork of unknown proportions — the demo data ships
-        a 1536x540 image — so a percentage height only works while some ancestor happens to
-        have a resolved height. Capping both dimensions keeps any logo inside the notch:
-        at md the notch is 350x102 and the artwork lands at 171x60.
-      */}
       <Box
         component="img"
         src={imageSrc}
         alt={`${name} Logo`}
         sx={(theme) => ({
-          height: { xs: 36, sm: 44, md: 60 },
-          maxWidth: { xs: 140, sm: 200, md: 280 },
+          height: { xs: 28, sm: 32, md: 40 },
+          maxWidth: { xs: 140, sm: 180, md: 220 },
           width: "auto",
           objectFit: "contain",
-          objectPosition: "left center",
-          /*
-           * White once the bar is a dark slab behind it. The value comes from the bar as
-           * `--logo-filter`, because the artwork is a customer file of unknown colour and
-           * nothing here can know whether it would still be legible.
-           */
           filter: "var(--logo-filter, none)",
           transition: theme.transitions.create(["opacity", "filter"], {
             duration: theme.transitions.duration.short,

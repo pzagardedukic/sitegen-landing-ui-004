@@ -1,17 +1,22 @@
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 import { fontConfig } from "@/app/theme/fonts";
 import { brandDefaults, colorConfig } from "@/app/theme/colors";
-import { brandGradient, brandSurfaces } from "@/app/theme/brand";
+import { brandFill, brandSurfaces } from "@/app/theme/brand";
+
+/* A typography variant that changes size at the breakpoints, like the built-in headings. */
+type ResponsiveTypeStyle = React.CSSProperties & {
+  [media: `@media ${string}`]: React.CSSProperties;
+};
 
 declare module "@mui/material/styles" {
   interface Palette {
     header: {
-      background: string;
-      solid: string;
+      glass: string;
+      glassBorder: string;
+      onImage: string;
+      surface: string;
+      border: string;
       text: string;
-      hoverText: string;
-      selectedText: string;
-      hoverBg: string;
     };
     footer: {
       background: string;
@@ -19,56 +24,56 @@ declare module "@mui/material/styles" {
         primary: string;
         secondary: string;
       };
+      divider: string;
+      buttonBorder: string;
     };
-    /** CSS gradient built from primary -> secondary. Reserved for CTAs and marquee bands. */
+    /** Flat primary fill; kept for the sections not yet rebuilt — see brandFill. */
     brandGradient: string;
     surfaces: {
-      tint: string;
+      bgAlt: string;
+      surface: string;
+      mint: string;
+      rose: string;
       border: string;
-      scrim: string;
       placeholder: string;
+      scrim: string;
+      onImage: string;
+      tint: string;
     };
   }
 
   interface PaletteOptions {
-    header?: {
-      background?: string;
-      solid?: string;
-      text?: string;
-      hoverText?: string;
-      selectedText?: string;
-      hoverBg?: string;
-    };
+    header?: Partial<Palette["header"]>;
     footer?: {
       background?: string;
       text?: {
         primary?: string;
         secondary?: string;
       };
+      divider?: string;
+      buttonBorder?: string;
     };
     brandGradient?: string;
-    surfaces?: {
-      tint?: string;
-      border?: string;
-      scrim?: string;
-      placeholder?: string;
-    };
+    surfaces?: Partial<Palette["surfaces"]>;
   }
 
   interface TypographyVariants {
     navLink: React.CSSProperties;
     slogan: React.CSSProperties;
+    logo: ResponsiveTypeStyle;
   }
 
   interface TypographyVariantsOptions {
     navLink?: React.CSSProperties;
     slogan?: React.CSSProperties;
+    logo?: ResponsiveTypeStyle;
   }
 }
 
 declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     slogan: true;
+    logo: true;
   }
 }
 
@@ -77,9 +82,10 @@ const headingFont = fontConfig.heading.style.fontFamily;
 const sloganFont = fontConfig.slogan.style.fontFamily;
 
 /*
- * Type scale from the Figma design system, read at the three drawn widths:
- * mobile 390 (xs), tablet 768 (sm), desktop 1440 (md and up).
- * Breakpoints are MUI defaults and deliberately not moved.
+ * Type scale from the Lumiera text styles in Figma (`sitegen/{mobile,tablet,desktop}/*`),
+ * read at the three drawn widths: mobile 390 (xs), tablet 768 (sm), desktop 1440 (md and
+ * up). Headings in Fraunces, everything else in Figtree. Breakpoints are MUI defaults and
+ * deliberately not moved.
  */
 const themeOptions: ThemeOptions = {
   palette: {
@@ -90,115 +96,114 @@ const themeOptions: ThemeOptions = {
     text: colorConfig.text,
     header: colorConfig.header,
     footer: colorConfig.footer,
-    brandGradient: brandGradient(brandDefaults.primary, brandDefaults.secondary),
+    brandGradient: brandFill(brandDefaults.primary),
     surfaces: brandSurfaces(brandDefaults),
   },
 
   typography: {
     fontFamily: bodyFont,
 
-    // Hero headline — 80/90 on desktop
+    // 32 / 56 / 70
     h1: {
       fontFamily: headingFont,
       fontWeight: 400,
-      fontSize: "40px",
+      fontSize: "32px",
       lineHeight: 1.15,
-      letterSpacing: "-0.5px",
-      "@media (min-width:600px)": { fontSize: "56px" },
-      "@media (min-width:900px)": { fontSize: "80px", lineHeight: 1.125 },
+      "@media (min-width:600px)": { fontSize: "56px", lineHeight: 1.1 },
+      "@media (min-width:900px)": { fontSize: "70px" },
     },
 
-    // Page headline — 60 on desktop
+    // 28/36 · 36/48 · 42/56
     h2: {
       fontFamily: headingFont,
       fontWeight: 400,
-      fontSize: "32px",
-      lineHeight: 1.2,
-      letterSpacing: "-0.4px",
-      "@media (min-width:600px)": { fontSize: "44px" },
-      "@media (min-width:900px)": { fontSize: "60px" },
+      fontSize: "28px",
+      lineHeight: 36 / 28,
+      "@media (min-width:600px)": { fontSize: "36px", lineHeight: 48 / 36 },
+      "@media (min-width:900px)": { fontSize: "42px", lineHeight: 56 / 42 },
     },
 
-    // Section title — 44 on desktop
+    // 26 / 28 / 32
     h3: {
       fontFamily: headingFont,
       fontWeight: 400,
-      fontSize: "28px",
+      fontSize: "26px",
       lineHeight: 1.25,
-      letterSpacing: "-0.3px",
-      "@media (min-width:600px)": { fontSize: "34px" },
-      "@media (min-width:900px)": { fontSize: "44px" },
+      "@media (min-width:600px)": { fontSize: "28px" },
+      "@media (min-width:900px)": { fontSize: "32px" },
     },
 
-    // Card title — 20-24
+    // 22 / 24 / 26
     h4: {
+      fontFamily: headingFont,
+      fontWeight: 400,
+      fontSize: "22px",
+      lineHeight: 1.3,
+      "@media (min-width:600px)": { fontSize: "24px" },
+      "@media (min-width:900px)": { fontSize: "26px" },
+    },
+
+    // 20 / 20 / 22
+    h5: {
       fontFamily: headingFont,
       fontWeight: 400,
       fontSize: "20px",
       lineHeight: 1.35,
-      "@media (min-width:600px)": { fontSize: "22px" },
-      "@media (min-width:900px)": { fontSize: "24px" },
-    },
-
-    h5: {
-      fontFamily: headingFont,
-      fontWeight: 400,
-      fontSize: "18px",
-      lineHeight: 1.4,
-      "@media (min-width:900px)": { fontSize: "20px" },
+      "@media (min-width:900px)": { fontSize: "22px" },
     },
 
     h6: {
       fontFamily: headingFont,
-      fontWeight: 500,
-      fontSize: "16px",
+      fontWeight: 400,
+      fontSize: "18px",
       lineHeight: 1.4,
-      "@media (min-width:900px)": { fontSize: "18px" },
     },
 
-    // Body — 16 at 180%
+    // Body — 15/26
     body1: {
       fontFamily: bodyFont,
       fontWeight: 400,
-      fontSize: "16px",
-      lineHeight: 1.8,
+      fontSize: "15px",
+      lineHeight: 26 / 15,
     },
 
     body2: {
       fontFamily: bodyFont,
       fontWeight: 400,
       fontSize: "14px",
-      lineHeight: 1.7,
+      lineHeight: 24 / 14,
     },
 
+    // Buttons — medium 15, set solid
     button: {
       fontFamily: bodyFont,
       fontWeight: 500,
-      fontSize: "14px",
-      letterSpacing: "0.2px",
+      fontSize: "15px",
+      lineHeight: 1,
       textTransform: "none",
     },
 
+    // Body medium — 15/26
     subtitle1: {
       fontFamily: bodyFont,
       fontWeight: 500,
-      fontSize: "16px",
-      lineHeight: 1.6,
+      fontSize: "15px",
+      lineHeight: 26 / 15,
     },
 
     subtitle2: {
       fontFamily: bodyFont,
       fontWeight: 500,
       fontSize: "14px",
-      lineHeight: 1.6,
+      lineHeight: 24 / 14,
     },
 
-    // Captions — 14
+    // Captions — 14/24
     caption: {
       fontFamily: bodyFont,
       fontWeight: 400,
       fontSize: "14px",
-      lineHeight: 1.5,
+      lineHeight: 24 / 14,
     },
 
     overline: {
@@ -209,30 +214,41 @@ const themeOptions: ThemeOptions = {
       textTransform: "uppercase",
     },
 
-    // Navigation — bold 14
+    // Navigation — medium 15, set solid
     navLink: {
       fontFamily: bodyFont,
-      fontWeight: 700,
-      fontSize: "14px",
-      lineHeight: 1.4,
+      fontWeight: 500,
+      fontSize: "15px",
+      lineHeight: 1,
     },
 
-    // Slogan — 16/30
+    // Slogan — 16/28
     slogan: {
       fontFamily: sloganFont,
       fontWeight: 400,
       fontSize: "16px",
-      lineHeight: 1.875,
+      lineHeight: 1.75,
+    },
+
+    // Logo set as type when there is no artwork — 24 / 28 / 30
+    logo: {
+      fontFamily: headingFont,
+      fontWeight: 400,
+      fontSize: "24px",
+      lineHeight: 1,
+      "@media (min-width:600px)": { fontSize: "28px" },
+      "@media (min-width:900px)": { fontSize: "30px" },
     },
   },
 
+  // Lumiera buttons and inputs are rounded 8.
   shape: {
-    borderRadius: 12,
+    borderRadius: 8,
   },
 
   components: {
     /*
-     * Content margins from the design system: 36 mobile, 64 tablet, 120 desktop.
+     * Content margins from Figma: 36 mobile, 60 tablet, 120 desktop.
      * At 1440 the lg container caps content at 1200, which leaves exactly 120 a side,
      * so the desktop margin comes from maxWidth rather than from padding.
      */
@@ -242,8 +258,8 @@ const themeOptions: ThemeOptions = {
           paddingLeft: 36,
           paddingRight: 36,
           [theme.breakpoints.up("sm")]: {
-            paddingLeft: 64,
-            paddingRight: 64,
+            paddingLeft: 60,
+            paddingRight: 60,
           },
           [theme.breakpoints.up("lg")]: {
             paddingLeft: 24,

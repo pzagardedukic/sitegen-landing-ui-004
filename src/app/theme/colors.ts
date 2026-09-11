@@ -5,31 +5,33 @@ import { footerPalette, headerPalette, type BrandColors } from "./brand";
  * Everything else on the palette is derived from those three in ./brand.ts, so a
  * customer's colors reach the whole page and not just the buttons.
  *
- * The three defaults are the Figma design-system values.
+ * The three defaults are the Lumiera Figma tokens: primary #b48e5a (gold), secondary
+ * #d9a7a0 (rose) and text #1a1a1a.
  */
 export const brandDefaults: BrandColors = {
-  primary: "#8258C8",
-  secondary: "#2C84C8",
-  text: "#111111",
+  primary: "#B48E5A",
+  secondary: "#D9A7A0",
+  text: "#1A1A1A",
 };
 
 export const colorConfig = {
   primary: {
     main: brandDefaults.primary,
-    contrastText: "#ffffff",
+    contrastText: "#FFFFFF",
   },
   secondary: {
     main: brandDefaults.secondary,
-    contrastText: "#ffffff",
+    contrastText: brandDefaults.text,
   },
   background: {
-    default: "#ffffff",
-    paper: "#ffffff",
+    default: "#FFFFFF",
+    paper: "#FFFFFF",
   },
   text: {
     primary: brandDefaults.text,
-    secondary: "#5A5A66",
+    // Figma `text-muted`.
+    secondary: "#4C5C68",
   },
   header: headerPalette(brandDefaults),
-  footer: footerPalette(brandDefaults),
+  footer: footerPalette(),
 };

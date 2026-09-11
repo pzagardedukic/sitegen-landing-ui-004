@@ -2,7 +2,7 @@ import { createTheme, Theme } from "@mui/material/styles";
 import baseTheme from "@/theme";
 import { ThemeSettings } from "@/core/types";
 import {
-  brandGradient,
+  brandFill,
   brandSurfaces,
   footerPalette,
   headerPalette,
@@ -52,7 +52,7 @@ export function createPreviewTheme(input: CreatePreviewThemeInput): Theme {
   const hasOverrides =
     primary || secondary || text || fontHeading || fontBody || fontBanner;
 
-  // No overrides: baseTheme already carries the derived header, footer, gradient and
+  // No overrides: baseTheme already carries the derived header, footer, fill and
   // surfaces built from the defaults, so it is complete as it stands.
   if (!hasOverrides) {
     return baseTheme;
@@ -60,9 +60,9 @@ export function createPreviewTheme(input: CreatePreviewThemeInput): Theme {
 
   /*
    * Derive from the *resolved* trio, not from the overrides alone. A customer who sets
-   * only `primary` still needs a header, footer and gradient that agree with the
-   * secondary and text the base theme supplies — otherwise half the chrome follows the
-   * brand and half does not.
+   * only `primary` still needs surfaces and a header that agree with the secondary and
+   * text the base theme supplies — otherwise half the chrome follows the brand and half
+   * does not.
    */
   const brand: BrandColors = {
     primary: primary || baseTheme.palette.primary.main,
@@ -107,8 +107,8 @@ export function createPreviewTheme(input: CreatePreviewThemeInput): Theme {
 
       // Kept in step with src/theme.ts — see the note at the top of app/theme/brand.ts.
       header: headerPalette(brand),
-      footer: footerPalette(brand),
-      brandGradient: brandGradient(brand.primary, brand.secondary),
+      footer: footerPalette(),
+      brandGradient: brandFill(brand.primary),
       surfaces: brandSurfaces(brand),
     },
 
@@ -144,6 +144,12 @@ export function createPreviewTheme(input: CreatePreviewThemeInput): Theme {
       slogan: {
         ...baseTheme.typography.slogan,
         fontFamily: resolvedBanner,
+      },
+
+      // The logo is set in the heading face, so it follows the heading override.
+      logo: {
+        ...baseTheme.typography.logo,
+        fontFamily: resolvedHeading,
       },
     },
   });

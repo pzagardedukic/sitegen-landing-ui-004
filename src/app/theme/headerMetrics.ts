@@ -1,23 +1,28 @@
 /*
- * The header's geometry, in one place because two files need to agree on it.
+ * The header's geometry, in one place because more than one file needs to agree on it.
  *
- * CENTRE is the line the logo and the navigation are both hung on: the middle of the hero's
- * white notch, which starts 12/24/20 below the top of the page and is 64/82/102 tall.
- * HEIGHT is twice that, so the same line is also the middle of the bar and nothing moves
- * when the transparent bar turns into a solid one on scroll.
+ * Lumiera's header is a floating pill, not a bar across the top: it sits HEADER_TOP below
+ * the top of the viewport, HEADER_SIDE in from each edge, and is HEADER_BAR tall. Figma
+ * draws it at 16 / 24 / 24 from the top, 16 / 24 / 40 from the sides and 60 / 64 / 72
+ * tall at 390 / 768 / 1440.
  *
- * `Section` needs HEIGHT as well: a section jumped to by its anchor has to clear the bar,
- * and a scroll margin smaller than the bar leaves the top of the section behind it.
+ * HEADER_HEIGHT is the room it takes from the top of the viewport. `Section` needs it: a
+ * section jumped to by its anchor has to clear the pill, and a smaller scroll margin leaves
+ * the top of the section behind it.
  */
-export const HEADER_CENTRE = { xs: 44, sm: 65, md: 71 } as const;
+export const HEADER_TOP = { xs: 16, sm: 24, md: 24 } as const;
+
+export const HEADER_SIDE = { xs: 16, sm: 24, md: 40 } as const;
+
+export const HEADER_BAR = { xs: 60, sm: 64, md: 72 } as const;
 
 export const HEADER_HEIGHT = {
-  xs: HEADER_CENTRE.xs * 2,
-  sm: HEADER_CENTRE.sm * 2,
-  md: HEADER_CENTRE.md * 2,
+  xs: HEADER_TOP.xs + HEADER_BAR.xs,
+  sm: HEADER_TOP.sm + HEADER_BAR.sm,
+  md: HEADER_TOP.md + HEADER_BAR.md,
 } as const;
 
-/** Bar plus a little air, so an anchored section does not start flush against it. */
+/** Pill plus a little air, so an anchored section does not start flush against it. */
 export const ANCHOR_OFFSET = {
   xs: HEADER_HEIGHT.xs + 16,
   sm: HEADER_HEIGHT.sm + 16,

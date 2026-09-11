@@ -1,22 +1,26 @@
 "use client";
 
-import { getHome } from "@/core/runtime";
+import { getHome, SupportedLang, useLanguage } from "@/core/runtime";
 import LanguageSelector from "@/components/language-selector/LanguageSelector";
 import HeaderNavigation from "@/components/navigation/HeaderNavigation";
-import { Box, Divider } from "@mui/material";
-import { SupportedLang, useLanguage } from "@/core/runtime";
+import { Box } from "@mui/material";
 import { getNavigationTranslation } from "@/core/translations";
-import { getPageSlugByKeyWithBasePath, isSectionEnabled } from "@/core/static";
+import {
+  getPageSlugByKeyWithBasePath,
+  isSectionEnabled,
+  withBasePath,
+} from "@/core/static";
 import LogoImage from "./LogoImage";
 import LogoText from "./LogoText";
-import { useIsMobileDevice } from "@/hooks/useIsMobileDevice";
-import { withBasePath } from "@/core/static";
 
+/*
+ * The three columns of the Lumiera header pill (see HeaderLayout): navigation left, logo
+ * centre, language right. Each is its own grid item, so this renders a fragment.
+ */
 export default function Header() {
   const { lang, setLang, languageList } = useLanguage();
   const navTranslation = getNavigationTranslation(lang);
   const home = getHome(lang);
-  const isMobile = useIsMobileDevice();
 
   const navItems = [
     { label: navTranslation.home, href: withBasePath("/") },
@@ -80,67 +84,38 @@ export default function Header() {
   ];
 
   return (
-    <Box
-      height="100%"
-      width="100%"
-      display="flex"
-      alignItems="center"
-      // The logo is positioned on the bar itself, so only the navigation is in this row.
-      justifyContent="flex-end"
-    >
-      {/* Left: Logo, hung on the notch rather than on this row */}
-      {home.logo.image ? (
-        <LogoImage imageSrc={home.logo.image} name={home.name} />
-      ) : (
-        <LogoText name={home.name} />
-      )}
-
-      {/* Right: Navigation and, when the site has more than one, the language selector */}
+    <>
+      {/* Left: the navigation, folded into the menu button below md */}
       <Box
-        sx={(theme) => ({
-          /*
-           * Hung on the bar like the logo, not carried in the row. In the row it centred
-           * on the bar, which is not the middle of the white notch, so it sat higher than
-           * the logo across from it. Same `--logo-y`, same centre line.
-           */
-          position: "fixed",
-          top: "var(--logo-y)",
-          right: "var(--nav-x)",
-          transform: "translateY(-50%)",
-          transition: theme.transitions.create(["top"], {
-            duration: theme.transitions.duration.short,
-          }),
+        sx={{
+          justifySelf: "start",
           display: "flex",
-          flexDirection: isMobile ? "row-reverse" : "row",
           alignItems: "center",
-          // 36px margins leave ~318px on a 390 screen; a 32px gap plus a divider
-          // pushed the menu button off the edge there.
-          gap: { xs: 1, md: 3 },
-          flexShrink: 0,
-        })}
+          minWidth: 0,
+        }}
       >
         <HeaderNavigation items={navItems} />
+      </Box>
 
-        {languageList.length > 1 && (
-          <>
-            <Divider
-              orientation="vertical"
-              flexItem
-              sx={{
-                display: { xs: "none", md: "block" },
-                borderColor: "currentColor",
-                opacity: 0.4,
-              }}
-            />
-
-            <LanguageSelector
-              supportedLanguages={languageList}
-              defaultLanguage={lang as string}
-              onChange={(code) => setLang(code as SupportedLang)}
-            />
-          </>
+      {/* Centre: the logo artwork, or the site name set in the logo face */}
+      <Box sx={{ justifySelf: "center", minWidth: 0, maxWidth: "100%" }}>
+        {home.logo.image ? (
+          <LogoImage imageSrc={home.logo.image} name={home.name} />
+        ) : (
+          <LogoText name={home.name} />
         )}
       </Box>
-    </Box>
+
+      {/* Right: the language pill, only when the site has more than one language */}
+      <Box sx={{ justifySelf: "end", display: "flex", alignItems: "center" }}>
+        {languageList.length > 1 && (
+          <LanguageSelector
+            supportedLanguages={languageList}
+            defaultLanguage={lang as string}
+            onChange={(code) => setLang(code as SupportedLang)}
+          />
+        )}
+      </Box>
+    </>
   );
 }

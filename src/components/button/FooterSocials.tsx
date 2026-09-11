@@ -1,14 +1,13 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
+import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import LanguageIcon from "@mui/icons-material/Language";
 import { getContacts } from "@/core/runtime";
-import { Web } from "@mui/icons-material";
 
 function TikTokIcon(props: SvgIconProps) {
   return (
@@ -19,91 +18,66 @@ function TikTokIcon(props: SvgIconProps) {
 }
 
 export interface FooterSocialsProps {
-  /** Adjust icon color (CSS color, hex, theme var, etc.) */
-  color?: string;
-
   /** Icon size in pixels */
   size?: number;
-
-  /** Gap between icons */
-  gap?: number;
-
-  /** Layout direction */
-  direction?: "row" | "column";
 
   /** Link target behavior */
   target?: "_blank" | "_self" | "_parent" | "_top";
 }
 
-/** Social icon bar for footer use */
+/*
+ * The social row from the footer spec: FACEBOOK, INSTAGRAM, TWITTER (drawn as X, as Lumiera
+ * does), LINKEDIN, TIKTOK and WEBSITE from `contactInfo.contact[]`, in the order Figma draws
+ * them. Renders nothing when the site has none of them.
+ *
+ * The icons are 16 across and 20 apart as drawn; each sits in a 28px hit area, so the
+ * visible gap is made up of the buttons' own padding plus 8.
+ */
 export default function FooterSocials({
-  color = "inherit",
-  size = 22,
-  gap = 8,
-  direction = "row",
+  size = 16,
   target = "_blank",
 }: FooterSocialsProps) {
   const contacts = getContacts();
 
   const icons = [
-    {
-      name: "Facebook",
-      url: contacts.find((c) => c.type === "FACEBOOK")?.value,
-      icon: <FacebookIcon />,
-    },
-    {
-      name: "Twitter",
-      url: contacts.find((c) => c.type === "TWITTER")?.value,
-      icon: <TwitterIcon />,
-    },
-    {
-      name: "Instagram",
-      url: contacts.find((c) => c.type === "INSTAGRAM")?.value,
-      icon: <InstagramIcon />,
-    },
-    {
-      name: "LinkedIn",
-      url: contacts.find((c) => c.type === "LINKEDIN")?.value,
-      icon: <LinkedInIcon />,
-    },
-    {
-      name: "TikTok",
-      url: contacts.find((c) => c.type === "TIKTOK")?.value,
-      icon: <TikTokIcon />,
-    },
-    {
-      name: "Website",
-      url: contacts.find((c) => c.type === "WEBSITE")?.value,
-      icon: <Web />,
-    },
-  ].filter((item) => !!item.url);
+    { name: "Facebook", type: "FACEBOOK", icon: <FacebookIcon /> },
+    { name: "Instagram", type: "INSTAGRAM", icon: <InstagramIcon /> },
+    { name: "X", type: "TWITTER", icon: <XIcon /> },
+    { name: "LinkedIn", type: "LINKEDIN", icon: <LinkedInIcon /> },
+    { name: "TikTok", type: "TIKTOK", icon: <TikTokIcon /> },
+    { name: "Website", type: "WEBSITE", icon: <LanguageIcon /> },
+  ]
+    .map((item) => ({
+      ...item,
+      url: contacts.find((contact) => contact.type === item.type)?.value,
+    }))
+    .filter((item) => !!item.url);
 
   if (icons.length === 0) return null;
 
   return (
     <Stack
-      direction={direction}
-      spacing={0}
+      direction="row"
       sx={{
-        gap,
-        color,
-        "& .MuiIconButton-root": { color: "currentColor" },
+        gap: "8px",
+        mx: "-6px",
+        color: "inherit",
+        "& .MuiIconButton-root": { color: "currentColor", p: "6px" },
         "& .MuiSvgIcon-root": { fontSize: size },
-        "& .MuiIconButton-root:hover": { opacity: 0.85 },
+        "& .MuiIconButton-root:hover": { opacity: 0.7, backgroundColor: "transparent" },
       }}
     >
       {icons.map(({ name, url, icon }) => (
-        <Tooltip title={name} key={name}>
-          <IconButton
-            component="a"
-            href={url}
-            target={target}
-            rel="noopener noreferrer"
-            aria-label={name}
-          >
-            {icon}
-          </IconButton>
-        </Tooltip>
+        <IconButton
+          key={name}
+          component="a"
+          href={url}
+          target={target}
+          rel="noopener noreferrer"
+          aria-label={name}
+        >
+          {icon}
+        </IconButton>
       ))}
     </Stack>
   );

@@ -10,7 +10,7 @@ type CustomGalleryProps = {
   items: string[];
   currentPageItems?: string[];
   /**
-   * "mosaic" is the section layout from the Figma frame. "strip" is the plain row of equal
+   * "mosaic" is the section layout from the Figma frames. "strip" is the plain row of equal
    * thumbnails used on item detail pages, where the pictures all belong to one project or
    * product and the mosaic rhythm would fight the page around it.
    */
@@ -21,28 +21,22 @@ type CustomGalleryProps = {
 type ImgSize = { w: number; h: number };
 
 /*
- * The gallery mosaic from the Figma frame: three columns on a 1200 grid with a 40px gutter,
- * where each column splits its height differently — 380/260, 260/380, 320/320. That is what
- * gives the block its rhythm; a uniform grid of equal tiles reads as a contact sheet.
+ * The gallery mosaic from the Lumiera frames. Each column splits its height differently,
+ * which is what gives the block its rhythm — a grid of equal tiles reads as a contact sheet:
  *
- * Items are distributed down the columns rather than across the rows, so the pattern holds
- * whatever the item count.
+ *   desktop  three columns 24 apart   380/260 · 260/380 · 320/320
+ *   tablet   two columns 20 apart     300/200/240 · 200/300/240
+ *   phone    two columns 14 apart     210/140/170 · 140/210/170
  *
- * The frame also centres a label on each tile, but gallery items carry only an id and a
- * file — that label marks where a picture goes in the wireframe, it is not content.
+ * Tiles are rounded 12. Items are dealt across the columns in reading order and each column
+ * repeats its own pattern, so the shape holds whatever the item count. Every tile opens the
+ * lightbox.
  */
-const HEIGHTS: Record<number, number[][]> = {
-  1: [[320, 380, 260]],
-  2: [
-    [380, 260],
-    [260, 380],
-  ],
-  3: [
-    [380, 260],
-    [260, 380],
-    [320, 320],
-  ],
-};
+const LAYOUTS = {
+  phone: { columns: 2, gap: 14, heights: [[210, 140, 170], [140, 210, 170]] },
+  tablet: { columns: 2, gap: 20, heights: [[300, 200, 240], [200, 300, 240]] },
+  desktop: { columns: 3, gap: 24, heights: [[380, 260], [260, 380], [320, 320]] },
+} as const;
 
 export const CustomGallery = ({
   items,
@@ -53,10 +47,11 @@ export const CustomGallery = ({
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const isTablet = useMediaQuery(theme.breakpoints.up("sm"));
-  const columnCount = isDesktop ? 3 : isTablet ? 2 : 1;
+  const layout = isDesktop ? LAYOUTS.desktop : isTablet ? LAYOUTS.tablet : LAYOUTS.phone;
 
   const [sizes, setSizes] = React.useState<Record<string, ImgSize>>({});
 
+  // PhotoSwipe needs each picture's proportions, so tiles are laid out once their file loads.
   React.useEffect(() => {
     let cancelled = false;
 
@@ -90,13 +85,13 @@ export const CustomGallery = ({
   // the same shape as a full one.
   const laidOut = items.filter((src) => visibleSet.has(src) && sizes[src]);
 
-  const columns: string[][] = Array.from({ length: columnCount }, () => []);
+  const columns: string[][] = Array.from({ length: layout.columns }, () => []);
   laidOut.forEach((src, index) => {
-    columns[index % columnCount].push(src);
+    columns[index % layout.columns].push(src);
   });
 
   const heightFor = (column: number, position: number) => {
-    const pattern = HEIGHTS[columnCount][column % HEIGHTS[columnCount].length];
+    const pattern = layout.heights[column % layout.heights.length];
     return pattern[position % pattern.length];
   };
 
@@ -122,7 +117,7 @@ export const CustomGallery = ({
                     alt={`Gallery Image ${position + 1}`}
                     onClick={open}
                     width={thumbSize}
-                    sx={{ height: thumbSize, borderRadius: "16px", display: "block" }}
+                    sx={{ height: thumbSize, borderRadius: "12px", display: "block" }}
                   />
                 )}
               </Item>
@@ -138,15 +133,15 @@ export const CustomGallery = ({
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: `repeat(${columnCount}, 1fr)`,
-          gap: "40px",
+          gridTemplateColumns: `repeat(${layout.columns}, minmax(0, 1fr))`,
+          gap: `${layout.gap}px`,
           alignItems: "start",
         }}
       >
         {columns.map((column, columnIndex) => (
           <Box
             key={columnIndex}
-            sx={{ display: "flex", flexDirection: "column", gap: "40px" }}
+            sx={{ display: "flex", flexDirection: "column", gap: `${layout.gap}px` }}
           >
             {column.map((src, position) => {
               const size = sizes[src];
@@ -169,7 +164,7 @@ export const CustomGallery = ({
                       width="100%"
                       sx={{
                         height: heightFor(columnIndex, position),
-                        borderRadius: "25px",
+                        borderRadius: "12px",
                         display: "block",
                       }}
                     />

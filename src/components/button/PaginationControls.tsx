@@ -27,6 +27,9 @@ function pageList(page: number, count: number): (number | "gap")[] {
   return shown.flatMap((n, i) => (i > 0 && n - shown[i - 1] > 1 ? ["gap" as const, n] : [n]));
 }
 
+/* Buttons are 36 across on a phone and 40 above, as the Lumiera frames draw them. */
+const BUTTON = { xs: 36, sm: 40 };
+
 /*
  * Numbered pagination as Lumiera draws it: round buttons 40 across, 8 apart — the arrows on
  * the hairline, the current page on the mint wash, the others bare.
@@ -49,6 +52,7 @@ export default function PaginationControls({
         onClick={() => onChange(page - 1)}
         disabled={page <= 1}
         aria-label="Prejšnja stran"
+        sx={{ width: BUTTON, height: BUTTON }}
       >
         <LongArrowIcon direction="left" />
       </CircleButton>
@@ -61,7 +65,7 @@ export default function PaginationControls({
             aria-hidden
             sx={(theme) => ({
               ...theme.typography.subtitle1,
-              width: 40,
+              width: BUTTON,
               textAlign: "center",
             })}
           >
@@ -78,8 +82,8 @@ export default function PaginationControls({
             sx={(theme) => ({
               ...theme.typography.subtitle1,
               lineHeight: 1,
-              width: 40,
-              height: 40,
+              width: BUTTON,
+              height: BUTTON,
               borderRadius: "50%",
               border: 0,
               cursor: "pointer",
@@ -104,6 +108,7 @@ export default function PaginationControls({
         onClick={() => onChange(page + 1)}
         disabled={page >= pageCount}
         aria-label="Naslednja stran"
+        sx={{ width: BUTTON, height: BUTTON }}
       >
         <LongArrowIcon />
       </CircleButton>

@@ -1,68 +1,81 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Box } from "@mui/material";
-import SubscriptionCard, { SubscriptionPlan } from "./SubscriptionCard";
-import { getPricingItems } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
-import { useRouter } from "next/navigation";
-import { getPageSlugByKey } from "@/core/static";
-import { getPricingTranslation_packagesNoImages } from "@/core/translations";
+import Carousel from "@/components/carousel/Carousel";
+import FilterChips from "@/components/common/FilterChips";
+import { getPricingSection, useLanguage } from "@/core/runtime";
+import {
+  getButtonTranslation,
+  getPricingTranslation_packagesNoImages,
+} from "@/core/translations";
+import SubscriptionCard from "./SubscriptionCard";
+import { useVisiblePricingItems } from "../common/useVisiblePricingItems";
 
+/*
+ * Packages as the Lumiera frames lay them out: the category pills, then the cards three
+ * abreast on desktop and two on tablet, 24 apart. On a phone the frames draw a carousel —
+ * a column of tall cards would otherwise be a page of scrolling before the first price.
+ */
 export default function SubscriptionSection() {
   const { lang } = useLanguage();
-  const router = useRouter();
-  const t = getPricingTranslation_packagesNoImages(lang);
+  const pricingSection = getPricingSection(lang);
+  const pricingItems = useVisiblePricingItems();
+  const packagesTranslation = getPricingTranslation_packagesNoImages(lang);
+  const allLabel = getButtonTranslation(lang).all;
 
-  const pricingItems = getPricingItems(lang);
-  const plans: SubscriptionPlan[] = useMemo(() => {
-    return pricingItems.map((item) => ({
-      id: String(item.id),
-      name: item.title,
-      subtitle: item.text || "",
-      price: item.price.value,
-      currency: item.price.currency,
-      unit: item.price.unit,
-      onAgreement: item.price.onAgreement,
-      discountedValue: item.price.discountedValue ?? "",
-      category: item.category,
-      status: item.status,
-      // Keep both halves: the card shows the label on the left and the value on the right.
-      features: item.features.map((feature) => ({
-        label: feature.label,
-        value: feature.value,
-      })),
-      highlight: item.recommended,
-    }));
-  }, [pricingItems]);
+  const categories = pricingSection?.categoryOptions ?? [];
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
-  const handleSelect = (title: string) => {
-    router.push(
-      `/${getPageSlugByKey("contact")}?subject=${encodeURIComponent(
-        t.acquirementSubject,
-      )}: ${encodeURIComponent(title)}`,
-    );
-  };
+  const items = useMemo(
+    () =>
+      selectedCategoryId
+        ? pricingItems.filter((item) => item.categoryId === selectedCategoryId)
+        : pricingItems,
+    [pricingItems, selectedCategoryId],
+  );
+
+  const cards = items.map((item) => <SubscriptionCard key={item.id} item={item} />);
 
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "28px", md: "32px" } }}>
+      {categories.length > 0 && (
+        <FilterChips
+          ariaLabel={allLabel}
+          options={[
+            { value: "", label: allLabel },
+            ...categories.map((category) => ({
+              value: category.id,
+              label: category.name,
+            })),
+          ]}
+          value={selectedCategoryId}
+          onChange={setSelectedCategoryId}
+        />
+      )}
+
       <Box
         sx={{
-          display: "grid",
-          gap: "40px",
+          display: { xs: "none", sm: "grid" },
           gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
+            sm: "repeat(2, minmax(0, 1fr))",
+            md: "repeat(3, minmax(0, 1fr))",
           },
+          gap: "24px",
           alignItems: "stretch",
         }}
       >
-        {plans.map((plan) => (
-          <Box key={plan.id}>
-            <SubscriptionCard plan={plan} onSelect={handleSelect} />
-          </Box>
-        ))}
+        {cards}
+      </Box>
+
+      <Box sx={{ display: { xs: "block", sm: "none" } }}>
+        <Carousel
+          items={cards}
+          slideWidth={{ xs: "100%" }}
+          gap={20}
+          controlsGap={{ xs: 24 }}
+          ariaLabel={packagesTranslation.title}
+        />
       </Box>
     </Box>
   );

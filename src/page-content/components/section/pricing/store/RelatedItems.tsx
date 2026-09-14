@@ -1,75 +1,108 @@
 "use client";
 
-import { getPricingItems } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
 import { Box, Typography } from "@mui/material";
-import HoverZoomImage from "@/components/image/HoverZoomImage";
-import { useRouter } from "next/navigation";
-import { getPageSlugByKey, getPricingSlugById } from "@/core/static";
+import Carousel from "@/components/carousel/Carousel";
+import { getPricingItems, useLanguage } from "@/core/runtime";
+import { getPageSlugByKey, getPricingSlugById, withBasePath } from "@/core/static";
 import { getPricingTranslation_priceListWithImages } from "@/core/translations";
-import SectionTitle from "../../common/SectionTitle";
-import { FALLBACK_IMAGE } from "@/core/static";
+
+type PricingItem = ReturnType<typeof getPricingItems>[number];
+
+type RelatedItemsProps = {
+  items: PricingItem[];
+};
 
 /*
- * Items from the same category under the detail. Four across on desktop and two on mobile,
- * each with its title: ui-001 showed bare thumbnails, and a picture with no name is not a
- * link a reader can decide to follow.
+ * The row that closes a price item's page: its heading, then up to five compact cards —
+ * five abreast on desktop and a carousel two cards wide below that, exactly as the related
+ * projects close a project. Each card keeps its name: a picture with no name is not a link
+ * a reader can decide to follow.
  */
-export default function RelatedItems({ itemIds }: { itemIds: number[] }) {
-  const router = useRouter();
+export default function RelatedItems({ items }: RelatedItemsProps) {
   const { lang } = useLanguage();
-  const t = getPricingTranslation_priceListWithImages(lang);
+  const pricingTranslation = getPricingTranslation_priceListWithImages(lang);
 
-  const relatedItems = getPricingItems(lang)
-    .filter((item) => itemIds.includes(item.id))
-    .slice(0, 4);
+  if (items.length === 0) return null;
 
-  const handleItemClick = (id: number) => {
-    router.push(`/${getPageSlugByKey("pricing")}/${getPricingSlugById(id)}`);
-  };
+  const cards = items.slice(0, 5).map((item) => (
+    <Box
+      key={item.id}
+      component="a"
+      href={withBasePath(`/${getPageSlugByKey("pricing")}/${getPricingSlugById(item.id)}`)}
+      sx={(theme) => ({
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px",
+        minWidth: 0,
+        textDecoration: "none",
+        color: "inherit",
+        "&:hover .related-image, &:focus-visible .related-image": {
+          transform: "scale(1.04)",
+        },
+        "&:hover .related-title, &:focus-visible .related-title": {
+          color: theme.palette.primary.main,
+        },
+      })}
+    >
+      <Box
+        sx={(theme) => ({
+          position: "relative",
+          height: { xs: 160, md: 180 },
+          borderRadius: "12px",
+          overflow: "hidden",
+          backgroundColor: theme.palette.surfaces.placeholder,
+        })}
+      >
+        {item.images[0] && (
+          <Box
+            component="img"
+            className="related-image"
+            src={item.images[0]}
+            alt=""
+            loading="lazy"
+            sx={(theme) => ({
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: theme.transitions.create("transform"),
+            })}
+          />
+        )}
+      </Box>
+
+      <Typography variant="h6" component="h3" className="related-title">
+        {item.title}
+      </Typography>
+    </Box>
+  ));
 
   return (
-    <Box display="flex" flexDirection="column" gap={4}>
-      <SectionTitle title={t.relatedItemsTitle} justify="flex-start" />
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      <Typography variant="h4" component="h2">
+        {pricingTranslation.relatedItemsTitle}
+      </Typography>
 
       <Box
         sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "repeat(2, 1fr)",
-            md: "repeat(4, 1fr)",
-          },
-          gap: { xs: 2, md: 3 },
+          display: { xs: "none", md: "grid" },
+          gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+          gap: "20px",
+          alignItems: "start",
         }}
       >
-        {relatedItems.map((item) => (
-          <Box
-            key={item.id}
-            className="zoom-image-parent"
-            onClick={() => handleItemClick(item.id)}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 1.5,
-              minWidth: 0,
-              cursor: "pointer",
-            }}
-          >
-            <HoverZoomImage
-              src={item.images[0] || FALLBACK_IMAGE}
-              width="100%"
-              sx={{
-                borderRadius: "25px",
-                width: "100%",
-                height: { xs: 160, sm: 200, md: 220 },
-              }}
-            />
+        {cards}
+      </Box>
 
-            <Typography variant="h6" color="text.primary">
-              {item.title}
-            </Typography>
-          </Box>
-        ))}
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Carousel
+          items={cards}
+          slideWidth={{ xs: "calc(50% - 10px)" }}
+          gap={20}
+          controlsGap={{ xs: 24 }}
+          ariaLabel={pricingTranslation.relatedItemsTitle}
+        />
       </Box>
     </Box>
   );

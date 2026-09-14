@@ -79,6 +79,16 @@ export const getLegalTranslation = sentenceCased(core.getLegalTranslation);
 export const getNotFoundTranslation = sentenceCased(core.getNotFoundTranslation);
 export const getPortfolioTranslation = sentenceCased(core.getPortfolioTranslation);
 export const getPriceTranslation = sentenceCased(core.getPriceTranslation);
+export const getPricingStoreTranslation = sentenceCased(core.getPricingStoreTranslation);
+export const getPricingTranslation_packagesNoImages = sentenceCased(
+  core.getPricingTranslation_packagesNoImages,
+);
+export const getPricingTranslation_priceListNoImages = sentenceCased(
+  core.getPricingTranslation_priceListNoImages,
+);
+export const getPricingTranslation_priceListWithImages = sentenceCased(
+  core.getPricingTranslation_priceListWithImages,
+);
 export const getReviewTranslation = sentenceCased(core.getReviewTranslation);
 export const getServicesTranslation = sentenceCased(core.getServicesTranslation);
 export const getSubscriptionsTranslation = sentenceCased(core.getSubscriptionsTranslation);

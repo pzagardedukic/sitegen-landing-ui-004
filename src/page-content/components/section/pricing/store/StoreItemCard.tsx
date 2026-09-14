@@ -1,119 +1,149 @@
-import HoverZoomImage from "@/components/image/HoverZoomImage";
+"use client";
+
 import { Box, Typography } from "@mui/material";
-import PriceValue from "../common/PriceValue";
-import DiscountBadge from "../common/DiscountBadge";
-import StatusBadge from "../common/StatusBadge";
+import Tag from "@/components/common/Tag";
+import { getPricingItems } from "@/core/runtime";
 import { stripRichText, truncateWordSafe } from "@/core/utils";
-import { PriceUnitType, PricingItemStatus } from "@/core/types";
+import DiscountBadge from "../common/DiscountBadge";
+import PriceValue from "../common/PriceValue";
+import StatusBadge from "../common/StatusBadge";
+
+type PricingItem = ReturnType<typeof getPricingItems>[number];
 
 type StoreItemCardProps = {
-  image?: string;
-  title: string;
-  description: string;
-  price: string;
-  currency: string;
-  unit?: PriceUnitType;
-  onAgreement: boolean;
-  discountedValue: string;
-  status?: PricingItemStatus;
+  item: PricingItem;
+  href: string;
+  recommendedLabel: string;
 };
 
 /*
- * Store card: bordered rather than raised, and the text set left. The badges stay on the
- * picture, which is the only place they do not push the title off its line when a customer
- * has both a status and a discount on the same item.
+ * A store card from the Lumiera frames: the picture 280 tall with the badges over it, then
+ * the category, the name, a hundred characters of the text, the features in one muted line
+ * and the price at the foot — all on the cream card, rounded 12.
+ *
+ * The whole card is the link, so the picture, the name and the price all lead to the item
+ * rather than only the title doing so.
  */
-export default function StoreItemCard({
-  image,
-  title,
-  description,
-  price,
-  currency,
-  unit,
-  onAgreement,
-  discountedValue,
-  status,
-}: StoreItemCardProps) {
-  const truncatedText = stripRichText(truncateWordSafe(description, 100));
+export default function StoreItemCard({ item, href, recommendedLabel }: StoreItemCardProps) {
+  const featureSummary = item.features
+    .slice(0, 2)
+    .map((feature) => `${feature.label}: ${feature.value}`)
+    .join(" · ");
+
+  const hasBadges =
+    item.recommended ||
+    item.status === "COMING_SOON" ||
+    item.status === "UNAVAILABLE" ||
+    Boolean(item.price.discountedValue);
 
   return (
     <Box
-      className="zoom-image-parent"
+      component="a"
+      href={href}
       sx={(theme) => ({
-        position: "relative",
-        borderRadius: "25px",
-        border: `1px solid ${theme.palette.surfaces.border}`,
-        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        transition: theme.transitions.create(["border-color"]),
-        "&:hover": {
-          cursor: "pointer",
-          borderColor: theme.palette.primary.main,
+        borderRadius: "12px",
+        overflow: "hidden",
+        textDecoration: "none",
+        color: "inherit",
+        backgroundColor: theme.palette.surfaces.surface,
+        "&:hover .store-image, &:focus-visible .store-image": { transform: "scale(1.04)" },
+        "&:hover .store-title, &:focus-visible .store-title": {
+          color: theme.palette.primary.main,
         },
       })}
     >
-      {/* Status */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 12,
-          left: 12,
-          zIndex: 2,
-        }}
-      >
-        <StatusBadge status={status} />
-      </Box>
-
-      {/* Discount */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 12,
-          right: 12,
-          zIndex: 2,
-        }}
-      >
-        <DiscountBadge price={price} discountedValue={discountedValue} />
-      </Box>
-
-      {/* Image */}
-      <HoverZoomImage
-        src={image}
-        alt={title}
-        zoomOnParentHover
-        sx={{
-          width: "100%",
-          height: 180,
-          objectFit: "cover",
-        }}
-      />
-
-      {/* Content */}
-      <Box px={2.5} py={2.5} flexGrow={1}>
-        <Typography variant="h6">{title}</Typography>
-        <Typography variant="body2" color="text.secondary" mt={1}>
-          {truncatedText}
-        </Typography>
-      </Box>
-
-      {/* Price */}
       <Box
         sx={(theme) => ({
-          px: 2.5,
-          py: 1.5,
-          mt: "auto",
-          borderTop: `1px solid ${theme.palette.surfaces.border}`,
+          position: "relative",
+          height: { xs: 260, md: 280 },
+          overflow: "hidden",
+          backgroundColor: theme.palette.surfaces.placeholder,
         })}
       >
-        <PriceValue
-          value={price}
-          currency={currency}
-          unit={unit}
-          onAgreement={onAgreement}
-          discountedValue={discountedValue}
-        />
+        {item.images[0] && (
+          <Box
+            component="img"
+            className="store-image"
+            src={item.images[0]}
+            alt=""
+            loading="lazy"
+            sx={(theme) => ({
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: theme.transitions.create("transform"),
+            })}
+          />
+        )}
+
+        {hasBadges && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 16,
+              left: 16,
+              right: 16,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "6px",
+            }}
+          >
+            {item.recommended && <Tag label={recommendedLabel} tone="brand" />}
+            <StatusBadge status={item.status} />
+            <DiscountBadge
+              price={item.price.value}
+              discountedValue={item.price.discountedValue}
+            />
+          </Box>
+        )}
+      </Box>
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          p: "18px 20px 22px",
+        }}
+      >
+        {item.category && (
+          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+            {item.category}
+          </Typography>
+        )}
+
+        <Typography variant="h5" component="h3" className="store-title">
+          {item.title}
+        </Typography>
+
+        {item.text && (
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
+            {stripRichText(truncateWordSafe(item.text, 100))}
+          </Typography>
+        )}
+
+        {featureSummary && (
+          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+            {featureSummary}
+          </Typography>
+        )}
+
+        <Box sx={{ mt: "auto", pt: "6px" }}>
+          <PriceValue
+            size="small"
+            value={item.price.value}
+            currency={item.price.currency}
+            unit={item.price.unit}
+            onAgreement={item.price.onAgreement}
+            discountedValue={item.price.discountedValue}
+          />
+        </Box>
       </Box>
     </Box>
   );

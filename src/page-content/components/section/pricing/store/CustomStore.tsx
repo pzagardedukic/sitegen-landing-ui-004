@@ -1,30 +1,23 @@
 "use client";
 
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  InputAdornment,
-  MenuItem,
-  TextField,
-  Typography,
-} from "@mui/material";
-import FilterChips from "@/components/common/FilterChips";
-import { useRouter } from "next/navigation";
+import { Box, Typography } from "@mui/material";
 import { Suspense, useMemo } from "react";
-
+import FilterChips from "@/components/common/FilterChips";
 import PaginationControls from "@/components/button/PaginationControls";
-import { getPricingItems, getPricingSection } from "@/core/runtime";
-import { getPageSlugByKey, getPricingSlugById } from "@/core/static";
+import { ChevronDownIcon, SearchIcon } from "@/components/icons/icons";
+import { getPricingSection } from "@/core/runtime";
+import { getPageSlugByKey, getPricingSlugById, withBasePath } from "@/core/static";
 import { useListFilters } from "@/core/react";
 import { useLanguage } from "@/core/runtime";
 import {
   getButtonTranslation,
   getPriceTranslation,
   getPricingStoreTranslation,
+  getPricingTranslation_packagesNoImages,
 } from "@/core/translations";
-import { stripRichText } from "@/core/utils";
-import { normalizeSearchValue, paginate } from "@/core/utils";
+import { normalizeSearchValue, paginate, stripRichText } from "@/core/utils";
 import StoreItemCard from "./StoreItemCard";
+import { useVisiblePricingItems } from "../common/useVisiblePricingItems";
 
 type StorePrice = {
   value: string;
@@ -33,11 +26,6 @@ type StorePrice = {
 };
 
 const PER_PAGE = 9;
-
-/* Inputs carry the same pill radius as the filter chips and the buttons beside them. */
-const roundedFieldStyle = {
-  "& .MuiOutlinedInput-root": { borderRadius: 999 },
-};
 
 const parsePriceValue = (value: string): number | null => {
   let normalizedValue = value.trim().replace(/\s+/g, "");
@@ -84,14 +72,22 @@ const getComparablePrice = (price: StorePrice): number | null => {
   return parsePriceValue(price.discountedValue) ?? parsePriceValue(price.value);
 };
 
+/*
+ * The store from the Lumiera frames: the search field and the sort control on one pill row,
+ * the category pills under them, the items three abreast, nine to a page, and the numbered
+ * pagination at the foot.
+ *
+ * Both controls are the theme's own pill rather than a filled MUI field — the frames draw
+ * one shape for everything a reader can act on, 56 tall and rounded full.
+ */
 function CustomStoreInner() {
-  const router = useRouter();
   const { lang } = useLanguage();
 
   const pricingSection = getPricingSection(lang);
-  const pricingItems = getPricingItems(lang);
+  const pricingItems = useVisiblePricingItems();
   const categories = pricingSection?.categoryOptions ?? [];
   const pricingStoreTranslation = getPricingStoreTranslation(lang);
+  const packagesTranslation = getPricingTranslation_packagesNoImages(lang);
   const buttonTranslation = getButtonTranslation(lang);
   const priceTranslation = getPriceTranslation(lang);
 
@@ -129,10 +125,7 @@ function CustomStoreInner() {
             item.price.discountedValue,
             item.price.currency,
             item.price.onAgreement ? priceTranslation.onAgreement : "",
-            ...item.features.flatMap((feature) => [
-              feature.label,
-              feature.value,
-            ]),
+            ...item.features.flatMap((feature) => [feature.label, feature.value]),
           ].join(" "),
         );
 
@@ -162,13 +155,7 @@ function CustomStoreInner() {
 
         return sortOrder === "ascending" ? priceDifference : -priceDifference;
       });
-  }, [
-    pricingItems,
-    searchQuery,
-    selectedCategoryId,
-    sortOrder,
-    priceTranslation,
-  ]);
+  }, [pricingItems, searchQuery, selectedCategoryId, sortOrder, priceTranslation]);
 
   const { pageCount, currentPage, pageItems } = paginate(
     filteredAndSortedItems,
@@ -176,68 +163,110 @@ function CustomStoreInner() {
     PER_PAGE,
   );
 
-  const handleItemClick = (id: number) => {
-    router.push(`/${getPageSlugByKey("pricing")}/${getPricingSlugById(id)}`);
-  };
-
   return (
-    <Box
-      component="section"
-      sx={{ display: "flex", flexDirection: "column", gap: { xs: 4, md: 6 } }}
-    >
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "28px", md: "32px" } }}>
       <Box
         sx={{
-          width: "100%",
           display: "flex",
-          flexDirection: { xs: "column", md: "row" },
+          flexDirection: { xs: "column", sm: "row" },
           alignItems: "stretch",
-          gap: 2,
+          gap: "12px",
         }}
       >
-        <TextField
-          fullWidth
-          size="small"
-          type="search"
-          placeholder={pricingStoreTranslation.search}
-          value={searchInput}
-          onChange={(event) => setSearchInput(event.target.value)}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="action" fontSize="small" />
-                </InputAdornment>
-              ),
+        <Box
+          sx={(theme) => ({
+            flex: 1,
+            minWidth: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            height: 56,
+            px: "22px",
+            borderRadius: "999px",
+            color: theme.palette.text.secondary,
+            boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
+            transition: theme.transitions.create(["box-shadow"], {
+              duration: theme.transitions.duration.short,
+            }),
+            "&:focus-within": {
+              boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
             },
-          }}
-          sx={{ flex: 1, minWidth: 0, ...roundedFieldStyle }}
-        />
-
-        <TextField
-          select
-          fullWidth
-          size="small"
-          label={pricingStoreTranslation.sortByPrice}
-          value={sortOrder}
-          onChange={(event) =>
-            setSortOrder(event.target.value as "ascending" | "descending")
-          }
-          sx={{
-            width: { xs: "100%", md: 260 },
-            flexShrink: 0,
-            ...roundedFieldStyle,
-          }}
+          })}
         >
-          <MenuItem value="ascending">
-            {pricingStoreTranslation.priceAscending}
-          </MenuItem>
-          <MenuItem value="descending">
-            {pricingStoreTranslation.priceDescending}
-          </MenuItem>
-        </TextField>
+          <SearchIcon />
+
+          <Box
+            component="input"
+            type="search"
+            value={searchInput}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchInput(event.target.value)
+            }
+            placeholder={pricingStoreTranslation.search}
+            aria-label={pricingStoreTranslation.search}
+            sx={(theme) => ({
+              ...theme.typography.body1,
+              flex: 1,
+              minWidth: 0,
+              border: 0,
+              outline: "none",
+              background: "none",
+              color: theme.palette.text.primary,
+              "&::placeholder": { color: theme.palette.text.secondary, opacity: 1 },
+              "&::-webkit-search-cancel-button": { cursor: "pointer" },
+            })}
+          />
+        </Box>
+
+        <Box sx={{ position: "relative", flexShrink: 0, width: { xs: "100%", sm: 220 } }}>
+          <Box
+            component="select"
+            value={sortOrder}
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+              setSortOrder(event.target.value as "ascending" | "descending")
+            }
+            aria-label={pricingStoreTranslation.sortByPrice}
+            sx={(theme) => ({
+              ...theme.typography.subtitle1,
+              appearance: "none",
+              width: "100%",
+              height: 56,
+              pl: "22px",
+              pr: "46px",
+              cursor: "pointer",
+              border: 0,
+              borderRadius: "999px",
+              background: "none",
+              color: theme.palette.text.primary,
+              boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
+              transition: theme.transitions.create(["box-shadow"], {
+                duration: theme.transitions.duration.short,
+              }),
+              "&:hover, &:focus-visible": {
+                boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
+              },
+            })}
+          >
+            <option value="ascending">{pricingStoreTranslation.priceAscending}</option>
+            <option value="descending">{pricingStoreTranslation.priceDescending}</option>
+          </Box>
+
+          <Box
+            aria-hidden
+            sx={{
+              position: "absolute",
+              top: "50%",
+              right: 22,
+              transform: "translateY(-50%)",
+              display: "flex",
+              pointerEvents: "none",
+            }}
+          >
+            <ChevronDownIcon />
+          </Box>
+        </Box>
       </Box>
 
-      {/* Categories are pills like every other list page, not a third dropdown. */}
       {categories.length > 0 && (
         <FilterChips
           ariaLabel={pricingStoreTranslation.category}
@@ -253,48 +282,44 @@ function CustomStoreInner() {
         />
       )}
 
-      <Box mb={2}>
-        {pageItems.length > 0 ? (
-          <Box
-            sx={{
-              display: "grid",
-              gap: "40px",
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-              },
-            }}
-          >
-            {pageItems.map((item) => (
-              <Box key={item.id} onClick={() => handleItemClick(item.id)}>
-                <StoreItemCard
-                  image={item.images[0] ?? ""}
-                  title={item.title}
-                  description={item.text}
-                  price={item.price.value}
-                  unit={item.price.unit}
-                  currency={item.price.currency}
-                  onAgreement={item.price.onAgreement}
-                  discountedValue={item.price.discountedValue}
-                  status={item.status}
-                />
-              </Box>
-            ))}
-          </Box>
-        ) : (
-          <Typography color="text.secondary" py={8}>
-            {pricingStoreTranslation.noResults}
-          </Typography>
-        )}
-      </Box>
+      {pageItems.length > 0 ? (
+        <Box
+          sx={{
+            display: "grid",
+            gap: "24px",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, minmax(0, 1fr))",
+              md: "repeat(3, minmax(0, 1fr))",
+            },
+            alignItems: "stretch",
+          }}
+        >
+          {pageItems.map((item) => (
+            <StoreItemCard
+              key={item.id}
+              item={item}
+              recommendedLabel={packagesTranslation.items.recommended}
+              href={withBasePath(
+                `/${getPageSlugByKey("pricing")}/${getPricingSlugById(item.id)}`,
+              )}
+            />
+          ))}
+        </Box>
+      ) : (
+        <Typography variant="body1" sx={{ color: "text.secondary", py: "32px" }}>
+          {pricingStoreTranslation.noResults}
+        </Typography>
+      )}
 
       {pageCount > 1 && (
-        <PaginationControls
-          page={currentPage}
-          pageCount={pageCount}
-          onChange={setPage}
-        />
+        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
+          <PaginationControls
+            page={currentPage}
+            pageCount={pageCount}
+            onChange={setPage}
+          />
+        </Box>
       )}
     </Box>
   );

@@ -1,166 +1,113 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import PriceValue from "../common/PriceValue";
 import Tag from "@/components/common/Tag";
-import StatusBadge from "../common/StatusBadge";
-import GradientButton from "@/components/button/GradientButton";
-import { stripRichText } from "@/core/utils";
-import { PriceUnitType, PricingItemStatus } from "@/core/types";
+import { getPricingItems, useLanguage } from "@/core/runtime";
 import { getPricingTranslation_packagesNoImages } from "@/core/translations";
-import { useLanguage } from "@/core/runtime";
+import { stripRichText } from "@/core/utils";
+import DiscountBadge from "../common/DiscountBadge";
+import FeatureList from "../common/FeatureList";
+import PriceValue from "../common/PriceValue";
+import PricingCtaButton from "../common/PricingCtaButton";
+import StatusBadge from "../common/StatusBadge";
 
-export type SubscriptionFeature = {
-  label: string;
-  value: string;
-};
-
-export type SubscriptionPlan = {
-  id: string;
-  name: string;
-  subtitle?: string;
-  category?: string;
-  status?: PricingItemStatus;
-  price: string;
-  currency: string;
-  unit?: PriceUnitType;
-  onAgreement: boolean;
-  discountedValue: string;
-  features: SubscriptionFeature[];
-  highlight?: boolean;
-};
-
-type Props = {
-  plan: SubscriptionPlan;
-  onSelect: (title: string) => void;
-};
+type PricingItem = ReturnType<typeof getPricingItems>[number];
 
 /*
- * A package from the Figma frame (373x579): status badge, title, a line of text, the
- * category, then the price, then the feature rows with the label on the left and its value
- * on the right, and the button at the bottom.
+ * A package card from the Lumiera frames (384 wide, rounded 12, padded 36/32): the badges,
+ * the name with its line of text and its category, then the price, the button, and the
+ * features under a hairline.
  *
- * The recommended package is marked with a gradient outline rather than a heavier shadow —
- * the design has no raised cards anywhere.
+ * The features sit after the button because the frames put them there: the price and the
+ * way to buy are what a reader compares between cards, and the detail follows once they
+ * have stopped on one. The recommended package is marked by a heavier dark edge rather
+ * than by a shadow — nothing in the theme is raised.
  */
-export default function SubscriptionCard({ plan, onSelect }: Props) {
-  const {
-    name,
-    subtitle,
-    category,
-    status,
-    price,
-    currency,
-    unit,
-    onAgreement,
-    discountedValue,
-    features,
-    highlight = false,
-  } = plan;
-
+export default function SubscriptionCard({ item }: { item: PricingItem }) {
   const { lang } = useLanguage();
-  const t = getPricingTranslation_packagesNoImages(lang);
+  const packagesTranslation = getPricingTranslation_packagesNoImages(lang);
 
-  const cleanSubtitle = subtitle ? stripRichText(subtitle) : "";
+  const highlighted = item.recommended;
+  const hasBadges =
+    highlighted ||
+    item.status === "COMING_SOON" ||
+    item.status === "UNAVAILABLE" ||
+    Boolean(item.price.discountedValue);
 
   return (
     <Box
       sx={(theme) => ({
-        position: "relative",
         height: "100%",
-        borderRadius: "25px",
-        p: "30px",
         display: "flex",
         flexDirection: "column",
-        gap: 2,
-        border: `1px solid ${highlight ? "transparent" : theme.palette.surfaces.border}`,
-        backgroundColor: highlight ? theme.palette.surfaces.tint : "transparent",
-        ...(highlight && {
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            inset: -1,
-            borderRadius: "26px",
-            padding: "1px",
-            backgroundImage: theme.palette.brandGradient,
-            WebkitMask:
-              "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-            WebkitMaskComposite: "xor",
-            maskComposite: "exclude",
-            pointerEvents: "none",
-          },
-        }),
+        gap: "22px",
+        p: { xs: "28px 24px", md: "36px 32px" },
+        borderRadius: "12px",
+        backgroundColor: theme.palette.background.default,
+        borderStyle: "solid",
+        borderColor: highlighted ? theme.palette.text.primary : theme.palette.surfaces.border,
+        borderWidth: highlighted ? "1.5px" : "1px",
       })}
     >
-      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", minHeight: 29 }}>
-        {highlight && <Tag label={t.items.recommended} tone="brand" />}
-        <StatusBadge status={status} />
-      </Box>
-
-      <Typography variant="h4" component="h3">
-        {name}
-      </Typography>
-
-      {cleanSubtitle && (
-        <Typography variant="body2" sx={{ opacity: 0.72 }}>
-          {cleanSubtitle}
-        </Typography>
-      )}
-
-      {category && (
-        <Typography variant="caption" sx={{ opacity: 0.55 }}>
-          {category}
-        </Typography>
-      )}
-
-      <Box sx={{ mt: 1 }}>
-        <PriceValue
-          value={price}
-          currency={currency}
-          unit={unit}
-          onAgreement={onAgreement}
-          discountedValue={discountedValue}
-        />
-      </Box>
-
-      {features.length > 0 && (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 1 }}>
-          {features.map((feature, index) => (
-            <Box
-              key={index}
-              sx={(theme) => ({
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 2,
-                py: 0.75,
-                borderBottom:
-                  index < features.length - 1
-                    ? `1px solid ${theme.palette.surfaces.border}`
-                    : "none",
-              })}
-            >
-              <Typography variant="body2" sx={{ opacity: 0.72 }}>
-                {feature.label}
-              </Typography>
-
-              <Typography variant="subtitle2" sx={{ textAlign: "right" }}>
-                {feature.value}
-              </Typography>
-            </Box>
-          ))}
+      {hasBadges && (
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+          {highlighted && <Tag label={packagesTranslation.items.recommended} tone="brand" />}
+          <StatusBadge status={item.status} />
+          <DiscountBadge
+            price={item.price.value}
+            discountedValue={item.price.discountedValue}
+          />
         </Box>
       )}
 
-      <Box sx={{ mt: "auto", pt: 2 }}>
-        <GradientButton
-          fullWidth
-          onClick={() => onSelect(name)}
-          endIcon={<ArrowOutwardIcon />}
-        >
-          {t.items.callToAction}
-        </GradientButton>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <Typography variant="h5" component="h3">
+          {item.title}
+        </Typography>
+
+        {item.text && (
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
+            {stripRichText(item.text)}
+          </Typography>
+        )}
+
+        {item.category && (
+          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+            {item.category}
+          </Typography>
+        )}
       </Box>
+
+      {/*
+       * The price follows the text rather than being pushed to the foot of the card: held
+       * down, a package with two lines of text opened a hole in the middle of the card.
+       */}
+      <Box>
+        <PriceValue
+          value={item.price.value}
+          currency={item.price.currency}
+          unit={item.price.unit}
+          onAgreement={item.price.onAgreement}
+          discountedValue={item.price.discountedValue}
+        />
+      </Box>
+
+      <PricingCtaButton
+        title={item.title}
+        tone={highlighted ? "dark" : "outline"}
+        fullWidth
+      />
+
+      {item.features.length > 0 && (
+        <Box
+          sx={(theme) => ({
+            pt: "20px",
+            borderTop: `1px solid ${theme.palette.surfaces.border}`,
+          })}
+        >
+          <FeatureList features={item.features} ring />
+        </Box>
+      )}
     </Box>
   );
 }

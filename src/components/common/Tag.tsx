@@ -9,10 +9,11 @@ import type { SxProps, Theme } from "@mui/material/styles";
  *   mint     mint wash — availability status, "today"
  *   rose     rose wash — "tomorrow"
  *   dark     text-colour fill — "cancelled"
+ *   soft     cream wash — "unavailable"
  *   outline  hairline only
  * `neutral` is the ui-002 name for the quiet badge and resolves to mint.
  */
-type TagTone = "brand" | "mint" | "rose" | "dark" | "outline" | "neutral";
+type TagTone = "brand" | "mint" | "rose" | "dark" | "soft" | "outline" | "neutral";
 
 type TagProps = {
   label: string;
@@ -30,6 +31,8 @@ function toneSx(tone: TagTone, theme: Theme) {
       return { backgroundColor: palette.surfaces.rose, color: palette.text.primary };
     case "dark":
       return { backgroundColor: palette.text.primary, color: palette.background.default };
+    case "soft":
+      return { backgroundColor: palette.surfaces.bgAlt, color: palette.text.secondary };
     case "outline":
       return {
         boxShadow: `inset 0 0 0 1px ${palette.surfaces.border}`,

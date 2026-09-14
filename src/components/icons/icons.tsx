@@ -201,6 +201,16 @@ export function CloseIcon({ size = 14, ...props }: IconProps) {
   );
 }
 
+/* The magnifier in the store's search pill (18 × 18 in the frames). */
+export function SearchIcon({ size = 18, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 18 18" fill="none" aria-hidden {...props}>
+      <circle cx="7.6" cy="7.6" r="5.9" stroke="currentColor" strokeWidth="1.4" />
+      <path d="m11.9 11.9 4.1 4.1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /* Two lines, not three: the Lumiera menu button. */
 export function MenuIcon({ size = 18, ...props }: IconProps) {
   return (

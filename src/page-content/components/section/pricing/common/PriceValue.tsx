@@ -1,10 +1,12 @@
+"use client";
+
+import { Box, Typography } from "@mui/material";
 import { PriceUnitType } from "@/core/types";
 import { useLanguage } from "@/core/runtime";
 import {
   getPriceTranslation,
   getPricingUnitTranslation,
 } from "@/core/translations";
-import Typography from "@mui/material/Typography";
 
 type PriceValueProps = {
   value: string;
@@ -12,56 +14,86 @@ type PriceValueProps = {
   unit?: PriceUnitType;
   onAgreement: boolean;
   discountedValue: string;
+  /** Large is the block on a row, a package and the detail; small sits on a store card. */
+  size?: "large" | "small";
 };
 
+/*
+ * The price as Lumiera sets it: the amount in the heading face — 42 on desktop, 28 on a
+ * phone and on a store card — the currency in the button face beside it and the unit in the
+ * muted caption after it.
+ *
+ * A discounted item shows the amount that is actually charged in the big face and the
+ * original struck through behind it, so the two can never be read the wrong way round.
+ */
 export default function PriceValue({
   value,
   currency,
+  unit,
   onAgreement,
   discountedValue,
-  unit,
+  size = "large",
 }: PriceValueProps) {
   const { lang } = useLanguage();
-  const t = getPriceTranslation(lang);
-  const tUnit = getPricingUnitTranslation(unit, lang);
-
-  const finalValue = discountedValue || value;
+  const priceTranslation = getPriceTranslation(lang);
+  const unitLabel = getPricingUnitTranslation(unit, lang);
+  const chargedValue = discountedValue || value;
 
   return (
-    <Typography
-      fontWeight={onAgreement ? 500 : 600}
-      color={onAgreement ? "text.secondary" : "primary"}
-      fontStyle={onAgreement ? "italic" : "normal"}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "baseline",
+        flexWrap: "wrap",
+        columnGap: "6px",
+        rowGap: "2px",
+      }}
     >
       {onAgreement ? (
-        t.onAgreement
-      ) : discountedValue ? (
-        <>
-          {/* Discounted price */}
-          <Typography component="span" fontWeight={600} color="primary">
-            {finalValue} {currency}
-            {tUnit ? ` / ${tUnit}` : ""}
-          </Typography>
-
-          {/* Original price */}
-          <Typography
-            component="span"
-            sx={{
-              ml: 1,
-              textDecoration: "line-through",
-              color: "text.secondary",
-              fontWeight: 400,
-            }}
-          >
-            {value} {currency}
-          </Typography>
-        </>
+        <Typography
+          component="span"
+          sx={(theme) => ({
+            fontFamily: theme.typography.h2.fontFamily,
+            fontSize: size === "large" ? { xs: 22, md: 26 } : 20,
+            lineHeight: 1.25,
+          })}
+        >
+          {priceTranslation.onAgreement}
+        </Typography>
       ) : (
         <>
-          {finalValue} {currency}
-          {tUnit ? ` / ${tUnit}` : ""}
+          <Typography
+            component="span"
+            sx={(theme) => ({
+              fontFamily: theme.typography.h2.fontFamily,
+              fontSize: size === "large" ? { xs: 28, md: 42 } : 28,
+              lineHeight: 1.15,
+            })}
+          >
+            {chargedValue}
+          </Typography>
+
+          <Typography component="span" variant="subtitle1">
+            {currency}
+          </Typography>
+
+          {unitLabel && (
+            <Typography component="span" variant="caption" sx={{ color: "text.secondary" }}>
+              / {unitLabel}
+            </Typography>
+          )}
+
+          {discountedValue && (
+            <Typography
+              component="span"
+              variant="caption"
+              sx={{ color: "text.secondary", textDecoration: "line-through" }}
+            >
+              {value} {currency}
+            </Typography>
+          )}
         </>
       )}
-    </Typography>
+    </Box>
   );
 }

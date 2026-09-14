@@ -1,29 +1,35 @@
 "use client";
 
-import { getPricingItems, getPricingSection } from "@/core/runtime";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import BackButton from "@/components/button/BackButton";
-import SectionDescription from "../common/SectionDescription";
-import { CustomGallery } from "../common/CustomGallery";
-import { useLanguage } from "@/core/runtime";
-import RelatedItems from "./store/RelatedItems";
-import { FALLBACK_IMAGE } from "@/core/static";
-import PriceValue from "./common/PriceValue";
-import DiscountBadge from "./common/DiscountBadge";
-import StatusBadge from "./common/StatusBadge";
-import { getPageSlugByKey } from "@/core/static";
-import { getPricingTranslation_priceListWithImages } from "@/core/translations";
-import ShareActions from "../common/ShareActions";
+import Tag from "@/components/common/Tag";
+import { getPricingItems, getPricingSection, useLanguage } from "@/core/runtime";
 import { useBackToList } from "@/core/react";
+import { getPageSlugByKey } from "@/core/static";
+import {
+  getPricingTranslation_packagesNoImages,
+  getPricingTranslation_priceListWithImages,
+} from "@/core/translations";
+import MediaGallery from "../common/MediaGallery";
+import RichText from "../common/RichText";
+import ShareActions from "../common/ShareActions";
+import DiscountBadge from "./common/DiscountBadge";
+import FeatureList from "./common/FeatureList";
+import PriceValue from "./common/PriceValue";
+import PricingCtaButton from "./common/PricingCtaButton";
+import StatusBadge from "./common/StatusBadge";
+import RelatedItems from "./store/RelatedItems";
 
 /*
- * Price item detail. Pictures on the left at 440 with the thumbnail strip under them, the
- * text on the right: badges, description, the feature pairs, then the price on its own rule
- * — the one number a reader came for, so it sits last and alone rather than inside the text.
+ * A price item's page, drawn the way a project's page is: the back pill, the pictures on
+ * the left at 55 % with their thumbnail strip and lightbox, and the item's column on the
+ * right — badges, name, text, the feature pairs, then the price on its own rule with the
+ * way to buy under it. The items of the same category close the page.
+ *
+ * Only the store has item pages, which is what the spec gives a detail route for.
  */
 export default function PricingItemSection({ id }: { id: number }) {
   const { lang } = useLanguage();
-  const pricingSection = getPricingSection(lang);
 
   /*
    * Ahead of the guards below: a hook that runs only on some renders is the rules-of-hooks
@@ -31,144 +37,106 @@ export default function PricingItemSection({ id }: { id: number }) {
    */
   const handleBackToPricing = useBackToList(`/${getPageSlugByKey("pricing")}`);
 
-  if (!pricingSection) {
+  const pricingSection = getPricingSection(lang);
+
+  if (!pricingSection || pricingSection.type !== "PRICING_STORE") {
     return null;
   }
 
-  // NOTE Currently, only one type of pricing section has more info.
-  if (pricingSection.type !== "PRICING_STORE") {
+  const pricingItems = getPricingItems(lang);
+  const pricingItem = pricingItems.find((item) => item.id === id);
+
+  if (!pricingItem || pricingItem.status === "DISABLED") {
     return null;
   }
 
-  const pricingItem = getPricingItems(lang).find((item) => item.id === id);
+  const itemTranslation = getPricingTranslation_priceListWithImages(lang).items;
+  const packagesTranslation = getPricingTranslation_packagesNoImages(lang);
 
-  if (!pricingItem) {
-    return null;
-  }
+  const relatedItems = pricingItem.categoryId
+    ? pricingItems.filter(
+        (item) =>
+          item.id !== pricingItem.id &&
+          item.status !== "DISABLED" &&
+          item.categoryId === pricingItem.categoryId,
+      )
+    : [];
 
-  const pricingItemTranslation =
-    getPricingTranslation_priceListWithImages(lang).items;
-
-  const relatedItemIds = getPricingItems(lang)
-    .filter(
-      (item) =>
-        item.id !== pricingItem.id && item.category === pricingItem.category,
-    )
-    .map((item) => item.id);
+  const hasBadges =
+    pricingItem.recommended ||
+    pricingItem.status === "COMING_SOON" ||
+    pricingItem.status === "UNAVAILABLE" ||
+    Boolean(pricingItem.price.discountedValue);
 
   return (
-    <Box display="flex" flexDirection="column" gap={5} flex={1}>
-      <BackButton
-        label={pricingItemTranslation.goBackButton}
-        onClick={handleBackToPricing}
-      />
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "56px" } }}>
+      <BackButton label={itemTranslation.goBackButton} onClick={handleBackToPricing} />
 
       <Box
-        display="flex"
-        flexDirection={{ xs: "column", md: "row" }}
-        gap={{ xs: 4, md: 7 }}
-        alignItems="flex-start"
-        flex={1}
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: "flex-start",
+          gap: { xs: "36px", md: "64px" },
+        }}
       >
+        {pricingItem.images.length > 0 && (
+          <Box sx={{ width: "100%", flex: { md: "0 0 55%" } }}>
+            <MediaGallery images={pricingItem.images} title={pricingItem.title} />
+          </Box>
+        )}
+
         <Box
-          width={{ xs: "100%", md: "440px" }}
-          flexShrink={0}
-          flexDirection="column"
-          display="flex"
-          gap={2}
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: { xs: "24px", md: "28px" },
+          }}
         >
-          <Box
-            component="img"
-            src={pricingItem.images[0] || FALLBACK_IMAGE}
-            alt={pricingItem.title}
-            loading="lazy"
-            sx={{
-              width: "100%",
-              height: "auto",
-              borderRadius: "25px",
-              objectFit: "cover",
-            }}
-          />
-
-          <CustomGallery
-            items={pricingItem.images}
-            variant="strip"
-            thumbSize={140}
-          />
-        </Box>
-
-        <Box flex={1} minWidth={0} gap={3} display="flex" flexDirection="column">
-          <Box
-            display="flex"
-            flexDirection={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            alignItems={{ xs: "flex-start", sm: "center" }}
-            gap={2}
-          >
-            <Typography
-              variant="h4"
-              component="h2"
-              color="text.primary"
-              sx={{ flex: 1, minWidth: 0 }}
-            >
-              {pricingItemTranslation.description}
-            </Typography>
-
-            <Box display="flex" alignItems="center" gap={1}>
+          {hasBadges && (
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              {pricingItem.recommended && (
+                <Tag label={packagesTranslation.items.recommended} tone="brand" />
+              )}
               <StatusBadge status={pricingItem.status} />
-
               <DiscountBadge
                 price={pricingItem.price.value}
                 discountedValue={pricingItem.price.discountedValue}
               />
             </Box>
-          </Box>
-
-          <SectionDescription description={pricingItem.text} textAlign="left" />
-
-          {pricingItem.features.length > 0 && (
-            <Box display="flex" flexDirection="column">
-              {pricingItem.features.map((feature, index) => (
-                <Box
-                  key={index}
-                  sx={(theme) => ({
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    gap: { xs: 0.25, sm: 2 },
-                    py: 1.5,
-                    borderTop:
-                      index === 0
-                        ? "none"
-                        : `1px solid ${theme.palette.surfaces.border}`,
-                  })}
-                >
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ width: { xs: "auto", sm: 180 }, flexShrink: 0 }}
-                  >
-                    {feature.label}
-                  </Typography>
-                  <Typography variant="body2" color="text.primary">
-                    {feature.value}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
           )}
 
-          <Divider />
+          <Typography variant="h2" component="h2">
+            {pricingItem.title}
+          </Typography>
+
+          {pricingItem.text && (
+            <Typography component="div" variant="body1">
+              <RichText
+                text={pricingItem.text}
+                allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+              />
+            </Typography>
+          )}
+
+          <FeatureList features={pricingItem.features} />
 
           <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems={{ xs: "flex-start", sm: "baseline" }}
-            flexDirection={{ xs: "column", sm: "row" }}
-            gap={{ xs: 1, sm: 2 }}
+            sx={(theme) => ({
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: { xs: "flex-start", sm: "baseline" },
+              justifyContent: "space-between",
+              gap: { xs: "8px", sm: "24px" },
+              py: { xs: "16px", md: "20px" },
+              borderTop: `1px solid ${theme.palette.surfaces.border}`,
+              borderBottom: `1px solid ${theme.palette.surfaces.border}`,
+            })}
           >
-            <Typography variant="body2" color="text.secondary">
-              {pricingItemTranslation.price}
-            </Typography>
+            <Typography variant="subtitle1">{itemTranslation.price}</Typography>
 
             <PriceValue
               value={pricingItem.price.value}
@@ -178,26 +146,18 @@ export default function PricingItemSection({ id }: { id: number }) {
               discountedValue={pricingItem.price.discountedValue}
             />
           </Box>
+
+          <PricingCtaButton
+            title={pricingItem.title}
+            tone="dark"
+            sx={{ alignSelf: { xs: "stretch", sm: "flex-start" } }}
+          />
+
+          <ShareActions title={pricingItem.title} />
         </Box>
       </Box>
 
-      <Divider />
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: { xs: "flex-start", sm: "flex-end" },
-          mb: 4,
-        }}
-      >
-        <ShareActions title={pricingItem.title} />
-      </Box>
-
-      {relatedItemIds.length > 0 && (
-        <Box display="flex" flexDirection="column" gap={6} mb={4}>
-          <RelatedItems itemIds={relatedItemIds} />
-        </Box>
-      )}
+      {relatedItems.length > 0 && <RelatedItems items={relatedItems} />}
     </Box>
   );
 }

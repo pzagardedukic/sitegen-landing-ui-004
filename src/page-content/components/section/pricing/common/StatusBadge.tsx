@@ -10,19 +10,22 @@ type StatusBadgeProps = {
 };
 
 /*
- * Only the states worth flagging get a badge. AVAILABLE is the normal case — labelling every
- * card with it says nothing and crowds out the "recommended" mark next to it.
+ * Only the states with something to say carry a badge, in the colours the frames give them:
+ * "coming soon" on the rose wash, "unavailable" on the cream one.
+ *
+ * AVAILABLE is the ordinary case — and the core package ships no string for it — so it is
+ * left unmarked; DISABLED items never reach a list at all, as the spec drops them.
  */
 export default function StatusBadge({ status }: StatusBadgeProps) {
   const { lang } = useLanguage();
-  const t = getPriceTranslation(lang);
+  const priceTranslation = getPriceTranslation(lang);
 
   if (status === "COMING_SOON") {
-    return <Tag label={t.comingSoon} tone="neutral" />;
+    return <Tag label={priceTranslation.comingSoon} tone="rose" />;
   }
 
   if (status === "UNAVAILABLE") {
-    return <Tag label={t.unavailable} tone="outline" />;
+    return <Tag label={priceTranslation.unavailable} tone="soft" />;
   }
 
   return null;

@@ -1,35 +1,31 @@
 "use client";
 
 import { useEffect, useState, type SyntheticEvent } from "react";
+import { Box, InputBase, Typography } from "@mui/material";
+import ArrowButton from "@/components/button/ArrowButton";
 import { useBannerImage } from "@/app/theme/utils/UseBannerImage";
-import GradientButton from "@/components/button/GradientButton";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import FormDisclaimer from "../common/FormDisclaimer";
 import { useLanguage } from "@/core/runtime";
-import {
-  getFormTranslation,
-  getSubscriptionsTranslation,
-} from "@/core/translations";
+import { getFormTranslation, getSubscriptionsTranslation } from "@/core/translations";
 import { callPublicApi } from "@/core/utils";
-import { Alert, Box, TextField, Typography } from "@mui/material";
 import { primaryLanguage } from "@/core/static";
+import FormDisclaimer from "../common/FormDisclaimer";
 
 type SubmitStatus = "success" | "error" | null;
 
-const isValidEmail = (value: string) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 /*
- * Newsletter band from the Figma frame (1440x520): the photograph in a card inset 20px with
- * a 25 radius, and the whole block centred inside it — title, then the field and button on
- * one row, then the disclaimer.
+ * The newsletter band from the Lumiera frames: the banner photograph edge to edge under the
+ * overlay colour, 520 / 373 / 437 tall, everything centred in a column 720 / 620 / 318 wide,
+ * 26 apart — the title (h2 size), the form, then the disclaimer in white.
  *
- * ui-001 ran this full-bleed with a three-stop gradient and background-attachment: fixed.
- * The fixed attachment is the reason this band juddered while scrolling on iOS; the design
- * asks for a flat 60 % overlay, which also costs nothing to paint.
+ * The form is one white pill 64 tall on tablet and desktop: the field sits in it at the left
+ * and the primary button inside its right end, both rounded full rather than the theme's 8.
+ * On a phone the two stack, each the full width, the field keeping the hairline the frame
+ * draws around it. Whatever comes back from the server is said on one line under the form.
  */
 export default function SubscribeSection() {
-  const resolvedHeaderImage = useBannerImage();
+  const bannerImage = useBannerImage();
 
   const { lang } = useLanguage();
   const subscriptionsTranslation = getSubscriptionsTranslation(lang);
@@ -58,8 +54,7 @@ export default function SubscribeSection() {
       await callPublicApi("newsletter", {
         body: {
           email: normalizedEmail,
-          locale:
-            lang?.toLocaleLowerCase() ?? primaryLanguage.toLocaleLowerCase(),
+          locale: lang?.toLocaleLowerCase() ?? primaryLanguage.toLocaleLowerCase(),
         },
       });
 
@@ -84,142 +79,155 @@ export default function SubscribeSection() {
     return () => window.clearTimeout(timeout);
   }, [submitStatus]);
 
+  const message =
+    emailError ??
+    (submitStatus === "success"
+      ? subscriptionsTranslation.successMessage
+      : submitStatus === "error"
+        ? subscriptionsTranslation.errorMessage
+        : "");
+
   return (
-    <Box component="section" sx={{ p: { xs: "12px", sm: "24px", md: "20px" } }}>
+    <Box
+      component="section"
+      sx={(theme) => ({
+        position: "relative",
+        minHeight: { xs: 437, sm: 373, md: 520 },
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        backgroundColor: theme.palette.surfaces.placeholder,
+        backgroundImage: `url("${bannerImage}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        color: theme.palette.surfaces.onImage,
+      })}
+    >
       <Box
+        aria-hidden
         sx={(theme) => ({
-          position: "relative",
-          overflow: "hidden",
-          borderRadius: "25px",
-          minHeight: { xs: 340, md: 480 },
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: theme.palette.surfaces.placeholder,
-          backgroundImage: `url("${resolvedHeaderImage}")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          position: "absolute",
+          inset: 0,
+          backgroundColor: theme.palette.surfaces.scrim,
         })}
+      />
+
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
+        sx={{
+          position: "relative",
+          width: "100%",
+          maxWidth: { xs: "100%", sm: 692, md: 720 },
+          px: { xs: "36px", sm: "36px", md: 0 },
+          py: { xs: "48px", md: 0 },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          gap: "26px",
+        }}
       >
-        <Box
-          aria-hidden
-          sx={(theme) => ({
-            position: "absolute",
-            inset: 0,
-            backgroundColor: theme.palette.surfaces.scrim,
-          })}
-        />
+        <Typography variant="h2" component="h2" sx={{ color: "inherit" }}>
+          {subscriptionsTranslation.title}
+        </Typography>
 
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          noValidate
-          sx={{
-            position: "relative",
-            width: "100%",
-            maxWidth: 1000,
-            px: { xs: "24px", sm: "40px", md: 0 },
-            py: { xs: 6, md: 0 },
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: { xs: 3, md: 4 },
-            color: "common.white",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="h3" component="h2">
-            {subscriptionsTranslation.title}
-          </Typography>
-
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: "10px" }}>
           <Box
-            sx={{
-              position: "relative",
+            sx={(theme) => ({
               width: "100%",
               display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              alignItems: { xs: "stretch", sm: "flex-start" },
-              gap: 1.75,
-            }}
+              /*
+               * The direction belongs in the breakpoint block below, not in a responsive
+               * object: both write the same `min-width:600px` media query and the later one
+               * wins the whole block, so a `{ sm: "row" }` here was dropped and the button
+               * fell out of the pill.
+               */
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "12px",
+              [theme.breakpoints.up("sm")]: {
+                flexDirection: "row",
+                height: 64,
+                pl: "26px",
+                pr: "6px",
+                py: "6px",
+                borderRadius: "999px",
+                backgroundColor: theme.palette.background.paper,
+              },
+            })}
           >
-            <TextField
-              fullWidth
-              type="email"
-              value={email}
-              placeholder={formTranslations.email.placeholder}
-              error={Boolean(emailError)}
-              helperText={emailError ?? " "}
-              disabled={isSubmitting}
-              onChange={(event) => {
-                setEmail(event.target.value);
-                setEmailError(null);
-                setSubmitStatus(null);
-              }}
-              slotProps={{
-                htmlInput: {
-                  "aria-label": formTranslations.email.placeholder,
-                },
-              }}
+            <Box
               sx={(theme) => ({
-                flex: { sm: "1 1 560px" },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 999,
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: theme.palette.common.white,
-                  "& fieldset": { borderColor: "rgba(255,255,255,0.5)" },
-                  "&:hover fieldset": { borderColor: "rgba(255,255,255,0.8)" },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.common.white,
-                  },
-                },
-                "& .MuiOutlinedInput-input": {
-                  px: 3,
-                  py: 2,
-                  "&::placeholder": { color: "rgba(255,255,255,0.75)", opacity: 1 },
-                },
-                "& .MuiFormHelperText-root": {
-                  mx: 3,
-                  minHeight: 20,
-                  color: theme.palette.common.white,
-                },
-                "& .MuiFormHelperText-root.Mui-error": {
-                  color: theme.palette.common.white,
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                px: "22px",
+                py: "18px",
+                borderRadius: "999px",
+                backgroundColor: theme.palette.background.paper,
+                boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
+                [theme.breakpoints.up("sm")]: {
+                  flex: 1,
+                  // Back to auto: the phone's full width would keep the whole row to itself
+                  // and push the button out of the pill.
+                  width: "auto",
+                  minWidth: 0,
+                  px: 0,
+                  py: 0,
+                  borderRadius: 0,
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
                 },
               })}
-            />
+            >
+              <InputBase
+                fullWidth
+                type="email"
+                value={email}
+                placeholder={formTranslations.email.placeholder}
+                disabled={isSubmitting}
+                inputProps={{ "aria-label": formTranslations.email.placeholder }}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  setEmailError(null);
+                  setSubmitStatus(null);
+                }}
+                sx={(theme) => ({
+                  ...theme.typography.body1,
+                  color: theme.palette.text.primary,
+                  "& input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
+                  },
+                })}
+              />
+            </Box>
 
-            <GradientButton
+            <ArrowButton
               type="submit"
               disabled={isSubmitting}
-              endIcon={<ArrowOutwardIcon />}
-              sx={{ flexShrink: 0, height: 58 }}
+              sx={{ flexShrink: 0, borderRadius: "999px", width: { xs: "100%", sm: "auto" } }}
             >
               {subscriptionsTranslation.callToAction}
-            </GradientButton>
-
-            {submitStatus && (
-              <Alert
-                severity={submitStatus}
-                sx={{
-                  position: "absolute",
-                  top: "100%",
-                  left: 0,
-                  right: 0,
-                  mt: 1,
-                  py: 0.25,
-                  textAlign: "left",
-                  "& .MuiAlert-message": { py: 0.75 },
-                }}
-              >
-                {submitStatus === "success"
-                  ? subscriptionsTranslation.successMessage
-                  : subscriptionsTranslation.errorMessage}
-              </Alert>
-            )}
+            </ArrowButton>
           </Box>
 
-          <FormDisclaimer isHighContrast />
+          {message && (
+            <Typography
+              role="status"
+              aria-live="polite"
+              variant="caption"
+              sx={{ color: "inherit" }}
+            >
+              {message}
+            </Typography>
+          )}
         </Box>
+
+        <FormDisclaimer isHighContrast />
       </Box>
     </Box>
   );

@@ -1,99 +1,44 @@
 "use client";
 
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import CategoryIcon from "@mui/icons-material/Category";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { Box, Divider, Typography } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { Box, Typography } from "@mui/material";
 import BackButton from "@/components/button/BackButton";
-import GradientButton from "@/components/button/GradientButton";
 import Tag from "@/components/common/Tag";
-import type { ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { getEventItems, getEventsSection, useLanguage } from "@/core/runtime";
 import { useBackToList } from "@/core/react";
-import { getEventItems, getEventsSection } from "@/core/runtime";
 import { getPageSlugByKey } from "@/core/static";
-import { useLanguage } from "@/core/runtime";
-import {
-  getButtonTranslation,
-  getEventsTranslation,
-} from "@/core/translations";
+import { getButtonTranslation, getEventsTranslation } from "@/core/translations";
 import { formatEventDate, getRelativeEventDay } from "@/core/utils";
-import { FALLBACK_IMAGE } from "@/core/static";
-import SectionDescription from "../common/SectionDescription";
+import ContactCtaButton from "../common/ContactCtaButton";
+import RichText from "../common/RichText";
 import ShareActions from "../common/ShareActions";
 
-type EventDetailProps = {
-  icon: ReactNode;
-  label: string;
-  value: string;
-};
-
-function EventDetail({ icon, label, value }: EventDetailProps) {
-  if (!value) {
-    return null;
-  }
-
-  return (
-    <Box display="flex" alignItems="flex-start" gap={1.5}>
-      <Box
-        sx={{
-          color: "text.secondary",
-          display: "flex",
-          alignItems: "center",
-          mt: "2px",
-        }}
-      >
-        {icon}
-      </Box>
-
-      <Box minWidth={0}>
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{ display: "block", textTransform: "uppercase" }}
-        >
-          {label}
-        </Typography>
-        <Typography variant="body1" color="text.primary">
-          {value}
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
-
+/*
+ * An event's page from the Lumiera frames: one column 900 wide — the back pill, the picture
+ * rounded 16, the badges, the date and place on one muted line, the name, the text, the
+ * category, the apply button and the share buttons under a hairline.
+ *
+ * The apply button is drawn only where the customer turned it on and the event still
+ * stands: offering a place at a cancelled event is worse than offering none.
+ */
 export default function EventItemSection({ id }: { id: number }) {
-  const router = useRouter();
   const { lang } = useLanguage();
-  const event = getEventItems(lang).find((item) => item.id === id);
-  const eventsSection = getEventsSection(lang);
   const eventsTranslation = getEventsTranslation(lang);
   const buttonTranslation = getButtonTranslation(lang);
 
   /*
    * Called before the missing-event guard: a hook behind an early return runs on some
-   * renders and not others, which is the same rules-of-hooks break reported as ui-001#1.
+   * renders and not others, which is the rules-of-hooks break reported as ui-001#1.
    */
   const handleBackToEvents = useBackToList(`/${getPageSlugByKey("events")}`);
+
+  const event = getEventItems(lang).find((item) => item.id === id);
+  const eventsSection = getEventsSection(lang);
 
   if (!event) {
     return null;
   }
 
-  const showApplyButton = Boolean(eventsSection?.showApplyButton);
-
-  const handleApply = () => {
-    const subject = `${eventsTranslation.applicationSubject}: ${event.title}`;
-
-    router.push(
-      `/${getPageSlugByKey("contact")}?subject=${encodeURIComponent(subject)}`,
-    );
-  };
-
-  const formattedDate = formatEventDate(event.date, lang, {
-    includeWeekday: true,
-  });
+  const formattedDate = formatEventDate(event.date, lang, { includeWeekday: true });
   const relativeDay = getRelativeEventDay(event.date);
   const relativeDayLabel =
     relativeDay === "today"
@@ -102,102 +47,93 @@ export default function EventItemSection({ id }: { id: number }) {
         ? eventsTranslation.tomorrow
         : "";
 
-  return (
-    <Box display="flex" flexDirection="column" gap={5} flex={1}>
-      <BackButton
-        label={eventsTranslation.backToEvents}
-        onClick={handleBackToEvents}
-      />
+  const dateLine = [formattedDate, event.location].filter(Boolean).join(" · ");
+  const hasBadges = event.isCancelled || Boolean(relativeDayLabel);
+  const showApplyButton =
+    Boolean(eventsSection?.showApplyButton) && !event.isCancelled;
 
-      <Box
-        display="flex"
-        flexDirection={{ xs: "column", md: "row" }}
-        gap={{ xs: 4, md: 7 }}
-        alignItems="flex-start"
-      >
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 900,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: "24px",
+      }}
+    >
+      <BackButton label={eventsTranslation.backToEvents} onClick={handleBackToEvents} />
+
+      {event.image && (
         <Box
           component="img"
-          src={event.image || FALLBACK_IMAGE}
-          alt={event.title}
-          loading="lazy"
-          sx={{
-            width: { xs: "100%", md: "48%" },
-            maxHeight: 620,
+          src={event.image}
+          alt=""
+          sx={(theme) => ({
+            width: "100%",
+            height: { xs: 240, sm: 360, md: 440 },
             objectFit: "cover",
-            borderRadius: "25px",
-          }}
+            borderRadius: "16px",
+            backgroundColor: theme.palette.surfaces.placeholder,
+          })}
         />
+      )}
 
-        <Box
-          flex={1}
-          minWidth={0}
-          display="flex"
-          flexDirection="column"
-          gap={3}
-        >
-          {(event.isCancelled || relativeDayLabel) && (
-            <Box display="flex" flexWrap="wrap" gap={1} alignSelf="flex-start">
-              {event.isCancelled && (
-                <Tag label={eventsTranslation.cancelled} tone="outline" />
-              )}
+      {hasBadges && (
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+          {event.isCancelled && <Tag label={eventsTranslation.cancelled} tone="dark" />}
 
-              {relativeDayLabel && (
-                <Tag
-                  label={relativeDayLabel}
-                  tone={relativeDay === "today" ? "brand" : "neutral"}
-                />
-              )}
-            </Box>
+          {relativeDayLabel && (
+            <Tag
+              label={relativeDayLabel}
+              tone={relativeDay === "today" ? "mint" : "rose"}
+            />
           )}
-
-          <Box display="flex" flexDirection="column" gap={2.5}>
-            <EventDetail
-              icon={<CalendarMonthIcon fontSize="small" />}
-              label={eventsTranslation.date}
-              value={formattedDate}
-            />
-            <EventDetail
-              icon={<LocationOnIcon fontSize="small" />}
-              label={eventsTranslation.location}
-              value={event.location}
-            />
-            <EventDetail
-              icon={<CategoryIcon fontSize="small" />}
-              label={eventsTranslation.category}
-              value={event.category}
-            />
-          </Box>
-
-          <Divider />
-
-          <SectionDescription description={event.text} textAlign="left" />
         </Box>
-      </Box>
+      )}
 
-      <Divider />
+      {dateLine && (
+        <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          {dateLine}
+        </Typography>
+      )}
+
+      <Typography variant="h2" component="h2">
+        {event.title}
+      </Typography>
+
+      {event.text && (
+        <Typography component="div" variant="body1">
+          <RichText
+            text={event.text}
+            allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+          />
+        </Typography>
+      )}
+
+      {event.category && (
+        <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          {event.category}
+        </Typography>
+      )}
+
+      {showApplyButton && (
+        <ContactCtaButton
+          subject={`${eventsTranslation.applicationSubject}: ${event.title}`}
+          label={buttonTranslation.applyNow}
+          tone="primary"
+          sx={{ alignSelf: { xs: "stretch", sm: "flex-start" } }}
+        />
+      )}
 
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          gap: 3,
-          justifyContent: "space-between",
-          alignItems: { xs: "stretch", sm: "center" },
-          mb: 4,
-        }}
+        sx={(theme) => ({
+          width: "100%",
+          pt: "24px",
+          borderTop: `1px solid ${theme.palette.surfaces.border}`,
+        })}
       >
-        {showApplyButton && !event.isCancelled ? (
-          <GradientButton
-            onClick={handleApply}
-            endIcon={<ArrowOutwardIcon />}
-            sx={{ alignSelf: { xs: "stretch", sm: "flex-start" } }}
-          >
-            {buttonTranslation.applyNow}
-          </GradientButton>
-        ) : (
-          <Box />
-        )}
-
         <ShareActions title={event.title} />
       </Box>
     </Box>

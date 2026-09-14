@@ -1,41 +1,38 @@
 "use client";
 
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  InputAdornment,
-  MenuItem,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useRouter } from "next/navigation";
+import { Box, Typography } from "@mui/material";
 import { Suspense, useMemo } from "react";
-
+import Carousel from "@/components/carousel/Carousel";
+import FilterChips from "@/components/common/FilterChips";
+import ListToolbar from "@/components/common/ListToolbar";
 import PaginationControls from "@/components/button/PaginationControls";
-import { getEventItems, getEventsSection } from "@/core/runtime";
-import { getEventSlugById, getPageSlugByKey } from "@/core/static";
+import { getEventItems, getEventsSection, useLanguage } from "@/core/runtime";
 import { useListFilters } from "@/core/react";
-import { useLanguage } from "@/core/runtime";
+import { getEventSlugById, getPageSlugByKey, withBasePath } from "@/core/static";
+import { getButtonTranslation, getEventsTranslation } from "@/core/translations";
 import {
-  getEventsTranslation,
-} from "@/core/translations";
-import { formatEventDate, getEventDateTimestamp } from "@/core/utils";
-import { stripRichText } from "@/core/utils";
-import { normalizeSearchValue, paginate } from "@/core/utils";
-import { withBasePath } from "@/core/static";
-import DualColumnSection from "../common/DualColumnSection";
-import CategorySelector from "../common/CategorySelector";
+  formatEventDate,
+  getEventDateTimestamp,
+  normalizeSearchValue,
+  paginate,
+  stripRichText,
+} from "@/core/utils";
 import EventPreviewCard from "./EventPreviewCard";
 
 const PER_PAGE = 6;
 
+/*
+ * The events page from the Lumiera frames: the intro, the search and sort pills, the
+ * category chips, then the events three abreast on desktop and as a carousel below that —
+ * two cards wide on tablet, one on a phone — with the page numbers underneath.
+ */
 function EventsSectionInner() {
-  const router = useRouter();
   const { lang } = useLanguage();
 
   const eventsSection = getEventsSection(lang);
   const eventItems = getEventItems(lang);
   const eventsTranslation = getEventsTranslation(lang);
+  const buttonTranslation = getButtonTranslation(lang);
 
   const {
     searchInput,
@@ -48,8 +45,6 @@ function EventsSectionInner() {
     page,
     setPage,
   } = useListFilters();
-
-  const categories = eventsSection?.categories ?? [];
 
   const filteredAndSortedEvents = useMemo(() => {
     const normalizedSearchQuery = normalizeSearchValue(searchQuery);
@@ -113,130 +108,111 @@ function EventsSectionInner() {
     return null;
   }
 
-  const handleEventClick = (id: number) => {
-    router.push(`/${getPageSlugByKey("events")}/${getEventSlugById(id)}`);
-  };
+  const categories = eventsSection.categories;
+  const showApplyButton = Boolean(eventsSection.showApplyButton);
+
+  const cards = pageItems.map((event) => (
+    <EventPreviewCard
+      key={event.id}
+      item={event}
+      showApplyButton={showApplyButton}
+      href={withBasePath(`/${getPageSlugByKey("events")}/${getEventSlugById(event.id)}`)}
+    />
+  ));
 
   return (
-    <DualColumnSection
-      title={eventsTranslation.title}
-      description={eventsSection.text}
-      columns="600fr 80fr 520fr"
-    >
-      <Box width="100%" mt={4}>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            alignItems: "stretch",
-            justifyContent: "space-between",
-            gap: 2,
-          }}
-        >
-          <TextField
-            fullWidth
-            size="small"
-            type="search"
-            label={eventsTranslation.search}
-            value={searchInput}
-            onChange={(event) => setSearchInput(event.target.value)}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon color="action" fontSize="small" />
-                  </InputAdornment>
-                ),
-              },
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "40px" } }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "600fr 80fr 520fr" },
+          alignItems: "start",
+          gap: { xs: "18px", md: 0 },
+        }}
+      >
+        <Typography variant="h2" component="h2" sx={{ gridColumn: { md: "1" } }}>
+          {eventsTranslation.title}
+        </Typography>
+
+        {eventsSection.text && (
+          <Typography variant="body1" sx={{ gridColumn: { md: "3" } }}>
+            {eventsSection.text}
+          </Typography>
+        )}
+      </Box>
+
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+        <ListToolbar
+          searchValue={searchInput}
+          onSearchChange={setSearchInput}
+          searchLabel={eventsTranslation.search}
+          sortValue={sortOrder}
+          onSortChange={(value) =>
+            setSortOrder(value as "ascending" | "descending")
+          }
+          sortLabel={eventsTranslation.sortByDate}
+          sortOptions={[
+            { value: "ascending", label: eventsTranslation.dateAscending },
+            { value: "descending", label: eventsTranslation.dateDescending },
+          ]}
+          sortWidth={257}
+        />
+
+        {categories.length > 0 && (
+          <FilterChips
+            ariaLabel={eventsTranslation.category}
+            options={[
+              { value: "", label: buttonTranslation.all },
+              ...categories.map((category) => ({
+                value: category.id,
+                label: category.name,
+              })),
+            ]}
+            value={selectedCategoryId}
+            onChange={setSelectedCategoryId}
+          />
+        )}
+      </Box>
+
+      {cards.length > 0 ? (
+        <>
+          <Box
+            sx={{
+              display: { xs: "none", md: "grid" },
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+              gap: "24px",
+              alignItems: "stretch",
             }}
-            sx={{ flex: 1 }}
-          />
-
-          <TextField
-            select
-            fullWidth
-            size="small"
-            label={eventsTranslation.sortByDate}
-            value={sortOrder}
-            onChange={(event) =>
-              setSortOrder(event.target.value as "ascending" | "descending")
-            }
-            sx={{ width: { xs: "100%", md: 260 }, flexShrink: 0 }}
           >
-            <MenuItem value="ascending">
-              {eventsTranslation.dateAscending}
-            </MenuItem>
-            <MenuItem value="descending">
-              {eventsTranslation.dateDescending}
-            </MenuItem>
-          </TextField>
-        </Box>
+            {cards}
+          </Box>
 
-        <Box sx={{ mt: 3 }}>
-          <CategorySelector
-            categories={categories.map((category) => category.name)}
-            selectedIndex={
-              selectedCategoryId
-                ? categories.findIndex((c) => c.id === selectedCategoryId) + 1
-                : 0
-            }
-            onSelectIndex={(index) =>
-              setSelectedCategoryId(index === 0 ? "" : categories[index - 1].id)
-            }
-          />
-        </Box>
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            <Carousel
+              items={cards}
+              slideWidth={{ xs: "100%", sm: "calc(50% - 10px)" }}
+              gap={20}
+              controlsGap={{ xs: 24 }}
+              ariaLabel={eventsTranslation.title}
+            />
+          </Box>
+        </>
+      ) : (
+        <Typography variant="body1" sx={{ color: "text.secondary", py: "32px" }}>
+          {eventsTranslation.noResults}
+        </Typography>
+      )}
 
-        <Box sx={{ height: { xs: 32, md: 48 } }} />
-
-        <Box mb={6} mt={3}>
-          {pageItems.length > 0 ? (
-            <Box
-              sx={{
-                width: "100%",
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: 4,
-              }}
-            >
-              {pageItems.map((event) => (
-                <Box
-                  key={event.id}
-                  onClick={() => handleEventClick(event.id)}
-                  sx={{ cursor: "pointer", height: "100%" }}
-                >
-                  <EventPreviewCard
-                    image={event.image}
-                    title={event.title}
-                    text={event.text}
-                    date={event.date}
-                    location={event.location}
-                    category={event.category}
-                    isCancelled={event.isCancelled}
-                    cancelledLabel={eventsTranslation.cancelled}
-                    todayLabel={eventsTranslation.today}
-                    tomorrowLabel={eventsTranslation.tomorrow}
-                    lang={lang}
-                  />
-                </Box>
-              ))}
-            </Box>
-          ) : (
-            <Typography color="text.secondary" textAlign="center" py={8}>
-              {eventsTranslation.noResults}
-            </Typography>
-          )}
-        </Box>
-
-        {pageCount > 1 && (
+      {pageCount > 1 && (
+        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
           <PaginationControls
             page={currentPage}
             pageCount={pageCount}
             onChange={setPage}
           />
-        )}
-      </Box>
-    </DualColumnSection>
+        </Box>
+      )}
+    </Box>
   );
 }
 

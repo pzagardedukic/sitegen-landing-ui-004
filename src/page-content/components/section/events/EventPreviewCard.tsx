@@ -1,152 +1,176 @@
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+"use client";
+
 import { Box, Typography } from "@mui/material";
 import Tag from "@/components/common/Tag";
+import { getEventItems, useLanguage } from "@/core/runtime";
+import { getButtonTranslation, getEventsTranslation } from "@/core/translations";
+import {
+  formatEventDate,
+  getRelativeEventDay,
+  stripRichText,
+  truncateWordSafe,
+} from "@/core/utils";
+import ContactCtaButton from "../common/ContactCtaButton";
 
-import HoverZoomImage from "@/components/image/HoverZoomImage";
-import type { LanguageKey } from "@/core/types";
-import { formatEventDate, getRelativeEventDay } from "@/core/utils";
-import { FALLBACK_IMAGE } from "@/core/static";
-import { stripRichText, truncateWordSafe } from "@/core/utils";
+type EventItem = ReturnType<typeof getEventItems>[number];
 
 type EventPreviewCardProps = {
-  image: string;
-  title: string;
-  text: string;
-  date: string;
-  location: string;
-  category: string;
-  isCancelled: boolean;
-  cancelledLabel: string;
-  todayLabel: string;
-  tomorrowLabel: string;
-  lang: LanguageKey | null;
+  item: EventItem;
+  href: string;
+  showApplyButton: boolean;
 };
 
+/*
+ * An event card from the Lumiera frames: the picture 240 tall with the badges over it, then
+ * the date and place on one muted line, the name, a hundred and fifty characters of the
+ * text, the category, and — where the customer turned it on — the apply button.
+ *
+ * The name carries the link and stretches over the whole card, so the picture and the text
+ * lead to the event too; the apply button sits above that overlay, because a button inside
+ * a link is not a thing a browser can express.
+ */
 export default function EventPreviewCard({
-  image,
-  title,
-  text,
-  date,
-  location,
-  category,
-  isCancelled,
-  cancelledLabel,
-  todayLabel,
-  tomorrowLabel,
-  lang,
+  item,
+  href,
+  showApplyButton,
 }: EventPreviewCardProps) {
-  const truncatedText = stripRichText(truncateWordSafe(text, 150));
-  const formattedDate = formatEventDate(date, lang);
-  const relativeDay = getRelativeEventDay(date);
+  const { lang } = useLanguage();
+  const eventsTranslation = getEventsTranslation(lang);
+  const buttonTranslation = getButtonTranslation(lang);
+
+  const truncatedText = stripRichText(truncateWordSafe(item.text, 150));
+  const formattedDate = formatEventDate(item.date, lang);
+  const relativeDay = getRelativeEventDay(item.date);
   const relativeDayLabel =
     relativeDay === "today"
-      ? todayLabel
+      ? eventsTranslation.today
       : relativeDay === "tomorrow"
-        ? tomorrowLabel
+        ? eventsTranslation.tomorrow
         : "";
+
+  const dateLine = [formattedDate, item.location].filter(Boolean).join(" · ");
+  const hasBadges = item.isCancelled || Boolean(relativeDayLabel);
 
   return (
     <Box
-      className="zoom-image-parent"
       sx={(theme) => ({
         position: "relative",
-        borderRadius: "25px",
-        border: `1px solid ${theme.palette.surfaces.border}`,
-        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        opacity: isCancelled ? 0.82 : 1,
-        transition: theme.transitions.create(["border-color"]),
-        "&:hover": { borderColor: theme.palette.primary.main },
+        borderRadius: "12px",
+        overflow: "hidden",
+        backgroundColor: theme.palette.surfaces.surface,
+        opacity: item.isCancelled ? 0.86 : 1,
+        "&:hover .event-image": { transform: "scale(1.04)" },
+        "&:hover .event-title": { color: theme.palette.primary.main },
       })}
     >
-      {(isCancelled || relativeDayLabel) && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 12,
-            right: 12,
-            zIndex: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
-            gap: 1,
-          }}
-        >
-          {isCancelled && (
-            <Tag label={cancelledLabel} tone="outline" />
-          )}
-
-          {relativeDayLabel && (
-            <Tag
-              label={relativeDayLabel}
-              tone={relativeDay === "today" ? "brand" : "neutral"}
-            />
-          )}
-        </Box>
-      )}
-
-      <HoverZoomImage
-        src={image || FALLBACK_IMAGE}
-        alt={title}
-        loading="lazy"
-        zoomOnParentHover
-        sx={{
-          width: "100%",
-          height: 210,
-          objectFit: "cover",
-        }}
-      />
-
-      <Box px={2.5} py={2.5} flexGrow={1}>
-        {category && (
-          <Typography
-            variant="overline"
-            color="primary.main"
-            sx={{ display: "block", lineHeight: 1.4, mb: 0.5 }}
-          >
-            {category}
-          </Typography>
+      <Box
+        sx={(theme) => ({
+          position: "relative",
+          height: { xs: 220, md: 240 },
+          overflow: "hidden",
+          backgroundColor: theme.palette.surfaces.placeholder,
+        })}
+      >
+        {item.image && (
+          <Box
+            component="img"
+            className="event-image"
+            src={item.image}
+            alt=""
+            loading="lazy"
+            sx={(theme) => ({
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: theme.transitions.create("transform"),
+            })}
+          />
         )}
 
-        <Typography variant="h6" color="text.primary">
-          {title}
-        </Typography>
+        {hasBadges && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 16,
+              left: 16,
+              right: 16,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "6px",
+            }}
+          >
+            {item.isCancelled && (
+              <Tag label={eventsTranslation.cancelled} tone="dark" />
+            )}
 
-        {truncatedText && (
-          <Typography variant="body2" color="text.secondary" mt={1}>
-            {truncatedText}
-          </Typography>
+            {relativeDayLabel && (
+              <Tag
+                label={relativeDayLabel}
+                tone={relativeDay === "today" ? "mint" : "rose"}
+              />
+            )}
+          </Box>
         )}
       </Box>
 
       <Box
-        display="flex"
-        flexDirection="column"
-        gap={1}
-        px={2.5}
-        py={2}
-        borderTop="1px solid"
-        borderColor="divider"
-        mt="auto"
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          p: "18px 20px 22px",
+        }}
       >
-        {formattedDate && (
-          <Box display="flex" alignItems="center" gap={1}>
-            <CalendarMonthIcon sx={{ fontSize: 18, color: "text.secondary" }} />
-            <Typography variant="caption" color="text.secondary">
-              {formattedDate}
-            </Typography>
-          </Box>
+        {dateLine && (
+          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+            {dateLine}
+          </Typography>
         )}
 
-        {location && (
-          <Box display="flex" alignItems="center" gap={1}>
-            <LocationOnIcon sx={{ fontSize: 18, color: "text.secondary" }} />
-            <Typography variant="caption" color="text.secondary">
-              {location}
-            </Typography>
+        <Typography
+          component="a"
+          href={href}
+          variant="h5"
+          className="event-title"
+          sx={(theme) => ({
+            textDecoration: "none",
+            color: "inherit",
+            transition: theme.transitions.create(["color"], {
+              duration: theme.transitions.duration.short,
+            }),
+            /* The whole card follows the name's link. */
+            "&::after": { content: '""', position: "absolute", inset: 0 },
+          })}
+        >
+          {item.title}
+        </Typography>
+
+        {truncatedText && (
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
+            {truncatedText}
+          </Typography>
+        )}
+
+        {item.category && (
+          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+            {item.category}
+          </Typography>
+        )}
+
+        {showApplyButton && !item.isCancelled && (
+          <Box sx={{ position: "relative", zIndex: 1, mt: "auto", pt: "8px" }}>
+            <ContactCtaButton
+              subject={`${eventsTranslation.applicationSubject}: ${item.title}`}
+              label={buttonTranslation.applyNow}
+              tone="outline"
+              fullWidth
+            />
           </Box>
         )}
       </Box>

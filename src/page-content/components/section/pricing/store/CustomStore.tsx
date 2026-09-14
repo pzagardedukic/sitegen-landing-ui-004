@@ -3,8 +3,8 @@
 import { Box, Typography } from "@mui/material";
 import { Suspense, useMemo } from "react";
 import FilterChips from "@/components/common/FilterChips";
+import ListToolbar from "@/components/common/ListToolbar";
 import PaginationControls from "@/components/button/PaginationControls";
-import { ChevronDownIcon, SearchIcon } from "@/components/icons/icons";
 import { getPricingSection } from "@/core/runtime";
 import { getPageSlugByKey, getPricingSlugById, withBasePath } from "@/core/static";
 import { useListFilters } from "@/core/react";
@@ -165,107 +165,18 @@ function CustomStoreInner() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "28px", md: "32px" } }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          alignItems: "stretch",
-          gap: "12px",
-        }}
-      >
-        <Box
-          sx={(theme) => ({
-            flex: 1,
-            minWidth: 0,
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            height: 56,
-            px: "22px",
-            borderRadius: "999px",
-            color: theme.palette.text.secondary,
-            boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
-            transition: theme.transitions.create(["box-shadow"], {
-              duration: theme.transitions.duration.short,
-            }),
-            "&:focus-within": {
-              boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
-            },
-          })}
-        >
-          <SearchIcon />
-
-          <Box
-            component="input"
-            type="search"
-            value={searchInput}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchInput(event.target.value)
-            }
-            placeholder={pricingStoreTranslation.search}
-            aria-label={pricingStoreTranslation.search}
-            sx={(theme) => ({
-              ...theme.typography.body1,
-              flex: 1,
-              minWidth: 0,
-              border: 0,
-              outline: "none",
-              background: "none",
-              color: theme.palette.text.primary,
-              "&::placeholder": { color: theme.palette.text.secondary, opacity: 1 },
-              "&::-webkit-search-cancel-button": { cursor: "pointer" },
-            })}
-          />
-        </Box>
-
-        <Box sx={{ position: "relative", flexShrink: 0, width: { xs: "100%", sm: 220 } }}>
-          <Box
-            component="select"
-            value={sortOrder}
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-              setSortOrder(event.target.value as "ascending" | "descending")
-            }
-            aria-label={pricingStoreTranslation.sortByPrice}
-            sx={(theme) => ({
-              ...theme.typography.subtitle1,
-              appearance: "none",
-              width: "100%",
-              height: 56,
-              pl: "22px",
-              pr: "46px",
-              cursor: "pointer",
-              border: 0,
-              borderRadius: "999px",
-              background: "none",
-              color: theme.palette.text.primary,
-              boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
-              transition: theme.transitions.create(["box-shadow"], {
-                duration: theme.transitions.duration.short,
-              }),
-              "&:hover, &:focus-visible": {
-                boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
-              },
-            })}
-          >
-            <option value="ascending">{pricingStoreTranslation.priceAscending}</option>
-            <option value="descending">{pricingStoreTranslation.priceDescending}</option>
-          </Box>
-
-          <Box
-            aria-hidden
-            sx={{
-              position: "absolute",
-              top: "50%",
-              right: 22,
-              transform: "translateY(-50%)",
-              display: "flex",
-              pointerEvents: "none",
-            }}
-          >
-            <ChevronDownIcon />
-          </Box>
-        </Box>
-      </Box>
+      <ListToolbar
+        searchValue={searchInput}
+        onSearchChange={setSearchInput}
+        searchLabel={pricingStoreTranslation.search}
+        sortValue={sortOrder}
+        onSortChange={(value) => setSortOrder(value as "ascending" | "descending")}
+        sortLabel={pricingStoreTranslation.sortByPrice}
+        sortOptions={[
+          { value: "ascending", label: pricingStoreTranslation.priceAscending },
+          { value: "descending", label: pricingStoreTranslation.priceDescending },
+        ]}
+      />
 
       {categories.length > 0 && (
         <FilterChips

@@ -201,6 +201,23 @@ export function CloseIcon({ size = 14, ...props }: IconProps) {
   );
 }
 
+/* The accordion toggle on a question: a plus that loses its upright when the answer opens. */
+export function PlusIcon({ size = 14, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none" aria-hidden {...props}>
+      <path d="M7 0v14M0 7h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function MinusIcon({ size = 14, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none" aria-hidden {...props}>
+      <path d="M0 7h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /* The magnifier in the store's search pill (18 × 18 in the frames). */
 export function SearchIcon({ size = 18, ...props }: IconProps) {
   return (

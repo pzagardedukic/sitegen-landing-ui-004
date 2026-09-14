@@ -1,95 +1,88 @@
 "use client";
 
-import { useState } from "react";
-import { Box, Collapse, IconButton, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+import { useId, useState } from "react";
+import { Box, Collapse, Typography } from "@mui/material";
+import { MinusIcon, PlusIcon } from "@/components/icons/icons";
 
-type Props = {
+type FaqItemProps = {
   question: string;
   answer: string;
   defaultOpen?: boolean;
 };
 
 /*
- * One question from the Figma frame: the question and a round toggle on one row, 30 in from
- * the card edge, and when open a hairline rule with the answer beneath it. Closed rows are
- * 90 tall, the open one 146.
+ * One question from the Lumiera frames: a row on a hairline, padded 24 above and below,
+ * with the question in the heading face and a small plus at the end of the row. Open, the
+ * plus becomes a minus, the rule above the row darkens to the text colour, and the answer
+ * sits 16 under the question in the muted colour.
+ *
+ * No card, no fill: ui-002 drew each question as a rounded box, which turned a list of
+ * seven questions into seven competing panels.
  */
-export default function FaqItem({
-  question,
-  answer,
-  defaultOpen = false,
-}: Props) {
+export default function FaqItem({ question, answer, defaultOpen = false }: FaqItemProps) {
   const [open, setOpen] = useState(defaultOpen);
+  const answerId = useId();
 
   return (
     <Box
       sx={(theme) => ({
-        borderRadius: "25px",
-        border: `1px solid ${theme.palette.surfaces.border}`,
-        backgroundColor: open ? theme.palette.surfaces.tint : "transparent",
-        px: "30px",
-        py: "26px",
-        transition: theme.transitions.create("background-color"),
+        borderTop: `1px solid ${
+          open ? theme.palette.text.primary : theme.palette.surfaces.border
+        }`,
+        transition: theme.transitions.create(["border-color"], {
+          duration: theme.transitions.duration.short,
+        }),
       })}
     >
       <Box
         component="button"
         type="button"
         aria-expanded={open}
+        aria-controls={answerId}
         onClick={() => setOpen(!open)}
-        sx={{
+        sx={(theme) => ({
           width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 2,
-          background: "none",
+          gap: "20px",
+          px: 0,
+          py: "24px",
           border: 0,
-          padding: 0,
+          background: "none",
           cursor: "pointer",
           textAlign: "left",
-          color: "inherit",
-        }}
+          color: theme.palette.text.primary,
+          transition: theme.transitions.create(["color"], {
+            duration: theme.transitions.duration.short,
+          }),
+          "&:hover, &:focus-visible": { color: theme.palette.primary.main },
+        })}
       >
-        <Typography variant="h5" component="h3">
+        <Typography variant="h5" component="h3" sx={{ color: "inherit" }}>
           {question}
         </Typography>
 
-        <IconButton
-          component="span"
-          size="small"
+        <Box
           aria-hidden
-          sx={(theme) => ({
-            width: 38,
-            height: 38,
+          sx={{
             flexShrink: 0,
-            border: `1px solid ${theme.palette.surfaces.border}`,
-            color: theme.palette.text.primary,
-            ...(open && {
-              backgroundImage: theme.palette.brandGradient,
-              borderColor: "transparent",
-              color: theme.palette.primary.contrastText,
-            }),
-          })}
+            width: 20,
+            height: 20,
+            display: "grid",
+            placeItems: "center",
+          }}
         >
-          {open ? <RemoveIcon fontSize="small" /> : <AddIcon fontSize="small" />}
-        </IconButton>
+          {open ? <MinusIcon /> : <PlusIcon />}
+        </Box>
       </Box>
 
       <Collapse in={open}>
-        <Box
-          aria-hidden
-          sx={(theme) => ({
-            height: "1px",
-            backgroundColor: theme.palette.surfaces.border,
-            mt: 2,
-            mb: 2,
-          })}
-        />
-
-        <Typography variant="body1" sx={{ opacity: 0.75 }}>
+        <Typography
+          id={answerId}
+          variant="body1"
+          sx={{ color: "text.secondary", pb: "24px", mt: "-8px" }}
+        >
           {answer}
         </Typography>
       </Collapse>

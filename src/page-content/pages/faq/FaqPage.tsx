@@ -17,7 +17,8 @@ export default function FaqPage() {
     <PageLayout header={<Header />} footer={<Footer />}>
       <HeaderSection title={faqTranslation.title} />
 
-      <Section id="faq">
+      {/* The frames set the questions on the cream wash, edge to edge. */}
+      <Section id="faq" color="surfaces.surface">
         <FaqSection />
       </Section>
     </PageLayout>

@@ -1,115 +1,108 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import GradientButton from "@/components/button/GradientButton";
-
 import { stripRichText, truncateWordSafe } from "@/core/utils";
+import ApplyButton from "./ApplyButton";
+import RequirementList from "./RequirementList";
 
 type CareerPreviewCardProps = {
   href: string;
   title: string;
   text: string;
+  note: string;
   requirements: string[];
   requirementsLabel: string;
-  applyLabel: string;
-  onApply: () => void;
 };
 
 /*
- * A vacancy from the Figma frame (1200x241): the role, a line about it and the note on the
- * left at 600 wide, the requirements and the apply button on the right at 488.
+ * A vacancy row from the Lumiera frames (1200 × 268, rounded 16 on the hairline, padded
+ * 32/40): the role with its line of text and its note on the left, the first three
+ * requirements and the apply button on the right at 440, 64 apart.
+ *
+ * Below desktop the two halves stack, 24 apart — held side by side at 768 the requirement
+ * lines broke over three rows each. Both optional parts simply drop out where the data has
+ * none, which is the frame drawn as "seznam brez opcijskih".
  */
 export default function CareerPreviewCard({
   href,
   title,
   text,
+  note,
   requirements,
   requirementsLabel,
-  applyLabel,
-  onApply,
 }: CareerPreviewCardProps) {
   const truncatedText = stripRichText(truncateWordSafe(text, 180));
-  const previewRequirements = requirements.slice(0, 3);
 
   return (
     <Box
       sx={(theme) => ({
-        display: "grid",
-        gridTemplateColumns: { xs: "1fr", md: "600fr 80fr 488fr" },
-        gap: { xs: 3, md: 0 },
-        p: { xs: "24px", md: "30px 32px" },
-        borderRadius: "25px",
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: "flex-start",
+        gap: { xs: "24px", md: "64px" },
+        p: { xs: "32px 24px", md: "32px 40px" },
+        borderRadius: "16px",
         border: `1px solid ${theme.palette.surfaces.border}`,
-        transition: theme.transitions.create("border-color"),
-        "&:hover": { borderColor: theme.palette.primary.main },
+        transition: theme.transitions.create(["border-color"], {
+          duration: theme.transitions.duration.short,
+        }),
+        "&:hover": { borderColor: theme.palette.text.primary },
       })}
     >
       <Box
         sx={{
-          gridColumn: { md: "1" },
+          flex: 1,
+          minWidth: 0,
+          width: "100%",
           display: "flex",
           flexDirection: "column",
-          gap: 1.5,
+          gap: "12px",
         }}
       >
         <Typography
           component="a"
           href={href}
           variant="h4"
-          sx={{ textDecoration: "none", color: "inherit", "&:hover": { opacity: 0.75 } }}
+          sx={(theme) => ({
+            textDecoration: "none",
+            color: "inherit",
+            transition: theme.transitions.create(["color"], {
+              duration: theme.transitions.duration.short,
+            }),
+            "&:hover, &:focus-visible": { color: theme.palette.primary.main },
+          })}
         >
           {title}
         </Typography>
 
-        <Typography variant="body2" sx={{ opacity: 0.72 }}>
-          {truncatedText}
-        </Typography>
+        {truncatedText && (
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
+            {truncatedText}
+          </Typography>
+        )}
+
+        {note && (
+          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+            {note}
+          </Typography>
+        )}
       </Box>
 
       <Box
         sx={{
-          gridColumn: { md: "3" },
+          width: { xs: "100%", md: 440 },
+          flexShrink: 0,
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          gap: 2,
+          gap: "20px",
         }}
       >
-        {previewRequirements.length > 0 && (
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            <Typography variant="caption" sx={{ opacity: 0.6 }}>
-              {requirementsLabel}
-            </Typography>
+        <RequirementList
+          requirements={requirements.slice(0, 3)}
+          label={requirementsLabel}
+        />
 
-            <Box component="ul" sx={{ listStyle: "none", display: "grid", gap: 0.75 }}>
-              {previewRequirements.map((requirement, index) => (
-                <Box
-                  key={index}
-                  component="li"
-                  sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}
-                >
-                  <Box
-                    aria-hidden
-                    sx={(theme) => ({
-                      mt: "9px",
-                      width: 6,
-                      height: 6,
-                      borderRadius: "50%",
-                      flexShrink: 0,
-                      backgroundImage: theme.palette.brandGradient,
-                    })}
-                  />
-                  <Typography variant="body2">{requirement}</Typography>
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        )}
-
-        <GradientButton onClick={onApply} endIcon={<ArrowOutwardIcon />}>
-          {applyLabel}
-        </GradientButton>
+        <ApplyButton title={title} tone="outline" fullWidth />
       </Box>
     </Box>
   );

@@ -96,3 +96,20 @@ povezavi za računalnik in telefon s sidrom → potrditev → commit.
 `pnpm verify`, `pnpm build`, `pnpm test:variants` (vse fixtures), zajem 390 / 768 / 1440 iz
 `out/` prek Edge CDP, primerjava poti in sider z ui-002, preverjanje urejevalnika teme
 (barve, pisave, banner, ponastavitev).
+
+**Izid (15. 9. 2026)**
+
+- `pnpm verify` čist, `pnpm build` uspe — 20 poti, `sitemap.xml`, `robots.txt`, izvoz 9,2 MB.
+- `pnpm test:variants`: vseh 12 fixtur čistih, 0 težav. Dodani sta `cenik-seznam` in
+  `cenik-trgovina`, ker demo podatki uporabljajo tip „paketi" in ostali dve različici
+  cenika drugače nista bili vidni nikjer.
+- Poti in sidra so identična ui-001, ui-002 in ui-003 (20 poti, 28 sider, brez razlik).
+- Urejevalnik teme deluje v vseh štirih točkah: barve (značka „priporočeno" `#B48E5A` →
+  `#2E6F6A`, besedilo `#1A1A1A` → `#10231F`), pisave (Fraunces/Figtree → Playfair/Inter),
+  banner in ponastavitev. Vsebina preživi ponovno nalaganje prek `sessionStorage`
+  (`theme-editor-payload`), prazna vsebina jo izbriše.
+- Popravki ob QA: naslov se je na dvanajstih podstraneh podvajal (pas + uvod sekcije) in je
+  zdaj samo v pasu; postavke cenika so dobile fotografije obravnav namesto slik izdelkov;
+  urnik izpiše kategorijo samo, kadar se razlikuje od naslova tabele.
+- Znano in namerno: zgrajeni HTML je lupina, vsebina se sestavi v brskalniku. Enako velja za
+  ui-001, ui-002 in ui-003 — gre za lastnost skupne osnove, ne te teme.

@@ -1,71 +1,52 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import { getBlogItems, getBlogSection } from "@/core/runtime";
-import BlogPreviewCard from "./BlogPreviewCard";
-import { useLanguage } from "@/core/runtime";
+import { Box } from "@mui/material";
+import ArrowButton from "@/components/button/ArrowButton";
+import { getBlogItems, getBlogSection, useLanguage } from "@/core/runtime";
 import { getBlogTranslation } from "@/core/translations";
-import GradientButton from "@/components/button/GradientButton";
-import { getBlogSlugById, getPageSlugByKeyWithBasePath } from "@/core/static";
+import { getPageSlugByKeyWithBasePath } from "@/core/static";
+import CenteredIntro from "../common/CenteredIntro";
+import BlogGrid from "./BlogGrid";
 
 /*
- * Figma frame: title and standfirst on the left at 700 wide, the call to action on the right,
- * then the posts as full-width rows underneath.
+ * The blog preview on the home page (shown only when the reviews are off): the title and
+ * description on the left with the outlined call to action level with their foot on the
+ * right — stacked under them below desktop, full width on a phone — then the three latest
+ * posts, 48 below.
  */
 export default function BlogPreviewSection() {
   const { lang } = useLanguage();
   const blogTranslation = getBlogTranslation(lang);
-
   const blogSection = getBlogSection(lang);
+
   if (!blogSection) {
     return null;
   }
-  const blogItems = getBlogItems(lang).slice(0, 3); // Show only 3 preview items
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 5, md: 8 } }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "48px" }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
-          alignItems: { md: "flex-start" },
+          alignItems: { xs: "flex-start", md: "flex-end" },
           justifyContent: "space-between",
-          gap: { xs: 3, md: 6 },
+          gap: "24px",
         }}
       >
-        <Box sx={{ maxWidth: 700, display: "flex", flexDirection: "column", gap: 2 }}>
-          <Typography variant="h2" component="h2">
-            {blogTranslation.title}
-          </Typography>
+        <CenteredIntro align="left" title={blogTranslation.title} description={blogSection.text} />
 
-          <Typography variant="body1" sx={{ color: "inherit", opacity: 0.72 }}>
-            {blogSection.text}
-          </Typography>
-        </Box>
-
-        <GradientButton
+        <ArrowButton
+          tone="outline"
+          component="a"
           href={getPageSlugByKeyWithBasePath("blog")}
-          endIcon={<ArrowOutwardIcon />}
-          sx={{ flexShrink: 0 }}
+          sx={{ flexShrink: 0, width: { xs: "100%", sm: "auto" } }}
         >
           {blogTranslation.callToAction}
-        </GradientButton>
+        </ArrowButton>
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-        {blogItems.map((item) => (
-          <BlogPreviewCard
-            key={item.id}
-            image={item.image}
-            title={item.title}
-            text={item.description}
-            author={item.author}
-            date={item.date}
-            href={`${getPageSlugByKeyWithBasePath("blog")}/${getBlogSlugById(item.id)}`}
-          />
-        ))}
-      </Box>
+      <BlogGrid items={getBlogItems(lang).slice(0, 3)} />
     </Box>
   );
 }

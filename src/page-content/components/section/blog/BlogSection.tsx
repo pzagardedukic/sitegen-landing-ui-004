@@ -1,46 +1,35 @@
 "use client";
 
 import { Box } from "@mui/material";
-import { getBlogItems } from "@/core/runtime";
-import BlogPreviewCard from "./BlogPreviewCard";
-import { useLanguage } from "@/core/runtime";
-import { usePagination } from "@/core/react";
 import PaginationControls from "@/components/button/PaginationControls";
-import { getBlogSlugById } from "@/core/static";
-import { withBasePath } from "@/core/static";
+import { getBlogItems, getBlogSection, useLanguage } from "@/core/runtime";
+import { usePagination } from "@/core/react";
+import { getBlogTranslation } from "@/core/translations";
+import CenteredIntro from "../common/CenteredIntro";
+import BlogGrid from "./BlogGrid";
 
+/*
+ * The /blog page: the section's intro, every post six to a page in the same grid as the
+ * preview, and the page numbers centred under them. No call to action — this is the page it
+ * leads to.
+ */
 export default function BlogSection() {
   const { lang } = useLanguage();
-
-  const blogItems = getBlogItems(lang);
-  const { page, setPage, pageCount, paginatedItems } = usePagination(
-    blogItems,
-    6,
-  );
+  const blogTranslation = getBlogTranslation(lang);
+  const blogSection = getBlogSection(lang);
+  const { page, setPage, pageCount, paginatedItems } = usePagination(getBlogItems(lang), 6);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 5, md: 8 } }}>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-        {paginatedItems.map((item) => (
-          <BlogPreviewCard
-            key={item.id}
-            image={item.image}
-            title={item.title}
-            text={item.description}
-            author={item.author}
-            date={item.date}
-            href={withBasePath(`/blog/${getBlogSlugById(item.id)}`)}
-          />
-        ))}
-      </Box>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "48px" }}>
+      {blogSection && (
+        <CenteredIntro align="left" title={blogTranslation.title} description={blogSection.text} />
+      )}
+
+      <BlogGrid items={paginatedItems} />
 
       {pageCount > 1 && (
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <PaginationControls
-            page={page}
-            pageCount={pageCount}
-            onChange={setPage}
-          />
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <PaginationControls page={page} pageCount={pageCount} onChange={setPage} />
         </Box>
       )}
     </Box>

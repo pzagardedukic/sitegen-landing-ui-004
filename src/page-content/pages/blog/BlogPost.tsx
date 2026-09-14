@@ -23,7 +23,7 @@ export default function BlogPostPage({ slug }: { slug: string }) {
     <PageLayout header={<Header />} footer={<Footer />}>
       <HeaderSection title={blog.title} />
 
-      <Section id="blog-post">
+      <Section id="blog-post" paddingY={{ xs: "64px", sm: "80px", md: "100px" }}>
         <BlogPostSection id={blogId} />
       </Section>
     </PageLayout>

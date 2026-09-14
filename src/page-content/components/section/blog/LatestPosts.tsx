@@ -1,81 +1,96 @@
 "use client";
 
-import { getBlogItems } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
-import { Box, Divider, Typography } from "@mui/material";
-import HoverZoomImage from "@/components/image/HoverZoomImage";
-import { useRouter } from "next/navigation";
+import { Box, Typography } from "@mui/material";
+import { getBlogItems, useLanguage } from "@/core/runtime";
 import { getBlogTranslation } from "@/core/translations";
-import { getBlogSlugById, getPageSlugByKey } from "@/core/static";
+import { getBlogSlugById, getPageSlugByKeyWithBasePath } from "@/core/static";
 
 type LatestPostsProps = {
   excludeId?: number;
   count?: number;
 };
 
-export default function LatestPosts({ excludeId, count }: LatestPostsProps) {
-  const router = useRouter();
+/*
+ * "Latest posts" beside an article, as the Lumiera frames draw it: a cream panel rounded 16,
+ * 28 / 24 in, its heading in the h5 face, then the posts 18 apart — an 80 × 64 thumbnail
+ * rounded 8 and the title in medium 15 beside it, 14 apart. Each post is a plain link; the
+ * title takes primary on hover. The panel is left out when there is no other post.
+ */
+export default function LatestPosts({ excludeId, count = 5 }: LatestPostsProps) {
   const { lang } = useLanguage();
   const blogTranslations = getBlogTranslation(lang);
 
-  const handlePostClick = (postId: number) => {
-    router.push(`/${getPageSlugByKey("blog")}/${getBlogSlugById(postId)}`);
-  };
+  const posts = getBlogItems(lang)
+    .filter((post) => post.id !== excludeId)
+    .slice(0, count);
+
+  if (posts.length === 0) return null;
 
   return (
     <Box
-      sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 2 }}
+      component="aside"
+      sx={(theme) => ({
+        display: "flex",
+        flexDirection: "column",
+        gap: "18px",
+        px: "24px",
+        py: "28px",
+        borderRadius: "16px",
+        backgroundColor: theme.palette.surfaces.bgAlt,
+      })}
     >
-      {/* h5, not the section scale: this is a 320 sidebar and h3 shouted over the article. */}
-      <Typography variant="h5" component="h2" sx={{ color: "text.primary" }}>
+      <Typography variant="h5" component="h2">
         {blogTranslations.posts.latestPosts}
       </Typography>
 
-      <Divider />
-
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}>
-        {getBlogItems(lang)
-          .filter((post) => post.id !== excludeId)
-          .slice(0, count ?? 5)
-          .map((post) => (
+      {posts.map((post) => (
+        <Box
+          key={post.id}
+          component="a"
+          href={`${getPageSlugByKeyWithBasePath("blog")}/${getBlogSlugById(post.id)}`}
+          sx={(theme) => ({
+            display: "flex",
+            alignItems: "center",
+            gap: "14px",
+            color: "inherit",
+            textDecoration: "none",
+            "&:hover .latest-title, &:focus-visible .latest-title": {
+              color: theme.palette.primary.main,
+            },
+          })}
+        >
+          <Box
+            sx={(theme) => ({
+              flexShrink: 0,
+              width: 80,
+              height: 64,
+              borderRadius: "8px",
+              overflow: "hidden",
+              backgroundColor: theme.palette.surfaces.placeholder,
+            })}
+          >
             <Box
-              key={post.id}
-              className="zoom-image-parent"
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                gap: 2,
-                alignItems: "center",
-                justifyContent: "flex-start",
-                cursor: "pointer",
-                "&:hover .MuiTypography-root": { color: "primary.main" },
-              }}
-              onClick={() => {
-                handlePostClick(post.id);
-              }}
-            >
-              {/* Image */}
-              <HoverZoomImage
-                src={post.image}
-                alt={post.title}
-                loading="lazy"
-                zoomOnParentHover
-                width="90px"
-                sx={{ flexShrink: 0, height: "70px", borderRadius: "16px" }}
-              />
-              <Typography
-                key={post.id}
-                variant="body2"
-                sx={{
-                  color: "text.primary",
-                  transition: (theme) => theme.transitions.create(["color"]),
-                }}
-              >
-                {post.title}
-              </Typography>
-            </Box>
-          ))}
-      </Box>
+              component="img"
+              src={post.image}
+              alt=""
+              loading="lazy"
+              sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </Box>
+
+          <Typography
+            className="latest-title"
+            variant="subtitle1"
+            sx={(theme) => ({
+              transition: theme.transitions.create(["color"], {
+                duration: theme.transitions.duration.short,
+              }),
+            })}
+          >
+            {post.title}
+          </Typography>
+        </Box>
+      ))}
     </Box>
   );
 }

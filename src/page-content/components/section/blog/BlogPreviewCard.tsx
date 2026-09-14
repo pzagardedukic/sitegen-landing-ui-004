@@ -1,7 +1,8 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import { stripRichText, truncateWordSafe } from "@/core/utils";
+import { useLanguage } from "@/core/runtime";
+import { formatEventDate, stripRichText, truncateWordSafe } from "@/core/utils";
 
 type BlogPreviewCardProps = {
   href: string;
@@ -13,11 +14,10 @@ type BlogPreviewCardProps = {
 };
 
 /*
- * A post is a wide row in the Figma frame (1200x256), not a card: the picture 320x220 inset
- * 18 on the left, then the date and author, the title, and one line of the piece.
- *
- * ui-001 stacked them as three tall cards a row. Rows give the title room to be read at a
- * glance, which is what a list of articles is for.
+ * A post as the Lumiera frames draw it — no card around it: the picture rounded 12 (260 /
+ * 220 / 210 tall), then 20 below it the date and author in the muted caption face, the
+ * title (h5) and the excerpt, cut to 150 characters, in the muted text colour. The whole
+ * post is the link; the picture eases in and the title takes primary on hover.
  */
 export default function BlogPreviewCard({
   href,
@@ -27,34 +27,28 @@ export default function BlogPreviewCard({
   author,
   date,
 }: BlogPreviewCardProps) {
-  const truncatedText = stripRichText(truncateWordSafe(text, 180));
+  const { lang } = useLanguage();
+  const excerpt = stripRichText(truncateWordSafe(text, 150));
+  const meta = [date ? formatEventDate(date, lang) : "", author].filter(Boolean).join(" · ");
 
   return (
     <Box
       component="a"
       href={href}
       sx={(theme) => ({
-        display: "grid",
-        gridTemplateColumns: { xs: "1fr", sm: "320px 1fr" },
-        gap: { xs: 2, sm: "40px" },
-        alignItems: "center",
-        p: "18px",
-        borderRadius: "25px",
-        border: `1px solid ${theme.palette.surfaces.border}`,
-        textDecoration: "none",
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
         color: "inherit",
-        transition: theme.transitions.create(["border-color", "background-color"]),
-        "&:hover": {
-          borderColor: theme.palette.primary.main,
-          backgroundColor: theme.palette.surfaces.tint,
-        },
-        "&:hover img": { transform: "scale(1.04)" },
+        textDecoration: "none",
+        "&:hover .blog-img, &:focus-visible .blog-img": { transform: "scale(1.04)" },
+        "&:hover .blog-title, &:focus-visible .blog-title": { color: theme.palette.primary.main },
       })}
     >
       <Box
         sx={(theme) => ({
-          height: { xs: 200, sm: 220 },
-          borderRadius: "18px",
+          height: { xs: 210, sm: 220, md: 260 },
+          borderRadius: "12px",
           overflow: "hidden",
           backgroundColor: theme.palette.surfaces.placeholder,
         })}
@@ -64,27 +58,41 @@ export default function BlogPreviewCard({
           src={image}
           alt=""
           loading="lazy"
+          className="blog-img"
           sx={(theme) => ({
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            transition: theme.transitions.create("transform"),
+            transition: theme.transitions.create(["transform"]),
           })}
         />
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, py: 1 }}>
-        <Typography variant="caption" sx={{ opacity: 0.6 }}>
-          {date} · {author}
-        </Typography>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        {meta && (
+          <Typography variant="caption" sx={{ color: "text.secondary" }}>
+            {meta}
+          </Typography>
+        )}
 
-        <Typography variant="h4" component="h3">
+        <Typography
+          className="blog-title"
+          variant="h5"
+          component="h3"
+          sx={(theme) => ({
+            transition: theme.transitions.create(["color"], {
+              duration: theme.transitions.duration.short,
+            }),
+          })}
+        >
           {title}
         </Typography>
 
-        <Typography variant="body2" sx={{ opacity: 0.72 }}>
-          {truncatedText}
-        </Typography>
+        {excerpt && (
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
+            {excerpt}
+          </Typography>
+        )}
       </Box>
     </Box>
   );

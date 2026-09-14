@@ -5,7 +5,14 @@ import type { Theme } from "@mui/material/styles";
 import type { ElementType } from "react";
 import { ChevronRightIcon } from "../icons/icons";
 
-export type ArrowButtonTone = "primary" | "dark" | "border" | "soft" | "white" | "text";
+export type ArrowButtonTone =
+  | "primary"
+  | "dark"
+  | "border"
+  | "outline"
+  | "soft"
+  | "white"
+  | "text";
 
 type ArrowButtonOwnProps = {
   /** Which Lumiera Buttons-Arrow variant. */
@@ -38,6 +45,16 @@ function toneSx(tone: ArrowButtonTone, theme: Theme) {
           boxShadow: `inset 0 0 0 1px ${palette.primary.main}`,
         },
         hover: toPrimary,
+      };
+    // The Border variant drawn in the text colour instead of primary, as the blog opening uses it.
+    case "outline":
+      return {
+        base: {
+          backgroundColor: "transparent",
+          color: palette.text.primary,
+          boxShadow: `inset 0 0 0 1px ${palette.text.primary}`,
+        },
+        hover: { backgroundColor: palette.text.primary, color: palette.background.default },
       };
     case "soft":
       return {

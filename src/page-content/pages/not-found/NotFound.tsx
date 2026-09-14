@@ -2,22 +2,18 @@
 
 import PageLayout from "@/components/layout/PageLayout";
 import Section from "@/components/section/Section";
-import { useLanguage } from "@/core/runtime";
 import Footer from "@/page-content/components/footer/Footer";
 import Header from "@/page-content/components/header/Header";
-import HeaderSection from "@/page-content/components/section/header/HeaderSection";
-import { getNotFoundTranslation } from "@/core/translations";
 import NotFoundSection from "@/page-content/components/section/not-found/NotFoundSection";
 
+/*
+ * The 404 page carries no title band: the frames set the whole message in the middle of a
+ * cream screen, under the floating header. The section's own heading is the page's h1.
+ */
 export default function NotFoundPage() {
-  const { lang } = useLanguage();
-  const translation = getNotFoundTranslation(lang);
-
   return (
-    <PageLayout header={<Header />} footer={<Footer />}>
-      <HeaderSection title={translation.title} />
-
-      <Section id="404">
+    <PageLayout header={<Header />} footer={<Footer />} solidHeader>
+      <Section id="404" color="surfaces.surface" paddingY={{ xs: "96px", md: "120px" }}>
         <NotFoundSection />
       </Section>
     </PageLayout>

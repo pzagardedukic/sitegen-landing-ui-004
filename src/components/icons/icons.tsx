@@ -201,6 +201,16 @@ export function CloseIcon({ size = 14, ...props }: IconProps) {
   );
 }
 
+/* The large magnifier in the circle on the 404 page (38 × 38 in the frames). */
+export function MagnifierIcon({ size = 38, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 38 38" fill="none" aria-hidden {...props}>
+      <circle cx="16" cy="16" r="12.4" stroke="currentColor" strokeWidth="1.6" />
+      <path d="m25.2 25.2 9 9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /* The accordion toggle on a question: a plus that loses its upright when the answer opens. */
 export function PlusIcon({ size = 14, ...props }: IconProps) {
   return (

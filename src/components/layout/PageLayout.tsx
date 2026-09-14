@@ -8,6 +8,13 @@ import FooterLayout from "./FooterLayout";
 type PageLayoutProps = {
   header: React.ReactNode;
   footer: React.ReactNode;
+  /**
+   * Keeps the header pill in its solid state from the first paint, for the pages that open
+   * on a light section instead of the banner photograph. Without it the pill starts in its
+   * glass state — white type — and on the 404 page that leaves the navigation and the site
+   * name invisible on the cream ground until the reader scrolls.
+   */
+  solidHeader?: boolean;
   children: React.ReactNode;
 };
 
@@ -24,6 +31,7 @@ type PageLayoutProps = {
 export default function PageLayout({
   header,
   footer,
+  solidHeader = false,
   children,
 }: PageLayoutProps) {
   const [scrolled, setScrolled] = useState(false);
@@ -39,7 +47,7 @@ export default function PageLayout({
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100dvh" }}>
-      <HeaderLayout scrolled={scrolled}>{header}</HeaderLayout>
+      <HeaderLayout scrolled={solidHeader || scrolled}>{header}</HeaderLayout>
 
       <Box id="main" component="main" sx={{ flex: 1 }}>
         {children}

@@ -1,16 +1,19 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import SearchOffIcon from "@mui/icons-material/SearchOff";
+import ArrowButton from "@/components/button/ArrowButton";
+import { MagnifierIcon } from "@/components/icons/icons";
 import { useLanguage } from "@/core/runtime";
-import { getNotFoundTranslation } from "@/core/translations";
-import GradientButton from "@/components/button/GradientButton";
 import { withBasePath } from "@/core/static";
+import { getNotFoundTranslation } from "@/core/translations";
 
 /*
- * Figma frame 1440x760: a 130 icon, the headline, one line of explanation and the button,
- * all centred in a 700-wide column.
+ * The 404 page from the Lumiera frames: everything centred in the middle of the screen —
+ * the magnifier in a rose circle 104 across, the headline in the largest heading size, one
+ * line of explanation, and the button home.
+ *
+ * This is the one page the frames draw without the title band: a reader who landed here by
+ * mistake is served by one clear way out, not by a photograph of a page that does not exist.
  */
 export default function NotFoundSection() {
   const { lang } = useLanguage();
@@ -19,41 +22,41 @@ export default function NotFoundSection() {
   return (
     <Box
       sx={{
-        maxWidth: 700,
-        mx: "auto",
-        py: { xs: 6, md: 10 },
+        minHeight: { xs: 460, sm: 520, md: 620 },
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
         textAlign: "center",
-        gap: { xs: 3, md: 4 },
+        gap: { xs: "20px", md: "28px" },
       }}
     >
       <Box
+        aria-hidden
         sx={(theme) => ({
-          width: { xs: 96, md: 130 },
-          height: { xs: 96, md: 130 },
+          width: { xs: 88, md: 104 },
+          height: { xs: 88, md: 104 },
           borderRadius: "50%",
           display: "grid",
           placeItems: "center",
-          border: `1px solid ${theme.palette.surfaces.border}`,
-          color: theme.palette.primary.main,
+          backgroundColor: theme.palette.surfaces.rose,
+          color: theme.palette.text.primary,
         })}
       >
-        <SearchOffIcon sx={{ fontSize: { xs: 44, md: 60 } }} />
+        <MagnifierIcon size={38} />
       </Box>
 
-      <Typography variant="h2" component="h1">
+      <Typography variant="h1" component="h1" sx={{ maxWidth: 760 }}>
         {translation.title}
       </Typography>
 
-      <Typography variant="body1" sx={{ opacity: 0.72 }}>
+      <Typography variant="body1" sx={{ maxWidth: 520, color: "text.secondary" }}>
         {translation.text}
       </Typography>
 
-      <GradientButton href={withBasePath("/")} endIcon={<ArrowOutwardIcon />}>
+      <ArrowButton component="a" href={withBasePath("/")} tone="primary">
         {translation.backToHome}
-      </GradientButton>
+      </ArrowButton>
     </Box>
   );
 }

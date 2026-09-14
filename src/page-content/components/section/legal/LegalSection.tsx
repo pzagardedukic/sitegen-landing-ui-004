@@ -1,10 +1,8 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-
-import { getLegalSection } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
+import { ArrowOutwardIcon, DocumentIcon } from "@/components/icons/icons";
+import { getLegalSection, useLanguage } from "@/core/runtime";
 import { getLegalTranslation } from "@/core/translations";
 
 type LegalDocument = {
@@ -14,9 +12,12 @@ type LegalDocument = {
 };
 
 /*
- * Legal documents as rows in the Figma frame (1200x93): the document name on the left, the
- * open link on the right. ui-001 drew each as a 270x300 card with a large file-type icon,
- * which gave two links the weight of a product grid.
+ * The legal page from the Lumiera frames: the title, then one cream card per document,
+ * side by side on desktop and stacked below it — the document mark in a rose circle, the
+ * document's name in the heading face, and "open document" with the outward arrow.
+ *
+ * Each card is the link, and each document is drawn only where the customer supplied one:
+ * the file is per language, so a site may well have terms in one language and not another.
  */
 export default function LegalSection() {
   const { lang } = useLanguage();
@@ -46,55 +47,87 @@ export default function LegalSection() {
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-      {documents.map((legalDocument) => (
-        <Box
-          key={legalDocument.key}
-          component="a"
-          href={legalDocument.file}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${legalDocument.title}: ${legalTranslation.openDocument}`}
-          sx={(theme) => ({
-            minHeight: 93,
-            px: "30px",
-            py: 2,
-            borderRadius: "25px",
-            border: `1px solid ${theme.palette.surfaces.border}`,
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            alignItems: { xs: "flex-start", sm: "center" },
-            justifyContent: "space-between",
-            gap: 2,
-            textDecoration: "none",
-            color: "inherit",
-            transition: theme.transitions.create(["border-color", "background-color"]),
-            "&:hover": {
-              borderColor: theme.palette.primary.main,
-              backgroundColor: theme.palette.surfaces.tint,
-            },
-          })}
-        >
-          <Typography variant="h5" component="h3">
-            {legalDocument.title}
-          </Typography>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "48px" } }}>
+      <Typography variant="h2" component="h2">
+        {legalTranslation.title}
+      </Typography>
 
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+          gap: { xs: "20px", md: "24px" },
+          alignItems: "stretch",
+        }}
+      >
+        {documents.map((legalDocument) => (
           <Box
-            sx={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 0.75,
-              color: "primary.main",
-              flexShrink: 0,
-            }}
+            key={legalDocument.key}
+            component="a"
+            href={legalDocument.file}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${legalDocument.title}: ${legalTranslation.openDocument}`}
+            sx={(theme) => ({
+              display: "flex",
+              flexDirection: "column",
+              gap: { xs: "16px", md: "18px" },
+              p: { xs: "24px", md: "32px" },
+              borderRadius: "16px",
+              textDecoration: "none",
+              color: "inherit",
+              backgroundColor: theme.palette.surfaces.surface,
+              boxShadow: "inset 0 0 0 1px transparent",
+              transition: theme.transitions.create(["box-shadow"], {
+                duration: theme.transitions.duration.short,
+              }),
+              "&:hover, &:focus-visible": {
+                boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
+              },
+              "&:hover .legal-open, &:focus-visible .legal-open": {
+                color: theme.palette.primary.main,
+              },
+            })}
           >
-            <Typography variant="subtitle2" component="span">
-              {legalTranslation.openDocument}
+            <Box
+              aria-hidden
+              sx={(theme) => ({
+                width: { xs: 44, md: 48 },
+                height: { xs: 44, md: 48 },
+                borderRadius: "50%",
+                display: "grid",
+                placeItems: "center",
+                backgroundColor: theme.palette.surfaces.rose,
+                color: theme.palette.text.primary,
+              })}
+            >
+              <DocumentIcon />
+            </Box>
+
+            <Typography variant="h5" component="h3">
+              {legalDocument.title}
             </Typography>
-            <ArrowOutwardIcon sx={{ fontSize: 16 }} />
+
+            <Box
+              className="legal-open"
+              sx={(theme) => ({
+                ...theme.typography.subtitle1,
+                mt: "auto",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                color: theme.palette.text.primary,
+                transition: theme.transitions.create(["color"], {
+                  duration: theme.transitions.duration.short,
+                }),
+              })}
+            >
+              {legalTranslation.openDocument}
+              <ArrowOutwardIcon />
+            </Box>
           </Box>
-        </Box>
-      ))}
+        ))}
+      </Box>
     </Box>
   );
 }

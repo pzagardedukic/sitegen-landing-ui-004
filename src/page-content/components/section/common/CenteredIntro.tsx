@@ -4,7 +4,8 @@ import { Box, Typography } from "@mui/material";
 import RichText from "./RichText";
 
 type CenteredIntroProps = {
-  title: string;
+  /** Left out on subpages, where the title band above already carries the same words. */
+  title?: string;
   description?: string | null;
   /** `left` is the projects opening: flush with the page margin, the block capped at 760. */
   align?: "center" | "left";
@@ -37,9 +38,11 @@ export default function CenteredIntro({
         ...(left && { maxWidth: 760 }),
       }}
     >
-      <Typography variant="h2" component="h2">
-        {title}
-      </Typography>
+      {title && (
+        <Typography variant="h2" component="h2">
+          {title}
+        </Typography>
+      )}
 
       {description && (
         <Typography component="div" variant="body1" sx={{ maxWidth: { md: left ? "none" : descriptionMaxWidth } }}>

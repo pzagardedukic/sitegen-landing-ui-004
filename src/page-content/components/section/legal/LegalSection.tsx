@@ -48,10 +48,6 @@ export default function LegalSection() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "48px" } }}>
-      <Typography variant="h2" component="h2">
-        {legalTranslation.title}
-      </Typography>
-
       <Box
         sx={{
           display: "grid",

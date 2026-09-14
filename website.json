@@ -1018,12 +1018,12 @@
         },
         "images": [
           {
-            "id": "product-unwind-1",
-            "file": "/images/izdelek-01.webp"
+            "id": "price-1-1",
+            "file": "/images/onas-ritual.webp"
           },
           {
-            "id": "product-unwind-2",
-            "file": "/images/izdelek-02.webp"
+            "id": "price-1-2",
+            "file": "/images/storitev-masaze.webp"
           }
         ],
         "features": [
@@ -1081,12 +1081,12 @@
         },
         "images": [
           {
-            "id": "product-mirna-1",
-            "file": "/images/izdelek-03.webp"
+            "id": "price-2-1",
+            "file": "/images/ritual-kamni.webp"
           },
           {
-            "id": "product-mirna-2",
-            "file": "/images/izdelek-04.webp"
+            "id": "price-2-2",
+            "file": "/images/ritual-obraz.webp"
           }
         ],
         "features": [
@@ -1143,12 +1143,12 @@
         },
         "images": [
           {
-            "id": "product-couple-1",
-            "file": "/images/izdelek-05.webp"
+            "id": "price-3-1",
+            "file": "/images/onas-prostor.webp"
           },
           {
-            "id": "product-couple-2",
-            "file": "/images/izdelek-06.webp"
+            "id": "price-3-2",
+            "file": "/images/storitev-masaze.webp"
           }
         ],
         "features": [
@@ -1205,12 +1205,12 @@
         },
         "images": [
           {
-            "id": "product-classic-1",
-            "file": "/images/izdelek-07.webp"
+            "id": "price-4-1",
+            "file": "/images/storitev-masaze.webp"
           },
           {
-            "id": "product-classic-2",
-            "file": "/images/izdelek-08.webp"
+            "id": "price-4-2",
+            "file": "/images/onas-ritual.webp"
           }
         ],
         "features": [
@@ -1267,12 +1267,12 @@
         },
         "images": [
           {
-            "id": "product-stone-1",
-            "file": "/images/izdelek-09.webp"
+            "id": "price-5-1",
+            "file": "/images/ritual-kamni.webp"
           },
           {
-            "id": "product-stone-2",
-            "file": "/images/izdelek-10.webp"
+            "id": "price-5-2",
+            "file": "/images/onas-prostor.webp"
           }
         ],
         "features": [
@@ -1329,12 +1329,12 @@
         },
         "images": [
           {
-            "id": "product-prenatal-1",
-            "file": "/images/izdelek-11.webp"
+            "id": "price-6-1",
+            "file": "/images/dogodek-nosecnice.webp"
           },
           {
-            "id": "product-prenatal-2",
-            "file": "/images/izdelek-12.webp"
+            "id": "price-6-2",
+            "file": "/images/storitev-masaze.webp"
           }
         ],
         "features": [
@@ -1391,12 +1391,12 @@
         },
         "images": [
           {
-            "id": "product-facial-1",
-            "file": "/images/izdelek-02.webp"
+            "id": "price-7-1",
+            "file": "/images/ritual-obraz.webp"
           },
           {
-            "id": "product-facial-2",
-            "file": "/images/izdelek-05.webp"
+            "id": "price-7-2",
+            "file": "/images/storitev-obraz.webp"
           }
         ],
         "features": [
@@ -1454,12 +1454,12 @@
         },
         "images": [
           {
-            "id": "product-lift-1",
-            "file": "/images/izdelek-04.webp"
+            "id": "price-8-1",
+            "file": "/images/ritual-estetika.webp"
           },
           {
-            "id": "product-lift-2",
-            "file": "/images/izdelek-08.webp"
+            "id": "price-8-2",
+            "file": "/images/storitev-obraz.webp"
           }
         ],
         "features": [
@@ -1516,12 +1516,12 @@
         },
         "images": [
           {
-            "id": "product-manicure-1",
-            "file": "/images/izdelek-09.webp"
+            "id": "price-9-1",
+            "file": "/images/ritual-manikura.webp"
           },
           {
-            "id": "product-manicure-2",
-            "file": "/images/izdelek-12.webp"
+            "id": "price-9-2",
+            "file": "/images/storitev-nohti.webp"
           }
         ],
         "features": [
@@ -1578,12 +1578,12 @@
         },
         "images": [
           {
-            "id": "product-bridal-1",
-            "file": "/images/izdelek-06.webp"
+            "id": "price-10-1",
+            "file": "/images/ritual-lasje.webp"
           },
           {
-            "id": "product-bridal-2",
-            "file": "/images/izdelek-10.webp"
+            "id": "price-10-2",
+            "file": "/images/ritual-manikura.webp"
           }
         ],
         "features": [

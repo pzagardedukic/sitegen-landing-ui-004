@@ -2,9 +2,8 @@
 
 import React, { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { Box, Typography } from "@mui/material";
-import { getMap, useLanguage } from "@/core/runtime";
-import { getContactTranslation } from "@/core/translations";
+import { Box } from "@mui/material";
+import { getMap } from "@/core/runtime";
 import { ANCHOR_OFFSET } from "@/app/theme/headerMetrics";
 import EstablishedAndClients from "../common/EstablishedAndClients";
 import ContactInfo from "./ContactInfo";
@@ -17,9 +16,6 @@ import CustomMap from "./CustomMap";
  * 72 below the content; and the two sliding strips closing the page.
  */
 export default function ContactSection() {
-  const { lang } = useLanguage();
-  const contactTranslation = getContactTranslation(lang);
-
   const searchParams = useSearchParams();
   const subject = searchParams.get("subject") ?? undefined;
 
@@ -76,10 +72,6 @@ export default function ContactSection() {
             gap: "40px",
           }}
         >
-          <Typography variant="h2" component="h2">
-            {contactTranslation.title}
-          </Typography>
-
           <ContactInfo />
         </Box>
 

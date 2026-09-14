@@ -122,24 +122,11 @@ function EventsSectionInner() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "40px" } }}>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "600fr 80fr 520fr" },
-          alignItems: "start",
-          gap: { xs: "18px", md: 0 },
-        }}
-      >
-        <Typography variant="h2" component="h2" sx={{ gridColumn: { md: "1" } }}>
-          {eventsTranslation.title}
+      {eventsSection.text && (
+        <Typography variant="body1" sx={{ maxWidth: 640 }}>
+          {eventsSection.text}
         </Typography>
-
-        {eventsSection.text && (
-          <Typography variant="body1" sx={{ gridColumn: { md: "3" } }}>
-            {eventsSection.text}
-          </Typography>
-        )}
-      </Box>
+      )}
 
       <Box sx={{ display: "flex", flexDirection: "column", gap: "14px" }}>
         <ListToolbar

@@ -24,10 +24,6 @@ export default function VideoSection() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "40px" }}>
-      <Typography variant="h2" component="h2">
-        {videosTranslation.title}
-      </Typography>
-
       <Box
         sx={{
           display: { xs: "none", md: "grid" },

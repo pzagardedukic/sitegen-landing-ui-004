@@ -2,7 +2,6 @@
 
 import { Box, Typography } from "@mui/material";
 import { getFaqSection, useLanguage } from "@/core/runtime";
-import { getFaqTranslation } from "@/core/translations";
 import FaqItem from "./FaqItem";
 
 /*
@@ -13,7 +12,6 @@ import FaqItem from "./FaqItem";
  */
 export default function FaqSection() {
   const { lang } = useLanguage();
-  const faqTranslation = getFaqTranslation(lang);
   const faqSection = getFaqSection(lang);
 
   if (!faqSection || faqSection.items.length === 0) {
@@ -22,24 +20,11 @@ export default function FaqSection() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "48px" } }}>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "560fr 80fr 560fr" },
-          alignItems: "start",
-          gap: { xs: "18px", md: 0 },
-        }}
-      >
-        <Typography variant="h2" component="h2" sx={{ gridColumn: { md: "1" } }}>
-          {faqTranslation.title}
+      {faqSection.text && (
+        <Typography variant="body1" sx={{ maxWidth: 640 }}>
+          {faqSection.text}
         </Typography>
-
-        {faqSection.text && (
-          <Typography variant="body1" sx={{ gridColumn: { md: "3" } }}>
-            {faqSection.text}
-          </Typography>
-        )}
-      </Box>
+      )}
 
       {/* The closing hairline belongs to the list, so the last row is not left open-ended. */}
       <Box

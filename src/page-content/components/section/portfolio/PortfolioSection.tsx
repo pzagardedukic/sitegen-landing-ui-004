@@ -2,7 +2,6 @@
 
 import { Box } from "@mui/material";
 import { getPortfolioSection, useLanguage } from "@/core/runtime";
-import { getPortfolioTranslation } from "@/core/translations";
 import CenteredIntro from "../common/CenteredIntro";
 import Portfolio from "./Portfolio";
 
@@ -12,17 +11,12 @@ import Portfolio from "./Portfolio";
  */
 export default function PortfolioSection() {
   const { lang } = useLanguage();
-  const portfolioTranslation = getPortfolioTranslation(lang);
   const portfolioSection = getPortfolioSection(lang);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "44px" } }}>
       {portfolioSection && (
-        <CenteredIntro
-          align="left"
-          title={portfolioSection.name || portfolioTranslation.title}
-          description={portfolioSection.text}
-        />
+        <CenteredIntro align="left" description={portfolioSection.text} />
       )}
 
       <Portfolio />

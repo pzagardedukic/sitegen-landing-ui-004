@@ -18,7 +18,7 @@ banner 2800 px, portreti mnenj 800 px, izdelki 900–1200 px). Izvorniki niso v 
 | `gallery.items[]` | `galerija-01` … `galerija-12` | mešano pokončno in ležeče |
 | `blog.items[].image` | `blog-maska`, `blog-olje`, `blog-sprostitev`, `blog-drenaza`, `blog-sonce` | naslovne slike objav |
 | `events.items[].image` | `dogodek-aroma`, `dogodek-nosecnice`, `dogodek-nohti`, `dogodek-odprti-dan`, `dogodek-lasje` | delavnice in večeri |
-| `pricing.items[].images[]` | `izdelek-01` … `izdelek-12` | izdelki naravne kozmetike |
+| `pricing.items[].images[]` | `onas-ritual`, `onas-prostor`, `ritual-kamni`, `ritual-obraz`, `ritual-estetika`, `ritual-manikura`, `ritual-lasje`, `storitev-masaze`, `storitev-obraz`, `storitev-nohti`, `dogodek-nosecnice` | fotografije obravnav; vsaka postavka ima dve, ker ju trgovina uporabi v galeriji |
 | `clients.items[].image` | `clients/*.webp` (7) | logotipi izmišljenih znamk iz predloge |
 | `experience.items[].image` | `placehold.co` | ploščice CIDESCO, ITEC, NATRUE |
 

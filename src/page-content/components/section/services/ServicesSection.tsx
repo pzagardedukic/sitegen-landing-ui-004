@@ -2,7 +2,6 @@
 
 import { Box } from "@mui/material";
 import { getServicesSection, useLanguage } from "@/core/runtime";
-import { getServicesTranslation } from "@/core/translations";
 import CenteredIntro from "../common/CenteredIntro";
 import Services from "./Services";
 
@@ -13,12 +12,11 @@ import Services from "./Services";
  */
 export default function ServicesSection() {
   const { lang } = useLanguage();
-  const servicesTranslation = getServicesTranslation(lang);
   const servicesSection = getServicesSection(lang);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "44px", md: "64px" } }}>
-      <CenteredIntro title={servicesTranslation.title} description={servicesSection?.text} />
+      <CenteredIntro align="left" description={servicesSection?.text} />
       <Services />
     </Box>
   );

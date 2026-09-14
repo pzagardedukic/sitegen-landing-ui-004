@@ -2,7 +2,6 @@
 
 import { Box, Typography } from "@mui/material";
 import { getCareersItems, getCareersSection, useLanguage } from "@/core/runtime";
-import { getCareersTranslation } from "@/core/translations";
 import CareersList from "./CareersList";
 
 /*
@@ -12,7 +11,6 @@ import CareersList from "./CareersList";
  */
 export default function CareersSection() {
   const { lang } = useLanguage();
-  const careersTranslation = getCareersTranslation(lang);
   const careersSection = getCareersSection(lang);
 
   if (!careersSection) {
@@ -23,24 +21,11 @@ export default function CareersSection() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "48px" } }}>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "600fr 80fr 520fr" },
-          alignItems: "start",
-          gap: { xs: "18px", md: 0 },
-        }}
-      >
-        <Typography variant="h2" component="h2" sx={{ gridColumn: { md: "1" } }}>
-          {careersTranslation.title}
+      {careersSection.text && (
+        <Typography variant="body1" sx={{ maxWidth: 640 }}>
+          {careersSection.text}
         </Typography>
-
-        {careersSection.text && (
-          <Typography variant="body1" sx={{ gridColumn: { md: "3" } }}>
-            {careersSection.text}
-          </Typography>
-        )}
-      </Box>
+      )}
 
       <CareersList careers={careersItems} />
     </Box>

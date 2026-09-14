@@ -4,7 +4,6 @@ import { Box } from "@mui/material";
 import PaginationControls from "@/components/button/PaginationControls";
 import { getBlogItems, getBlogSection, useLanguage } from "@/core/runtime";
 import { usePagination } from "@/core/react";
-import { getBlogTranslation } from "@/core/translations";
 import CenteredIntro from "../common/CenteredIntro";
 import BlogGrid from "./BlogGrid";
 
@@ -15,14 +14,13 @@ import BlogGrid from "./BlogGrid";
  */
 export default function BlogSection() {
   const { lang } = useLanguage();
-  const blogTranslation = getBlogTranslation(lang);
   const blogSection = getBlogSection(lang);
   const { page, setPage, pageCount, paginatedItems } = usePagination(getBlogItems(lang), 6);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "48px" }}>
       {blogSection && (
-        <CenteredIntro align="left" title={blogTranslation.title} description={blogSection.text} />
+        <CenteredIntro align="left" description={blogSection.text} />
       )}
 
       <BlogGrid items={paginatedItems} />

@@ -2,8 +2,7 @@
 
 import { Box, Typography } from "@mui/material";
 import { DocumentIcon, DownloadIcon } from "@/components/icons/icons";
-import { getCatalogueSection, useLanguage } from "@/core/runtime";
-import { getCataloguesTranslation } from "@/core/translations";
+import { getCatalogueSection } from "@/core/runtime";
 
 /* The file as it is named on disk — what the frame puts on the pill. */
 function fileName(path: string): string {
@@ -19,8 +18,6 @@ function fileName(path: string): string {
  * drawn, as the spec says.
  */
 export default function CatalogueSection() {
-  const { lang } = useLanguage();
-  const cataloguesTranslation = getCataloguesTranslation(lang);
   const catalogueSection = getCatalogueSection();
 
   if (!catalogueSection || catalogueSection.items.length === 0) {
@@ -29,10 +26,6 @@ export default function CatalogueSection() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "40px" } }}>
-      <Typography variant="h2" component="h2">
-        {cataloguesTranslation.title}
-      </Typography>
-
       <Box
         sx={(theme) => ({
           borderTop: `1px solid ${theme.palette.surfaces.border}`,

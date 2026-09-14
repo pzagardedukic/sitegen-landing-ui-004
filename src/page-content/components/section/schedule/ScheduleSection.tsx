@@ -40,24 +40,11 @@ export default function ScheduleSection() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "44px" } }}>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "600fr 80fr 520fr" },
-          alignItems: "start",
-          gap: { xs: "18px", md: 0 },
-        }}
-      >
-        <Typography variant="h2" component="h2" sx={{ gridColumn: { md: "1" } }}>
-          {scheduleSection.title}
+      {scheduleSection.text && (
+        <Typography variant="body1" sx={{ maxWidth: 640 }}>
+          {scheduleSection.text}
         </Typography>
-
-        {scheduleSection.text && (
-          <Typography variant="body1" sx={{ gridColumn: { md: "3" } }}>
-            {scheduleSection.text}
-          </Typography>
-        )}
-      </Box>
+      )}
 
       {categories.length > 0 && (
         <FilterChips
@@ -80,7 +67,15 @@ export default function ScheduleSection() {
             key={table.id}
             title={table.title}
             text={table.text}
-            categoryLabel={categoryNameById(table.categoryId)}
+            /*
+             * The category is left out where the table is already named after it: a
+             * timetable called "Masaže" does not need "Masaže" printed under its own name.
+             */
+            categoryLabel={
+              categoryNameById(table.categoryId) === table.title
+                ? ""
+                : categoryNameById(table.categoryId)
+            }
             rows={table.rows}
           />
         ))}

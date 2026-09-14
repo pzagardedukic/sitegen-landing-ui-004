@@ -1,16 +1,16 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
+import { getMap, useLanguage } from "@/core/runtime";
 import { getContactTranslation } from "@/core/translations";
-import { useLanguage } from "@/core/runtime";
-import { getMap } from "@/core/runtime";
 import ContactInfo from "./ContactInfo";
 import ContactForm from "./ContactForm";
 import CustomMap from "./CustomMap";
 
 /*
- * Contact from the Figma frame (1440x1208): details on the left half, the form card on the
- * right, and the map full-bleed underneath at 400 tall.
+ * The contact block on the home page: the same details and cream form panel as the contact
+ * page — details (520) beside the form (600), stacked below desktop — with the map
+ * full-bleed under them.
  */
 export default function ContactPreviewSection() {
   const { lang } = useLanguage();
@@ -18,21 +18,28 @@ export default function ContactPreviewSection() {
   const map = getMap();
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 6, md: 10 } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "72px", sm: "96px", md: "120px" },
+      }}
+    >
       <Box
         sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "560fr 80fr 560fr" },
-          gap: { xs: 5, md: 0 },
-          alignItems: "start",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: "flex-start",
+          gap: { xs: "44px", md: "80px" },
         }}
       >
         <Box
           sx={{
-            gridColumn: { md: "1" },
+            flex: { md: "0 0 520px" },
+            width: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: { xs: 4, md: 6 },
+            gap: "40px",
           }}
         >
           <Typography variant="h2" component="h2">
@@ -42,7 +49,7 @@ export default function ContactPreviewSection() {
           <ContactInfo />
         </Box>
 
-        <Box sx={{ gridColumn: { md: "3" } }}>
+        <Box sx={{ flex: { md: 1 }, width: "100%", minWidth: 0 }}>
           <ContactForm />
         </Box>
       </Box>

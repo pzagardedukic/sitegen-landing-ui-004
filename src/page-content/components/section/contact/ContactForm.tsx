@@ -1,13 +1,6 @@
 "use client";
 
 import { useEffect, useState, type ChangeEvent } from "react";
-import GradientButton from "@/components/button/GradientButton";
-import { useLanguage } from "@/core/runtime";
-import {
-  getButtonTranslation,
-  getFormTranslation,
-} from "@/core/translations";
-import { getPublicApiEndpoint } from "@/core/utils";
 import {
   Box,
   Button,
@@ -19,8 +12,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import type { Theme } from "@mui/material/styles";
+import ArrowButton from "@/components/button/ArrowButton";
+import { getContacts, useLanguage } from "@/core/runtime";
+import { getButtonTranslation, getFormTranslation } from "@/core/translations";
+import { getPublicApiEndpoint } from "@/core/utils";
 import FormDisclaimer from "../common/FormDisclaimer";
-import { getContacts } from "@/core/runtime";
 
 type ContactFormProps = {
   subject?: string;
@@ -42,20 +39,36 @@ const initialFormData = (subject?: string): ContactFormData => ({
   message: "",
 });
 
+/*
+ * The fields the Lumiera frames draw: white, rounded 8 on the hairline, 56 tall with 20 of
+ * padding, and no label above them — the placeholder carries the name, so each field keeps
+ * its label as an aria-label instead.
+ */
+const fieldSx = (theme: Theme) => ({
+  "& .MuiOutlinedInput-root": {
+    ...theme.typography.body1,
+    borderRadius: "8px",
+    backgroundColor: theme.palette.background.paper,
+    "& fieldset": { borderColor: theme.palette.surfaces.border },
+    "&:hover fieldset": { borderColor: theme.palette.text.primary },
+    "&.Mui-focused fieldset": { borderColor: theme.palette.primary.main },
+  },
+  "& .MuiOutlinedInput-input": { px: "20px", py: 0, height: 56, boxSizing: "border-box" },
+  "& .MuiOutlinedInput-input::placeholder": { color: theme.palette.text.secondary, opacity: 1 },
+  "& .MuiInputBase-multiline": { p: 0 },
+  "& .MuiInputBase-inputMultiline": { px: "20px", py: "16px", height: "auto" },
+});
+
 export default function ContactForm({ subject }: ContactFormProps) {
   const { lang } = useLanguage();
   const formTranslations = getFormTranslation(lang);
   const buttonTranslation = getButtonTranslation(lang);
 
-  const [formData, setFormData] = useState<ContactFormData>(() =>
-    initialFormData(subject),
-  );
+  const [formData, setFormData] = useState<ContactFormData>(() => initialFormData(subject));
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [dialogType, setDialogType] = useState<"success" | "error" | null>(
-    null,
-  );
+  const [dialogType, setDialogType] = useState<"success" | "error" | null>(null);
 
   const contactEmail = getContacts().find((c) => c.type === "EMAIL")?.value;
   const mailtoHref = `mailto:${contactEmail}?subject=${encodeURIComponent(
@@ -63,20 +76,11 @@ export default function ContactForm({ subject }: ContactFormProps) {
   )}&body=${encodeURIComponent(formData.message)}`;
 
   const handleChange =
-    (field: keyof ContactFormData) =>
-    (event: ChangeEvent<HTMLInputElement>) => {
+    (field: keyof ContactFormData) => (event: ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
 
-      setFormData((current) => ({
-        ...current,
-        [field]: value,
-      }));
-
-      setErrors((current) => ({
-        ...current,
-        [field]: undefined,
-      }));
-
+      setFormData((current) => ({ ...current, [field]: value }));
+      setErrors((current) => ({ ...current, [field]: undefined }));
       setSubmitError("");
     };
 
@@ -87,10 +91,7 @@ export default function ContactForm({ subject }: ContactFormProps) {
       nextErrors.name = formTranslations.name.errorMessage;
     }
 
-    if (
-      !formData.email.trim() ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
-    ) {
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       nextErrors.email = formTranslations.email.errorMessage;
     }
 
@@ -118,9 +119,7 @@ export default function ContactForm({ subject }: ContactFormProps) {
     try {
       const response = await fetch(getPublicApiEndpoint("contact"), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name.trim(),
           email: formData.email.trim().toLowerCase(),
@@ -149,18 +148,15 @@ export default function ContactForm({ subject }: ContactFormProps) {
   };
 
   useEffect(() => {
-    setFormData((current) => ({
-      ...current,
-      subject: subject ?? "",
-    }));
+    setFormData((current) => ({ ...current, subject: subject ?? "" }));
   }, [subject]);
 
   return (
     <>
       {/*
-        The form is a card in the Figma frame: 560 wide with 40 of padding, fields 60 tall
-        and the send button on its own row. The tinted surface is what separates it from the
-        contact details beside it, since the section itself has no background.
+        The form is the cream panel from the Lumiera frames: rounded 24, 48 / 36 / 24 of
+        padding and 16 between its parts — name and e-mail on one row, then subject, then the
+        message — with the disclaimer and the send button closing it.
       */}
       <Box
         component="form"
@@ -171,138 +167,98 @@ export default function ContactForm({ subject }: ContactFormProps) {
           void handleSubmit();
         }}
         sx={(theme) => ({
-          p: { xs: "24px", md: "40px" },
-          borderRadius: "25px",
-          border: `1px solid ${theme.palette.surfaces.border}`,
-          backgroundColor: theme.palette.surfaces.tint,
-          "& .MuiOutlinedInput-root": { borderRadius: "16px" },
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          p: { xs: "24px", sm: "36px", md: "48px" },
+          borderRadius: "24px",
+          backgroundColor: theme.palette.surfaces.bgAlt,
         })}
       >
-        <Box display="flex" flexWrap="wrap" gap={2} mb={3}>
-          <Box flex="1 1 260px" minWidth={0}>
-            <Typography variant="subtitle2" mb={0.5}>
-              {formTranslations.name.label}
-            </Typography>
-
-            <TextField
-              fullWidth
-              required
-              name="name"
-              value={formData.name}
-              placeholder={formTranslations.name.placeholder}
-              error={Boolean(errors.name)}
-              helperText={errors.name}
-              disabled={isSubmitting}
-              onChange={handleChange("name")}
-            />
-          </Box>
-
-          <Box flex="1 1 260px" minWidth={0}>
-            <Typography variant="subtitle2" mb={0.5}>
-              {formTranslations.email.label}
-            </Typography>
-
-            <TextField
-              fullWidth
-              required
-              type="email"
-              name="email"
-              value={formData.email}
-              placeholder={formTranslations.email.placeholder}
-              error={Boolean(errors.email)}
-              helperText={errors.email}
-              disabled={isSubmitting}
-              onChange={handleChange("email")}
-            />
-          </Box>
-        </Box>
-
-        <Box mb={3}>
-          <Typography variant="subtitle2" mb={0.5}>
-            {formTranslations.subject.label}
-          </Typography>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: "16px" }}>
+          <TextField
+            fullWidth
+            required
+            name="name"
+            value={formData.name}
+            placeholder={formTranslations.name.placeholder}
+            error={Boolean(errors.name)}
+            helperText={errors.name}
+            disabled={isSubmitting}
+            onChange={handleChange("name")}
+            slotProps={{ htmlInput: { "aria-label": formTranslations.name.label } }}
+            sx={fieldSx}
+          />
 
           <TextField
             fullWidth
             required
-            name="subject"
-            value={formData.subject}
-            placeholder={formTranslations.subject.placeholder}
-            error={Boolean(errors.subject)}
-            helperText={errors.subject}
+            type="email"
+            name="email"
+            value={formData.email}
+            placeholder={formTranslations.email.placeholder}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
             disabled={isSubmitting}
-            onChange={handleChange("subject")}
+            onChange={handleChange("email")}
+            slotProps={{ htmlInput: { "aria-label": formTranslations.email.label } }}
+            sx={fieldSx}
           />
         </Box>
 
-        <Box mb={3}>
-          <Typography variant="subtitle2" mb={0.5}>
-            {formTranslations.message.label}
-          </Typography>
+        <TextField
+          fullWidth
+          required
+          name="subject"
+          value={formData.subject}
+          placeholder={formTranslations.subject.placeholder}
+          error={Boolean(errors.subject)}
+          helperText={errors.subject}
+          disabled={isSubmitting}
+          onChange={handleChange("subject")}
+          slotProps={{ htmlInput: { "aria-label": formTranslations.subject.label } }}
+          sx={fieldSx}
+        />
 
-          <TextField
-            fullWidth
-            required
-            multiline
-            rows={5}
-            name="message"
-            value={formData.message}
-            placeholder={formTranslations.message.placeholder}
-            error={Boolean(errors.message)}
-            helperText={errors.message}
-            disabled={isSubmitting}
-            onChange={handleChange("message")}
-          />
-        </Box>
+        <TextField
+          fullWidth
+          required
+          multiline
+          rows={5}
+          name="message"
+          value={formData.message}
+          placeholder={formTranslations.message.placeholder}
+          error={Boolean(errors.message)}
+          helperText={errors.message}
+          disabled={isSubmitting}
+          onChange={handleChange("message")}
+          slotProps={{ htmlInput: { "aria-label": formTranslations.message.label } }}
+          sx={fieldSx}
+        />
 
-        {submitError && (
-          <Typography color="error" mb={3}>
-            {submitError}
-          </Typography>
-        )}
+        {submitError && <Typography color="error">{submitError}</Typography>}
+
+        <FormDisclaimer isHighContrast={false} />
 
         <Box
-          display="flex"
-          flexWrap="wrap"
-          alignItems="center"
-          justifyContent="space-between"
-          gap={4}
+          sx={{
+            position: "relative",
+            alignSelf: { xs: "stretch", sm: "flex-start" },
+            display: "flex",
+            pointerEvents: isSubmitting ? "none" : "auto",
+            opacity: isSubmitting ? 0.7 : 1,
+          }}
         >
-          <Box flex="1 1 260px">
-            <FormDisclaimer isHighContrast={false} />
-          </Box>
+          <ArrowButton type="submit" sx={{ width: { xs: "100%", sm: "auto" } }}>
+            {buttonTranslation.sendMessage}
+          </ArrowButton>
 
-          <Box
-            sx={{
-              display: "flex",
-              position: "relative",
-              width: { xs: "100%", sm: "auto" },
-              justifyContent: { xs: "center", sm: "flex-start" },
-              pointerEvents: isSubmitting ? "none" : "auto",
-              opacity: isSubmitting ? 0.7 : 1,
-            }}
-          >
-            <GradientButton
-              onClick={() => {
-                void handleSubmit();
-              }}
-            >
-              {buttonTranslation.sendMessage}
-            </GradientButton>
-
-            {isSubmitting && (
-              <CircularProgress
-                size={24}
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  mt: "-12px",
-                  ml: "-12px",
-                }}
-              />
-            )}
-          </Box>
+          {isSubmitting && (
+            <CircularProgress
+              size={24}
+              sx={{ position: "absolute", top: "50%", left: "50%", mt: "-12px", ml: "-12px" }}
+            />
+          )}
         </Box>
       </Box>
 
@@ -313,9 +269,7 @@ export default function ContactForm({ subject }: ContactFormProps) {
         maxWidth="xs"
       >
         <DialogTitle>
-          {dialogType === "success"
-            ? formTranslations.success.title
-            : formTranslations.sendError}
+          {dialogType === "success" ? formTranslations.success.title : formTranslations.sendError}
         </DialogTitle>
 
         <DialogContent>
@@ -324,11 +278,7 @@ export default function ContactForm({ subject }: ContactFormProps) {
           ) : (
             <Typography>
               {formTranslations.contactMessage}{" "}
-              <Box
-                component="a"
-                href={mailtoHref}
-                sx={{ color: "inherit", fontWeight: 600 }}
-              >
+              <Box component="a" href={mailtoHref} sx={{ color: "inherit", fontWeight: 600 }}>
                 {contactEmail}
               </Box>
               .
@@ -337,9 +287,7 @@ export default function ContactForm({ subject }: ContactFormProps) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => setDialogType(null)}>
-            {formTranslations.success.close}
-          </Button>
+          <Button onClick={() => setDialogType(null)}>{formTranslations.success.close}</Button>
         </DialogActions>
       </Dialog>
     </>

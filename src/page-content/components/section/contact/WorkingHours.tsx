@@ -66,9 +66,9 @@ export default function WorkingHours() {
                 color: isToday ? "primary.main" : "inherit",
               }}
             >
-              <Typography variant="body2">{dayLabel}</Typography>
+              <Typography variant="body1">{dayLabel}</Typography>
 
-              <Typography variant="body2" sx={{ opacity: isToday ? 1 : 0.7 }}>
+              <Typography variant="body1" sx={{ opacity: isToday ? 1 : 0.7 }}>
                 {g.open
                   ? `${g.from} – ${g.to}`
                   : workingHoursTranslation.closedLabel}

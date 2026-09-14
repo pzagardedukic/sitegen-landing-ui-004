@@ -31,7 +31,7 @@ export default function CustomMap({ fadeRight }: CustomMapProps) {
         right: "50%",
         marginLeft: "-50vw",
         marginRight: "-50vw",
-        height: { xs: 280, md: 400 },
+        height: { xs: 300, sm: 360, md: 420 },
       }}
     >
       {/* Skeleton Loader */}

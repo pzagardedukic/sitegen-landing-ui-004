@@ -64,6 +64,52 @@ export function LongArrowIcon({
   );
 }
 
+/* The four contact marks, drawn in a 20 box to sit in Lumiera's rose circle. */
+export function LocationIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden {...props}>
+      <path
+        d="M10 17.5s5.5-4.9 5.5-9a5.5 5.5 0 1 0-11 0c0 4.1 5.5 9 5.5 9Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+      <circle cx="10" cy="8.3" r="2" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  );
+}
+
+export function PhoneIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden {...props}>
+      <path
+        d="M6.6 3.5 8.2 6.4 6.7 8c.8 1.7 2 2.9 3.7 3.7l1.6-1.5 2.9 1.6v2.8c0 .6-.5 1.1-1.1 1C7.7 15 4.9 12.2 4.4 4.6c0-.6.4-1.1 1-1.1h1.2Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function MailIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden {...props}>
+      <rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4" />
+      <path d="m3.8 6.4 6.2 4.3 6.2-4.3" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function ClockIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden {...props}>
+      <circle cx="10" cy="10" r="6.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M10 6.2V10l2.6 1.6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /* The tick in front of a feature in a list. */
 export function CheckIcon({ size = 10, ...props }: IconProps) {
   return (

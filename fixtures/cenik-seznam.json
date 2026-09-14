@@ -1,0 +1,8 @@
+{
+  "description": "Cenik kot seznam (PRICING_LIST): siroke vrstice s cenami namesto kartic paketov, brez detajlnih strani.",
+  "patch": {
+    "pricing": {
+      "type": "PRICING_LIST"
+    }
+  }
+}

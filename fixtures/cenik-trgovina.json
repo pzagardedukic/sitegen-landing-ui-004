@@ -1,0 +1,8 @@
+{
+  "description": "Cenik kot trgovina (PRICING_STORE): iskalnik, sortiranje, paginacija in detajlna stran vsake postavke.",
+  "patch": {
+    "pricing": {
+      "type": "PRICING_STORE"
+    }
+  }
+}

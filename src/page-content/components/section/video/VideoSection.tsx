@@ -1,12 +1,16 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import { getVideoSection } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
+import Carousel from "@/components/carousel/Carousel";
+import { getVideoSection, useLanguage } from "@/core/runtime";
 import { getVideosTranslation } from "@/core/translations";
 import VideoThumbnail from "./VideoThumbnail";
 
-/* Figma frame 1440x1037: a title, then tiles two across the 1200 grid with a 40 gutter. */
+/*
+ * The videos page from the Lumiera frames: the title, then the tiles two abreast on desktop
+ * 32 apart, and a carousel below that — two tiles wide on tablet, one on a phone. The
+ * section is left out when there are no videos.
+ */
 export default function VideoSection() {
   const { lang } = useLanguage();
   const videosTranslation = getVideosTranslation(lang);
@@ -14,22 +18,34 @@ export default function VideoSection() {
 
   if (!videoSection || videoSection.items.length === 0) return null;
 
+  const tiles = videoSection.items.map((url: string, index: number) => (
+    <VideoThumbnail key={index} videoUrl={url} />
+  ));
+
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 4, md: 5 } }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "40px" }}>
       <Typography variant="h2" component="h2">
         {videosTranslation.title}
       </Typography>
 
       <Box
         sx={{
-          display: "grid",
-          gap: "40px",
-          gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+          display: { xs: "none", md: "grid" },
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "32px",
         }}
       >
-        {videoSection.items.map((url: string, index: number) => (
-          <VideoThumbnail key={index} videoUrl={url} />
-        ))}
+        {tiles}
+      </Box>
+
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Carousel
+          items={tiles}
+          slideWidth={{ xs: "100%", sm: "calc(50% - 10px)" }}
+          gap={20}
+          controlsGap={{ xs: 24 }}
+          ariaLabel={videosTranslation.title}
+        />
       </Box>
     </Box>
   );

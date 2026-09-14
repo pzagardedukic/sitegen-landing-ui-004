@@ -64,6 +64,15 @@ export function LongArrowIcon({
   );
 }
 
+/* The play triangle in the white button over a video still (16 × 20 in the frames). */
+export function PlayIcon({ size = 20, ...props }: IconProps) {
+  return (
+    <svg width={size * (16 / 20)} height={size} viewBox="0 0 16 20" fill="currentColor" aria-hidden {...props}>
+      <path d="M1.4.6a1 1 0 0 0-1.4.9v17a1 1 0 0 0 1.5.9l14.1-8.5a1 1 0 0 0 0-1.7L1.4.6Z" />
+    </svg>
+  );
+}
+
 /* The document mark in the rose circle on a catalogue row (12 × 17 in the frames). */
 export function DocumentIcon({ size = 17, ...props }: IconProps) {
   return (

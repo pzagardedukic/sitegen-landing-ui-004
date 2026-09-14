@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { PlayIcon } from "@/components/icons/icons";
 import { getVideoThumbnail } from "@/core/utils";
 
 /*
- * A video tile from the Figma frame (580x326): the still under a black overlay with a round
- * play button, 74px across, in the middle.
+ * A video tile from the Lumiera frames: the still rounded 16 under the overlay colour,
+ * 330 / 188 / 191 tall, with the white play button 72 across in the middle. The whole tile
+ * opens the video, and its address is the link's accessible name — the frames mark the URL
+ * on the tile, but every demo video is a YouTube link, so printing the host four times over
+ * would say nothing.
  */
 export default function VideoThumbnail({ videoUrl }: { videoUrl: string }) {
   const [thumb, setThumb] = useState<string | null>(null);
@@ -31,15 +34,18 @@ export default function VideoThumbnail({ videoUrl }: { videoUrl: string }) {
       href={videoUrl}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={videoUrl}
       sx={(theme) => ({
         position: "relative",
         display: "block",
-        height: { xs: 220, sm: 280, md: 326 },
-        borderRadius: "25px",
+        height: { xs: 191, sm: 188, md: 330 },
+        borderRadius: "16px",
         overflow: "hidden",
         backgroundColor: theme.palette.surfaces.placeholder,
-        "&:hover .play": { transform: "translate(-50%, -50%) scale(1.08)" },
-        "&:hover img": { transform: "scale(1.04)" },
+        "&:hover .play, &:focus-visible .play": {
+          transform: "translate(-50%, -50%) scale(1.08)",
+        },
+        "&:hover img, &:focus-visible img": { transform: "scale(1.04)" },
       })}
     >
       {thumb && (
@@ -70,22 +76,25 @@ export default function VideoThumbnail({ videoUrl }: { videoUrl: string }) {
 
       <Box
         className="play"
+        aria-hidden
         sx={(theme) => ({
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 74,
-          height: 74,
+          width: 72,
+          height: 72,
           borderRadius: "50%",
-          backgroundImage: theme.palette.brandGradient,
-          color: theme.palette.primary.contrastText,
+          backgroundColor: theme.palette.surfaces.onImage,
+          color: theme.palette.text.primary,
           display: "grid",
           placeItems: "center",
+          // The triangle sits on its own centre of mass, which is left of the circle's.
+          pl: "5px",
           transition: theme.transitions.create("transform"),
         })}
       >
-        <PlayArrowIcon sx={{ fontSize: 34 }} />
+        <PlayIcon />
       </Box>
     </Box>
   );

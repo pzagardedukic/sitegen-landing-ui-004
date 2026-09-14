@@ -1,62 +1,90 @@
 "use client";
 
-import { Box } from "@mui/material";
-import { useState } from "react";
-
-import { getScheduleSection, getScheduleTables } from "@/core/runtime";
-import { useLanguage } from "@/core/runtime";
-import CategorySelector from "../common/CategorySelector";
-import DualColumnSection from "../common/DualColumnSection";
+import { useMemo, useState } from "react";
+import { Box, Typography } from "@mui/material";
+import FilterChips from "@/components/common/FilterChips";
+import { getScheduleSection, getScheduleTables, useLanguage } from "@/core/runtime";
+import { getButtonTranslation } from "@/core/translations";
 import ScheduleTableView from "./ScheduleTableView";
 
-/* Figma frame 1440x1494: the 600/80/520 intro, the category chips, then the tables. */
+/*
+ * The timetable page from the Lumiera frames: the title on the left half of the grid with
+ * the section's text beside it, the category pills under them, and the tables 44 below,
+ * 56 apart. The pills are hidden where a customer has no categories.
+ */
 export default function ScheduleSection() {
   const { lang } = useLanguage();
   const scheduleSection = getScheduleSection(lang);
   const scheduleTables = getScheduleTables(lang);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const allLabel = getButtonTranslation(lang).all;
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+
+  const categories = scheduleSection?.categories ?? [];
+
+  const tables = useMemo(
+    () =>
+      selectedCategoryId
+        ? scheduleTables.filter((table) => table.categoryId === selectedCategoryId)
+        : scheduleTables,
+    [scheduleTables, selectedCategoryId],
+  );
 
   if (!scheduleSection) {
     return null;
   }
 
-  const categoryLabels = scheduleSection.categories.map(
-    (category) => category.name,
-  );
-  const selectedCategoryId =
-    selectedIndex === 0
-      ? undefined
-      : scheduleSection.categories[selectedIndex - 1]?.id;
-  const filteredTables = selectedCategoryId
-    ? scheduleTables.filter(
-        (scheduleTable) => scheduleTable.categoryId === selectedCategoryId,
-      )
-    : scheduleTables;
+  /* The table carries only the category's id; its name lives on the section. */
+  const categoryNameById = (categoryId: string | null) =>
+    categories.find((category) => category.id === categoryId)?.name ?? "";
 
   return (
-    <DualColumnSection
-      title={scheduleSection.title}
-      description={scheduleSection.text}
-      columns="600fr 80fr 520fr"
-    >
-      {categoryLabels.length > 0 && (
-        <CategorySelector
-          categories={categoryLabels}
-          selectedIndex={selectedIndex}
-          onSelectIndex={setSelectedIndex}
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "44px" } }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "600fr 80fr 520fr" },
+          alignItems: "start",
+          gap: { xs: "18px", md: 0 },
+        }}
+      >
+        <Typography variant="h2" component="h2" sx={{ gridColumn: { md: "1" } }}>
+          {scheduleSection.title}
+        </Typography>
+
+        {scheduleSection.text && (
+          <Typography variant="body1" sx={{ gridColumn: { md: "3" } }}>
+            {scheduleSection.text}
+          </Typography>
+        )}
+      </Box>
+
+      {categories.length > 0 && (
+        <FilterChips
+          ariaLabel={allLabel}
+          options={[
+            { value: "", label: allLabel },
+            ...categories.map((category) => ({
+              value: category.id,
+              label: category.name,
+            })),
+          ]}
+          value={selectedCategoryId}
+          onChange={setSelectedCategoryId}
         />
       )}
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 5, md: 7 } }}>
-        {filteredTables.map((scheduleTable, index) => (
+      <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "40px", md: "56px" } }}>
+        {tables.map((table) => (
           <ScheduleTableView
-            key={index}
-            title={scheduleTable.title}
-            text={scheduleTable.text}
-            rows={scheduleTable.rows}
+            key={table.id}
+            title={table.title}
+            text={table.text}
+            categoryLabel={categoryNameById(table.categoryId)}
+            rows={table.rows}
           />
         ))}
       </Box>
-    </DualColumnSection>
+    </Box>
   );
 }

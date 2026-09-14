@@ -64,6 +64,36 @@ export function LongArrowIcon({
   );
 }
 
+/* The document mark in the rose circle on a catalogue row (12 × 17 in the frames). */
+export function DocumentIcon({ size = 17, ...props }: IconProps) {
+  return (
+    <svg width={size * (12 / 17)} height={size} viewBox="0 0 12 17" fill="none" aria-hidden {...props}>
+      <path
+        d="M7 .8H2.4A1.6 1.6 0 0 0 .8 2.4v12.2a1.6 1.6 0 0 0 1.6 1.6h7.2a1.6 1.6 0 0 0 1.6-1.6V4.8L7 .8Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+      <path d="M7 .8v4h4.2" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/* The download arrow on the file pill (10 × 12). */
+export function DownloadIcon({ size = 12, ...props }: IconProps) {
+  return (
+    <svg width={size * (10 / 12)} height={size} viewBox="0 0 10 12" fill="none" aria-hidden {...props}>
+      <path
+        d="M5 .8v7.4M1.6 5.4 5 8.8l3.4-3.4M.8 11.2h8.4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /* The four contact marks, drawn in a 20 box to sit in Lumiera's rose circle. */
 export function LocationIcon({ size = 20, ...props }: IconProps) {
   return (

@@ -24,6 +24,12 @@ banner 2800 px, portreti mnenj 800 px, izdelki 900–1200 px). Izvorniki niso v 
 
 `home.companyLogo.image` je prazen: glava izpiše ime `MIRNA` v pisavi naslovov.
 
+## Katalogi
+
+`public/documents/{mirna-cenik-2026,mirna-darilni-boni,mirna-nega-koze-vodnik}.pdf` so demo
+katalogi (cenik storitev, darilni boni in paketi, vodnik za nego kože), prav tako natisnjeni
+iz HTML v PDF z Edgem. Prej so vsi trije kazali na tuj testni `dummy.pdf` na spletu.
+
 ## Pravni dokumenti
 
 `public/documents/{pogoji-sl,terms-en,zasebnost-sl,privacy-en}.pdf` so demo besedila za

@@ -934,26 +934,26 @@
     "items": [
       {
         "displayName": "Mirna — cenik storitev 2026 (SL/EN)",
-        "size": 2150000,
+        "size": 35694,
         "file": {
           "id": "catalogue-prices-2026",
-          "file": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+          "file": "/documents/mirna-cenik-2026.pdf"
         }
       },
       {
         "displayName": "Darilni boni in paketi (SL)",
-        "size": 1240000,
+        "size": 31021,
         "file": {
           "id": "catalogue-vouchers",
-          "file": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+          "file": "/documents/mirna-darilni-boni.pdf"
         }
       },
       {
         "displayName": "Vodnik za nego kože doma (SL/EN)",
-        "size": 980000,
+        "size": 27937,
         "file": {
           "id": "catalogue-skincare-guide",
-          "file": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+          "file": "/documents/mirna-nega-koze-vodnik.pdf"
         }
       }
     ]

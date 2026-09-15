@@ -120,12 +120,20 @@ povezavi za računalnik in telefon s sidrom → potrditev → commit.
 narobe, nato tisto, kar je stvar okusa, na koncu tisto, česar v tem repozitoriju ni mogoče
 rešiti.
 
-**5.1 Zemljevid na kontaktu — prava napaka**
+**5.1 Zemljevid na kontaktu — higiena naslova in dostopnost, ne vzrok sive ploskve**
 
 `CustomMap` sestavi naslov kot `formatGoogleMapsUrl(url) + "&hl=" + lang`. Jedro vrne
 `https://www.google.com/maps?q=…&output=embed`, `lang` pa je v tem projektu **velika črka**
-(`SL`, `EN`) in je lahko tudi `null`. Google pričakuje male črke, zato gre ven `hl=SL`
-oziroma celo `hl=null`.
+(`SL`, `EN`) in je lahko tudi `null`, zato je šlo ven `hl=SL` oziroma celo `hl=null`.
+
+**Popravek prve domneve (15. 9. 2026):** sprva sem to razglasila za pravo napako in vzrok
+sive ploskve. Preverila sem z zahtevki in to **ne drži** — Google na vse štiri oblike
+(`brez`, `hl=sl`, `hl=SL`, `hl=null`) odgovori z istim `301` na isti vdelani naslov, torej
+parameter na tej stopnji preprosto ignorira. Sprememba ostane kot higiena (v naslovu ni
+dobesednega `null`, koda jezika je mala, kot piše v Googlovi dokumentaciji) in kot
+dostopnost (ime okvirja je prevedeno namesto trdo zapisanega angleškega „Location Map").
+Vzrok sive ploskve v brezglavem Edgeu ostaja Googlova stran s privolitvijo in ga v kodi ni
+mogoče odpraviti; potrebna je tvoja potrditev v pravem brskalniku.
 
 - Popravek: jezik pretvorim v male črke in ga izpustim, kadar ga ni.
 - Naslov okvirja je trdo zapisan angleški `"Location Map"` — zamenjam ga s prevodom.
@@ -165,12 +173,9 @@ Figma ima temne okvirje za sekcije 18–23. Preveril sem celotno pot podatkov:
   polje tja prišlo — a tema sme brati podatke izključno prek `src/core/*`, kar preverja
   `pnpm check:boundary`, in jedro takega polja ne izpostavi.
 
-Zato temnega načina ni mogoče krmiliti iz podatkov, ne da bi se spremenilo jedro. Na voljo
-sta dve pošteni možnosti:
+Zato temnega načina ni mogoče krmiliti iz podatkov, ne da bi se spremenilo jedro.
 
-- **(a) Dokumentiram kot namerno neuporabljeno** in po potrebi predlagam ptlabTadeju polje
-  v shemi teme. Priporočeno.
-- **(b) Vklop s stikalom ob gradnji** (`NEXT_PUBLIC_DARK_SECTIONS=true`), ki ni podatek
-  stranke in si zato ničesar ne izmišlja v shemi; služi samo predstavitvi.
-
-Odločitev je Petrina; dokler je ni, ostane (a).
+**Odločeno (15. 9. 2026): temni način ne spada v to temo.** Temni okvirji v Figmi ostanejo
+neuporabljeni; stikala ob gradnji ne uvajamo, ker bi bila funkcija, ki je stranka ne more
+vklopiti sama. Če bo temni način kdaj potreben, se začne s poljem v shemi teme (jedro,
+ptlabTadej), ne v posamezni temi.

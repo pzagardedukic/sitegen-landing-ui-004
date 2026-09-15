@@ -30,6 +30,20 @@ banner 2800 px, portreti mnenj 800 px, izdelki 900–1200 px). Izvorniki niso v 
 katalogi (cenik storitev, darilni boni in paketi, vodnik za nego kože), prav tako natisnjeni
 iz HTML v PDF z Edgem. Prej so vsi trije kazali na tuj testni `dummy.pdf` na spletu.
 
+## Videi
+
+`videos.items[]` so **tuje povezave na YouTube**, ne naš material — jedro iz njihovega ID-ja
+izpelje sličico (`img.youtube.com/vi/<id>/hqdefault.jpg`), zato morajo ostati na YouTubu ali
+Vimeu. Trenutno so tam nadomestki brez zveze z vsebino (Google I/O, testni posnetek,
+„Me at the zoo").
+
+**Odprto.** Poskus zamenjave s „primernejšimi" posnetki ni uspel: od pregledanih kandidatov
+je bil vsak bodisi vsebinsko neprimeren (razgaljena telesa), je nosil vidno znamko drugega
+salona, bodisi je bila sličica glasbenega kanala z velikim angleškim napisom čez sliko.
+Sličice posnetka po naslovu ni mogoče presojati — pregledati jo je treba. Na voljo so tri
+poti: sekcijo v demu ugasniti (`optionalSections.videos`), pustiti sedanje nadomestke ali
+posneti lastne posnetke. Odločitev čaka Petro.
+
 ## Pravni dokumenti
 
 `public/documents/{pogoji-sl,terms-en,zasebnost-sl,privacy-en}.pdf` so demo besedila za

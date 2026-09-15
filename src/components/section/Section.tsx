@@ -51,6 +51,18 @@ export default function Section({
         },
         // Lumiera's section rhythm: 72 / 96 / 120 above and below.
         py: paddingY ?? { xs: "72px", sm: "96px", md: "120px" },
+        /*
+         * The section that opens a subpage is the band's own sibling in the document, and
+         * the band already closes with a 24–40 rounded lip. Once the heading moved into the
+         * band, the full rhythm left every subpage starting on a wide empty strip, so the
+         * first section after the band keeps about 60 % of its top padding.
+         *
+         * One selector rather than an override in each of the eighteen page wrappers: the
+         * rule then cannot be forgotten on a page added later.
+         */
+        "#section-header + &": {
+          paddingTop: { xs: "40px", sm: "56px", md: "72px" },
+        },
         backgroundColor: resolvedHeaderImage
           ? "transparent"
           : (color ?? "transparent"),

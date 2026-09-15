@@ -1,5 +1,6 @@
-import { getMap } from "@/core/runtime";
+import { getCompany, getMap } from "@/core/runtime";
 import { useLanguage } from "@/core/runtime";
+import { getContactTranslation } from "@/core/translations";
 import { formatGoogleMapsUrl } from "@/core/utils";
 import { Box, Fade, Skeleton } from "@mui/material";
 import { useMemo, useState, useEffect } from "react";
@@ -13,12 +14,24 @@ export default function CustomMap({ fadeRight }: CustomMapProps) {
   const [loading, setLoading] = useState(true);
 
   const map = getMap();
-  const formattedUrl = useMemo(() => formatGoogleMapsUrl(map.url), [map.url]);
+  const company = getCompany();
+  const contactTranslation = getContactTranslation(lang);
+
+  /*
+   * Google wants a lower-case language code. `lang` is upper case in this project ("SL"),
+   * and it is null until the language resolves — which put "&hl=null" in the address. So the
+   * code is lowered, and the parameter is left off entirely while there is none to send.
+   */
+  const mapUrl = useMemo(() => {
+    const base = formatGoogleMapsUrl(map.url);
+
+    return lang ? `${base}&hl=${lang.toLowerCase()}` : base;
+  }, [map.url, lang]);
 
   // Re-trigger loading each time the URL changes
   useEffect(() => {
     setLoading(true);
-  }, [formattedUrl]);
+  }, [mapUrl]);
 
   return (
     /* Full-bleed band 400 tall, as drawn — it breaks out of the content container the
@@ -48,9 +61,13 @@ export default function CustomMap({ fadeRight }: CustomMapProps) {
       </Fade>
 
       {/* Iframe Map */}
+      {/*
+       * The frame's name is built from strings the site already has — the translated word
+       * for "address" and the company's name — rather than from an invented translation key.
+       */}
       <iframe
-        title="Location Map"
-        src={`${formattedUrl}&hl=${lang}`}
+        title={`${contactTranslation.contactInfo.address.title}: ${company.name}`}
+        src={mapUrl}
         width="100%"
         height="100%"
         style={{ border: 0, display: "block" }}

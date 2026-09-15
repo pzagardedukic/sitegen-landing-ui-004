@@ -45,7 +45,7 @@ Repo, ta datoteka. Stop.
 - `pnpm install`, `pnpm verify`, `pnpm build` zeleni — to je referenčno stanje.
 - Nova demo vsebina: beauty/spa `website.json` po shared-types (vse sekcije, SL + EN, vsi
   opcijski elementi prisotni), slike iz Lumiere v `public/images`, posodobljen `DEMO-SLIKE.md`.
-  `fixtures/*` prilagojeni novim podatkom.
+  preizkusne stranke v `fixtures/*` prilagojene novim podatkom.
 
 ### 2 — tema in skupni gradniki
 - **Pisave**: Fraunces (naslovi), Figtree (besedilo) prek `next/font/google`.
@@ -93,14 +93,14 @@ povezavi za računalnik in telefon s sidrom → potrditev → commit.
 | 23 | 404 | `not-found/` | kremna kompozicija na sredini |
 
 ### 4 — QA
-`pnpm verify`, `pnpm build`, `pnpm test:variants` (vse fixtures), zajem 390 / 768 / 1440 iz
+`pnpm verify`, `pnpm build`, `pnpm test:variants` (vse preizkusne stranke), zajem 390 / 768 / 1440 iz
 `out/` prek Edge CDP, primerjava poti in sider z ui-002, preverjanje urejevalnika teme
 (barve, pisave, banner, ponastavitev).
 
 **Izid (15. 9. 2026)**
 
 - `pnpm verify` čist, `pnpm build` uspe — 20 poti, `sitemap.xml`, `robots.txt`, izvoz 9,2 MB.
-- `pnpm test:variants`: vseh 12 fixtur čistih, 0 težav. Dodani sta `cenik-seznam` in
+- `pnpm test:variants`: vseh 12 preizkusnih strank čistih, 0 težav. Dodani sta `cenik-seznam` in
   `cenik-trgovina`, ker demo podatki uporabljajo tip „paketi" in ostali dve različici
   cenika drugače nista bili vidni nikjer.
 - Poti in sidra so identična ui-001, ui-002 in ui-003 (20 poti, 28 sider, brez razlik).
@@ -174,6 +174,21 @@ Figma ima temne okvirje za sekcije 18–23. Preveril sem celotno pot podatkov:
   `pnpm check:boundary`, in jedro takega polja ne izpostavi.
 
 Zato temnega načina ni mogoče krmiliti iz podatkov, ne da bi se spremenilo jedro.
+
+**Izid faze 5 (15. 9. 2026)**
+
+- 5.1 zemljevid: jezikovna koda gre ven z malimi črkami in samo, kadar obstaja; ime okvirja
+  je prevedeno. Prvotna domneva, da je bil `hl=SL` vzrok sive ploskve, je **ovržena** —
+  Google na vse oblike odgovori enako.
+- 5.2 zgornji rob: prva sekcija za naslovnim pasom obdrži približno 60 % navpičnega roba,
+  urejeno z enim pravilom v `Section` namesto z osemnajstimi popravki po ovojih strani.
+- 5.3 videi: štirje pregledani posnetki namesto nadomestkov. Merila in razlogi za zavrnitve
+  so v `DEMO-SLIKE.md`, skupaj z dvema pastema (pokončni Shorts, presoja po naslovu).
+- 5.4 temni način: zaprto, ne spada v to temo.
+- Preveritev po popravkih: `pnpm verify` čist, `pnpm build` uspe, `pnpm test:variants`
+  **12 od 12 preizkusnih strank čistih, 0 težav**.
+- Odprto ostaja eno: potrditev zemljevida v pravem brskalniku (v brezglavem Edgeu se pokaže
+  Googlova stran s privolitvijo in ploskev ostane siva).
 
 **Odločeno (15. 9. 2026): temni način ne spada v to temo.** Temni okvirji v Figmi ostanejo
 neuporabljeni; stikala ob gradnji ne uvajamo, ker bi bila funkcija, ki je stranka ne more

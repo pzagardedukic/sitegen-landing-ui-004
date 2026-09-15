@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type JSX } from "react";
+import { type JSX } from "react";
 import { Box, Typography } from "@mui/material";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
@@ -9,10 +9,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
 import LanguageIcon from "@mui/icons-material/Language";
-import CircleButton from "@/components/button/CircleButton";
 import { TikTokIcon } from "@/components/button/FooterSocials";
-import { ArrowOutwardIcon } from "@/components/icons/icons";
-import { ContactType, useLanguage } from "@/core/runtime";
+import { ContactType } from "@/core/runtime";
 
 export interface ContactItem {
   type: ContactType;
@@ -48,31 +46,18 @@ const hrefFor = (item: ContactItem) => {
  * 340 / 380 / 400 tall, then the name (h6) and the line about the person in the muted text
  * colour, centred, 18 / 16 under the photograph.
  *
- * The contacts sit on the photograph's bottom-right corner, 12 in. Folded, they are a white
- * 40px button with an arrow; open, a white pill of mint icon buttons stacked upwards. The
- * card opens on hover, on a tap of the button, or from the keyboard — the button moves focus
- * to the first contact — and folds again when the pointer or the focus leaves it.
+ * The contacts sit on the photograph's bottom-right corner, 12 in, as a white pill of mint
+ * icon buttons stacked upwards — always shown, never folded behind a button.
+ *
+ * They used to open on hover, on a tap of an arrow button, or from the keyboard. On a phone
+ * that cost the visitor a tap for nothing: the first tap only stood in for the hover the
+ * device cannot do, and it landed on the very spot the contacts were about to occupy, so a
+ * tap meant to reach a contact opened the pill instead and appeared to do nothing at all.
+ * Every contact is one tap now, and what the card offers is visible without probing it.
  */
 export default function TeamCard({ name, text, image, contact = [] }: TeamCardProps) {
-  const { lang } = useLanguage();
-  const [open, setOpen] = useState(false);
-  const firstLink = useRef<HTMLAnchorElement | null>(null);
-  const hasContact = contact.length > 0;
-
-  const openFromButton = () => {
-    setOpen(true);
-    requestAnimationFrame(() => firstLink.current?.focus());
-  };
-
   return (
-    <Box
-      onMouseEnter={() => hasContact && setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onBlur={(event: React.FocusEvent<HTMLDivElement>) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpen(false);
-      }}
-      sx={{ display: "flex", flexDirection: "column", gap: { xs: "16px", md: "18px" } }}
-    >
+    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "16px", md: "18px" } }}>
       <Box
         sx={(theme) => ({
           position: "relative",
@@ -96,62 +81,51 @@ export default function TeamCard({ name, text, image, contact = [] }: TeamCardPr
           }}
         />
 
-        {hasContact && (
-          <Box sx={{ position: "absolute", right: 12, bottom: 12 }}>
-            <CircleButton
-              tone="white"
-              size={40}
-              onClick={openFromButton}
-              aria-label={`${lang === "SL" ? "Kontakt" : "Contact"}: ${name}`}
-              aria-expanded={open}
-              sx={{ display: open ? "none" : "inline-flex" }}
-            >
-              <ArrowOutwardIcon />
-            </CircleButton>
-
-            <Box
-              role="list"
-              sx={(theme) => ({
-                display: open ? "flex" : "none",
-                flexDirection: "column",
-                gap: { xs: "6px", md: "8px" },
-                p: { xs: "5px", md: "6px" },
-                borderRadius: "999px",
-                backgroundColor: theme.palette.background.paper,
-              })}
-            >
-              {contact.map((item, index) => (
-                <Box
-                  key={`${item.type}-${item.value}`}
-                  role="listitem"
-                  component="a"
-                  ref={index === 0 ? firstLink : undefined}
-                  href={hrefFor(item)}
-                  target={item.type === "EMAIL" || item.type === "PHONE" ? undefined : "_blank"}
-                  rel="noopener noreferrer"
-                  aria-label={item.type}
-                  sx={(theme) => ({
-                    width: { xs: 30, md: 32 },
-                    height: { xs: 30, md: 32 },
-                    borderRadius: "50%",
-                    display: "grid",
-                    placeItems: "center",
-                    backgroundColor: theme.palette.surfaces.mint,
-                    color: theme.palette.text.primary,
-                    "& .MuiSvgIcon-root": { fontSize: 15 },
-                    transition: theme.transitions.create(["background-color", "color"], {
-                      duration: theme.transitions.duration.short,
-                    }),
-                    "&:hover, &:focus-visible": {
-                      backgroundColor: theme.palette.primary.main,
-                      color: theme.palette.primary.contrastText,
-                    },
-                  })}
-                >
-                  {iconMap[item.type]}
-                </Box>
-              ))}
-            </Box>
+        {contact.length > 0 && (
+          <Box
+            role="list"
+            sx={(theme) => ({
+              position: "absolute",
+              right: 12,
+              bottom: 12,
+              display: "flex",
+              flexDirection: "column",
+              gap: { xs: "6px", md: "8px" },
+              p: { xs: "5px", md: "6px" },
+              borderRadius: "999px",
+              backgroundColor: theme.palette.background.paper,
+            })}
+          >
+            {contact.map((item) => (
+              <Box
+                key={`${item.type}-${item.value}`}
+                role="listitem"
+                component="a"
+                href={hrefFor(item)}
+                target={item.type === "EMAIL" || item.type === "PHONE" ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                aria-label={`${item.type}: ${name}`}
+                sx={(theme) => ({
+                  width: { xs: 30, md: 32 },
+                  height: { xs: 30, md: 32 },
+                  borderRadius: "50%",
+                  display: "grid",
+                  placeItems: "center",
+                  backgroundColor: theme.palette.surfaces.mint,
+                  color: theme.palette.text.primary,
+                  "& .MuiSvgIcon-root": { fontSize: 15 },
+                  transition: theme.transitions.create(["background-color", "color"], {
+                    duration: theme.transitions.duration.short,
+                  }),
+                  "&:hover, &:focus-visible": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                  },
+                })}
+              >
+                {iconMap[item.type]}
+              </Box>
+            ))}
           </Box>
         )}
       </Box>

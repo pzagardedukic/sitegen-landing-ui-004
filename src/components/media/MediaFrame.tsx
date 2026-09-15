@@ -89,7 +89,8 @@ export default function MediaFrame({
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            color: "common.white",
+            /* One source for "text over a photograph", so a palette change reaches it too. */
+            color: "surfaces.onImage",
           }}
         >
           {children}

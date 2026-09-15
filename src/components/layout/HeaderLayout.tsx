@@ -55,8 +55,14 @@ export default function HeaderLayout({
           pointerEvents: "auto",
           height: px(HEADER_BAR),
           borderRadius: "999px",
-          pl: { xs: "22px", sm: "26px", md: "32px" },
-          pr: { xs: "8px", sm: "8px", md: "10px" },
+          /*
+           * The same padding on both sides. Figma draws the pill lopsided — a wide inset for
+           * the bare menu glyph, a narrow one for the language pill, which carries its own
+           * white background and so needs less air. On the phone that put the menu 23 from
+           * the border and the language pill 9, and the language pill read as though it were
+           * falling off the right edge. Equal wins over optically-adjusted here.
+           */
+          px: { xs: "16px", sm: "18px", md: "20px" },
           display: "grid",
           /*
            * On a phone the equal outer columns cost the logo too much: the language pill is

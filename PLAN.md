@@ -114,6 +114,36 @@ povezavi za računalnik in telefon s sidrom → potrditev → commit.
 - Znano in namerno: zgrajeni HTML je lupina, vsebina se sestavi v brskalniku. Enako velja za
   ui-001, ui-002 in ui-003 — gre za lastnost skupne osnove, ne te teme.
 
+### Objava demo strani (15. 9. 2026)
+
+Stran je javno dostopna na **https://pzagardedukic.github.io/sitegen-landing-ui-004/**.
+
+Gradnja **ne more** teči v oblaku: projekt se naslanja na `@ptlabTadej/sitegen-landing-core`
+z GitHub Packages, kjer GitHub Actions dobi `401` brez poverilnice. Zato gradimo lokalno in
+v vejo `gh-pages` potisnemo samo rezultat — nobene poverilnice ni treba shraniti v oblak.
+
+Ponovna objava po spremembi:
+
+```bash
+# PowerShell, ker Git Bash osnovno pot pretvori v windowsovsko pot
+$env:NEXT_PUBLIC_BASE_PATH = '/sitegen-landing-ui-004'; pnpm build
+git worktree add --detach <tmp>
+cd <tmp> && git checkout --orphan gh-pages && git rm -rq --cached .
+# vsebina out/ + .nojekyll -> commit -> git push -f origin gh-pages
+```
+
+Pasti, ki so me ujele:
+
+- stran živi pod `/sitegen-landing-ui-004/`, zato gradnja brez `NEXT_PUBLIC_BASE_PATH` da
+  izvoz, ki se na Pages ne izriše (vse poti kažejo v koren domene);
+- `MSYS_NO_PATHCONV=1` zlomi zaganjalnik `pnpm`, zato gradnja z osnovno potjo spada v
+  PowerShell, ne v Git Bash;
+- Pages je treba postaviti na `build_type: legacy` z vejo `gh-pages`; ob vklopu prek API-ja
+  ostanejo na `workflow` in ne objavijo ničesar.
+
+Repozitorij je zaradi brezplačnih Pages **javen**. Demo fotografije so iz predloge Lumiera
+in videi so tuje povezave — pred resno objavo jih je treba zamenjati (glej `DEMO-SLIKE.md`).
+
 ### 5 — popravki po QA (načrt, 15. 9. 2026)
 
 Štiri odprte točke iz faze 4. Vrstni red je namenoma tak: najprej tisto, kar je dokazljivo

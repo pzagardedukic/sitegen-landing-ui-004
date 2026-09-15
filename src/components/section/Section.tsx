@@ -59,9 +59,13 @@ export default function Section({
          *
          * One selector rather than an override in each of the eighteen page wrappers: the
          * rule then cannot be forgotten on a page added later.
+         *
+         * Not cut further than this: at 40 on a phone the catalogue page's first hairline
+         * sat ~50 under the lip with no heading to anchor it and read as part of the band,
+         * and the pages that open on a single line of text looked unmoored the same way.
          */
         "#section-header + &": {
-          paddingTop: { xs: "40px", sm: "56px", md: "72px" },
+          paddingTop: { xs: "56px", sm: "72px", md: "88px" },
         },
         backgroundColor: resolvedHeaderImage
           ? "transparent"

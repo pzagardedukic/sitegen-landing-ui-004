@@ -180,8 +180,12 @@ Zato temnega načina ni mogoče krmiliti iz podatkov, ne da bi se spremenilo jed
 - 5.1 zemljevid: jezikovna koda gre ven z malimi črkami in samo, kadar obstaja; ime okvirja
   je prevedeno. Prvotna domneva, da je bil `hl=SL` vzrok sive ploskve, je **ovržena** —
   Google na vse oblike odgovori enako.
-- 5.2 zgornji rob: prva sekcija za naslovnim pasom obdrži približno 60 % navpičnega roba,
-  urejeno z enim pravilom v `Section` namesto z osemnajstimi popravki po ovojih strani.
+- 5.2 zgornji rob: prva sekcija za naslovnim pasom ima **56 / 72 / 88** namesto polnih
+  72 / 96 / 120, urejeno z enim pravilom v `Section` namesto z osemnajstimi popravki po
+  ovojih strani. Prvi poskus (40 / 56 / 72) je bil pretesen — Petra je opazila na telefonu:
+  pri katalogih se je prva tanka črta začela ~50 pod zaobljenim robom pasu in se brala kot
+  podaljšek pasu, strani, ki se odprejo z eno vrstico besedila (storitve, blog), pa so
+  izpadle neusidrane. Potrjeno na telefonu 15. 9. 2026.
 - 5.3 videi: štirje pregledani posnetki namesto nadomestkov. Merila in razlogi za zavrnitve
   so v `DEMO-SLIKE.md`, skupaj z dvema pastema (pokončni Shorts, presoja po naslovu).
 - 5.4 temni način: zaprto, ne spada v to temo.

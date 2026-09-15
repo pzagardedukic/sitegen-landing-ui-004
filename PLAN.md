@@ -187,8 +187,11 @@ Zato temnega načina ni mogoče krmiliti iz podatkov, ne da bi se spremenilo jed
 - 5.4 temni način: zaprto, ne spada v to temo.
 - Preveritev po popravkih: `pnpm verify` čist, `pnpm build` uspe, `pnpm test:variants`
   **12 od 12 preizkusnih strank čistih, 0 težav**.
-- Odprto ostaja eno: potrditev zemljevida v pravem brskalniku (v brezglavem Edgeu se pokaže
-  Googlova stran s privolitvijo in ploskev ostane siva).
+- Zemljevid **potrjen v pravem brskalniku** (telefon, 15. 9. 2026): izriše se pravilno, z
+  značko na naslovu salona in v slovenščini („Odprite v Zemljevidih"), kar potrdi tudi
+  popravek jezikovne kode. Siva ploskev je bila omejitev brezglavega Edgea, ne napaka —
+  tam se namesto zemljevida pokaže Googlova stran s privolitvijo.
+- S tem ni odprtih točk več.
 
 **Odločeno (15. 9. 2026): temni način ne spada v to temo.** Temni okvirji v Figmi ostanejo
 neuporabljeni; stikala ob gradnji ne uvajamo, ker bi bila funkcija, ki je stranka ne more

@@ -37,12 +37,42 @@ izpelje sličico (`img.youtube.com/vi/<id>/hqdefault.jpg`), zato morajo ostati n
 Vimeu. Trenutno so tam nadomestki brez zveze z vsebino (Google I/O, testni posnetek,
 „Me at the zoo").
 
-**Odprto.** Poskus zamenjave s „primernejšimi" posnetki ni uspel: od pregledanih kandidatov
-je bil vsak bodisi vsebinsko neprimeren (razgaljena telesa), je nosil vidno znamko drugega
-salona, bodisi je bila sličica glasbenega kanala z velikim angleškim napisom čez sliko.
-Sličice posnetka po naslovu ni mogoče presojati — pregledati jo je treba. Na voljo so tri
-poti: sekcijo v demu ugasniti (`optionalSections.videos`), pustiti sedanje nadomestke ali
-posneti lastne posnetke. Odločitev čaka Petro.
+Izbrani so štirje, vsi s kanala **Boscobel ASMR**, po merilih: ženske, čim manj ljudi, brez
+tuje znamke v kadru, brez napisov čez sliko in **vodoravno** razmerje. Štirje zato, ker je
+mreža dvostolpčna — tri ploščice pustijo drugo vrstico na pol prazno.
+
+| Posnetek | Vir |
+|---|---|
+| Spa Retreat — nega kože | `youtu.be/_Cby0ZaziJs` |
+| Gentle Manicure | `youtu.be/QSVQ9-6G6BY` |
+| Nature Spa Day | `youtu.be/tKB8pyoEbl0` |
+| Deep Pore Cleansing | `youtu.be/nkLoUBHe8EI` |
+
+Pregledanih je bilo okoli trideset kandidatov na YouTubu in Vimeu; obstalo jih je pet, vzeti
+so štirje. Najpogostejši razlogi za zavrnitev: razgaljenost, **vidna tuja znamka** v kadru
+(Keldara, Périne, pH Hair × Beauty, Beauty of Joseon, Jo Malone, Laneige), velik napis čez
+sliko, moški v glavni vlogi in **pokončni Shorts**, ki v vodoravni ploščici dobijo zamegljena
+stranska pasova.
+
+**Past, na katero bo naletel vsak naslednji: pokončni posnetki.** „Natural Beauty Brand
+Film" (`vimeo.com/1175759256`) je po vsebini ustrezal, a je posnet pokončno (1296 × 2304).
+Vimeo za takega ne ponudi vodoravne sličice — `thumbnail_large` je 640 × 1138, manjši dve
+(100 × 75, 200 × 150) pa sta za 600 px široko ploščico neuporabni. V ploščici razmerja 16 : 9
+se tak portret obreže po sredini in ostanejo samo usta in brada. Pred izbiro je torej treba
+pogledati tudi **razmerje stranic**, ne le vsebino sličice.
+
+Pregledanih je bilo štirinajst kandidatov; dvanajst jih je odpadlo, ker so imeli razgaljena
+telesa, vidno znamko **drugega** salona ali kozmetike (Keldara, Périne, pH Hair × Beauty),
+velik angleški napis čez sliko (glasbeni kanali, trije še z oglasnim *NO ADS*), moškega v
+glavni vlogi ali pa so bili vsebinsko mimo (kratki igrani film, fizioterapevtska klinika,
+hotelski bazen, animacijski kolaž).
+
+**Nauk:** posnetka ni mogoče presojati po naslovu — sličico je treba pogledati, ker je prav
+ona edino, kar se na strani vidi.
+
+Oba sta še vedno **tuja** posnetka in ju je pred objavo zunaj demo okolja treba zamenjati z
+lastnimi. Sekcija je opcijska (`optionalSections.videos`), zato jo je mogoče tudi preprosto
+ugasniti.
 
 ## Pravni dokumenti
 

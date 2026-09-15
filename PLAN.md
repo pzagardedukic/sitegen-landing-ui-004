@@ -113,3 +113,64 @@ povezavi za računalnik in telefon s sidrom → potrditev → commit.
   urnik izpiše kategorijo samo, kadar se razlikuje od naslova tabele.
 - Znano in namerno: zgrajeni HTML je lupina, vsebina se sestavi v brskalniku. Enako velja za
   ui-001, ui-002 in ui-003 — gre za lastnost skupne osnove, ne te teme.
+
+### 5 — popravki po QA (načrt, 15. 9. 2026)
+
+Štiri odprte točke iz faze 4. Vrstni red je namenoma tak: najprej tisto, kar je dokazljivo
+narobe, nato tisto, kar je stvar okusa, na koncu tisto, česar v tem repozitoriju ni mogoče
+rešiti.
+
+**5.1 Zemljevid na kontaktu — prava napaka**
+
+`CustomMap` sestavi naslov kot `formatGoogleMapsUrl(url) + "&hl=" + lang`. Jedro vrne
+`https://www.google.com/maps?q=…&output=embed`, `lang` pa je v tem projektu **velika črka**
+(`SL`, `EN`) in je lahko tudi `null`. Google pričakuje male črke, zato gre ven `hl=SL`
+oziroma celo `hl=null`.
+
+- Popravek: jezik pretvorim v male črke in ga izpustim, kadar ga ni.
+- Naslov okvirja je trdo zapisan angleški `"Location Map"` — zamenjam ga s prevodom.
+- Datoteka: `src/page-content/components/section/contact/CustomMap.tsx`.
+- Preverim: sestavljeni naslov z zahtevkom (pričakujem 200 oziroma preusmeritev na Google),
+  zajem `/kontakt/` in ročna potrditev v pravem brskalniku — sivega okvirja v brezglavem
+  Edgeu ne morem odpraviti, ker gre za Googlovo stran s privolitvijo.
+
+**5.2 Prazen prostor na vrhu podstrani**
+
+Ko je naslov izpadel iz sekcij, se vsebina začne 120 px pod pasom (privzeti rob sekcije)
+plus 24–40 px zaobljenega roba pasu.
+
+- Popravek: `Section` dobi neobvezen `paddingTop`; podstrani, ki se odprejo pod pasom,
+  uporabijo skupno vrednost `{ xs: 40, sm: 56, md: 72 }` — približno 60 % sedanjega.
+- Datoteke: `src/components/section/Section.tsx`, nova konstanta ob `headerMetrics.ts`,
+  in ovoji strani v `src/page-content/pages/*` (18 datotek, mehanska sprememba).
+- Preverim: zajem prej/potem pri 1440 in 390 na štirih straneh, nato `pnpm build`.
+
+**5.3 Demo videi**
+
+Zdaj so trije nadomestni YouTube posnetki (Google I/O, testni posnetek, „Me at the zoo").
+
+- Popravek: zamenjam jih s posnetki, ki ustrezajo salonu. Vezan sem na YouTube ali Vimeo,
+  ker jedro sličico izpelje iz njunih ID-jev; karkoli drugega ostane brez sličice.
+- Vsak kandidat preverim: `img.youtube.com/vi/<id>/hqdefault.jpg` mora vrniti 200 in
+  posnetek mora biti javen.
+- Datoteki: `website.json`, `DEMO-SLIKE.md` (pripis, da gre za tuje povezave).
+
+**5.4 Temne različice sekcij — ni rešljivo v tej temi**
+
+Figma ima temne okvirje za sekcije 18–23. Preveril sem celotno pot podatkov:
+
+- `getThemeSettings()` v jedru vrača samo `colors` (primary, secondary, text), `fonts` in
+  `images.banner`; polja za ozadje ali način ni.
+- Objavljalnik izvajalnih podatkov sicer prepiše celoten `website.json`, torej bi izmišljeno
+  polje tja prišlo — a tema sme brati podatke izključno prek `src/core/*`, kar preverja
+  `pnpm check:boundary`, in jedro takega polja ne izpostavi.
+
+Zato temnega načina ni mogoče krmiliti iz podatkov, ne da bi se spremenilo jedro. Na voljo
+sta dve pošteni možnosti:
+
+- **(a) Dokumentiram kot namerno neuporabljeno** in po potrebi predlagam ptlabTadeju polje
+  v shemi teme. Priporočeno.
+- **(b) Vklop s stikalom ob gradnji** (`NEXT_PUBLIC_DARK_SECTIONS=true`), ki ni podatek
+  stranke in si zato ničesar ne izmišlja v shemi; služi samo predstavitvi.
+
+Odločitev je Petrina; dokler je ni, ostane (a).

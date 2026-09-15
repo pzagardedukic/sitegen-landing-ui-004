@@ -127,9 +127,9 @@ Ponovna objava po spremembi:
 ```bash
 # PowerShell, ker Git Bash osnovno pot pretvori v windowsovsko pot
 $env:NEXT_PUBLIC_BASE_PATH = '/sitegen-landing-ui-004'; pnpm build
-git worktree add --detach <tmp>
-cd <tmp> && git checkout --orphan gh-pages && git rm -rq --cached .
-# vsebina out/ + .nojekyll -> commit -> git push -f origin gh-pages
+git worktree add <tmp> gh-pages     # obstojeco vejo, ne --orphan
+git -C <tmp> rm -rqf .              # git naj pobrise, ne Remove-Item
+# vsebina out/ + .nojekyll -> commit -> git push origin gh-pages
 ```
 
 Pasti, ki so me ujele:
@@ -139,7 +139,12 @@ Pasti, ki so me ujele:
 - `MSYS_NO_PATHCONV=1` zlomi zaganjalnik `pnpm`, zato gradnja z osnovno potjo spada v
   PowerShell, ne v Git Bash;
 - Pages je treba postaviti na `build_type: legacy` z vejo `gh-pages`; ob vklopu prek API-ja
-  ostanejo na `workflow` in ne objavijo ničesar.
+  ostanejo na `workflow` in ne objavijo ničesar;
+- ob drugi objavi `checkout --orphan gh-pages` **odpove**, ker veja krajevno že obstaja. Če
+  tega ne opaziš, zapis pristane na odklopljeni glavi, potisk pa javi `Everything
+  up-to-date` — torej uspeh, čeprav ni objavil ničesar. Zato vzemi obstoječo vejo. Da se
+  objava ne le zdi uspešna, primerjaj `out/data/meta.json` z objavljenim
+  `…/data/meta.json`: dokler se različici razlikujeta, stara stran še vedno živi.
 
 Repozitorij je zaradi brezplačnih Pages **javen**. Demo fotografije so iz predloge Lumiera
 in videi so tuje povezave — pred resno objavo jih je treba zamenjati (glej `DEMO-SLIKE.md`).

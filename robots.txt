@@ -1,3 +1,4 @@
 User-Agent: *
 Allow: /
 
+Sitemap: https://pzagardedukic.github.io/sitegen-landing-ui-004/sitemap.xml

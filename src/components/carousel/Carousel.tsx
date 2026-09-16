@@ -79,7 +79,9 @@ export default function Carousel({
   const gapCss = toResponsive(gap);
 
   const usableWeights =
-    !fixedSlides && isDesktop && weights && weights.length === visible ? weights : null;
+    !fixedSlides && isDesktop && weights && weights.length === visible
+      ? weights
+      : null;
 
   /*
    * In perView mode grid-auto-columns takes a list and cycles it, which is what makes an
@@ -122,7 +124,10 @@ export default function Carousel({
      * as one and the controls offered a step too many.
      */
     const columnGap = parseFloat(getComputedStyle(node).columnGap) || 0;
-    const inView = Math.max(1, Math.floor((node.clientWidth + columnGap + 1) / step));
+    const inView = Math.max(
+      1,
+      Math.floor((node.clientWidth + columnGap + 1) / step),
+    );
     const count = fixedSlides
       ? Math.max(1, items.length - inView + 1)
       : Math.max(1, Math.ceil(items.length / visible));
@@ -130,7 +135,11 @@ export default function Carousel({
     const atEnd = node.scrollLeft >= maxScroll - 2;
 
     setPageCount(count);
-    setPage(atEnd ? count - 1 : Math.min(count - 1, Math.round(node.scrollLeft / step)));
+    setPage(
+      atEnd
+        ? count - 1
+        : Math.min(count - 1, Math.round(node.scrollLeft / step)),
+    );
   }, [fixedSlides, items.length, stepOf, visible]);
 
   useEffect(() => {
@@ -189,11 +198,13 @@ export default function Carousel({
 
     document.addEventListener("visibilitychange", onVisibilityChange);
 
-    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", onVisibilityChange);
   }, []);
 
   useEffect(() => {
-    if (!autoPlayMs || reduceMotion || paused || stopped || pageCount <= 1) return;
+    if (!autoPlayMs || reduceMotion || paused || stopped || pageCount <= 1)
+      return;
 
     const timer = window.setInterval(() => {
       const next = page + 1 >= pageCount ? 0 : page + 1;
@@ -227,7 +238,9 @@ export default function Carousel({
         onFocus={() => setPaused(true)}
         onBlur={(event: React.FocusEvent<HTMLDivElement>) => {
           // Focus moving between slides is not focus leaving the track.
-          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          if (
+            !event.currentTarget.contains(event.relatedTarget as Node | null)
+          ) {
             setPaused(false);
           }
         }}
@@ -237,7 +250,10 @@ export default function Carousel({
         }}
         onPointerMove={(event: React.PointerEvent<HTMLDivElement>) => {
           // A tap carries a pixel or two of travel; only a real drag counts as taking over.
-          if (dragStartX.current !== null && Math.abs(event.clientX - dragStartX.current) > 8) {
+          if (
+            dragStartX.current !== null &&
+            Math.abs(event.clientX - dragStartX.current) > 8
+          ) {
             takeOver();
           }
         }}

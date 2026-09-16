@@ -38,21 +38,34 @@ export default function PortfolioItemSection({ id }: { id: number }) {
 
   const related = portfolioItem.category
     ? allItems.filter(
-        (item) => item.id !== portfolioItem.id && item.category === portfolioItem.category,
+        (item) =>
+          item.id !== portfolioItem.id &&
+          item.category === portfolioItem.category,
       )
     : [];
 
   const details = [
     {
       label: projectTranslations.details.date,
-      value: portfolioItem.date ? formatEventDate(portfolioItem.date, lang) : "",
+      value: portfolioItem.date
+        ? formatEventDate(portfolioItem.date, lang)
+        : "",
     },
     { label: projectTranslations.details.client, value: portfolioItem.client },
-    { label: projectTranslations.details.category, value: portfolioItem.category },
+    {
+      label: projectTranslations.details.category,
+      value: portfolioItem.category,
+    },
   ].filter((detail) => Boolean(detail.value));
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "56px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "56px" },
+      }}
+    >
       <BackButton
         label={projectTranslations.backToPortfolio}
         onClick={() => router.push(`/${getPageSlugByKey("portfolio")}`)}
@@ -90,7 +103,12 @@ export default function PortfolioItemSection({ id }: { id: number }) {
             <Typography component="div" variant="body1">
               <RichText
                 text={portfolioItem.text}
-                allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+                allowStyling={{
+                  newLine: true,
+                  bold: true,
+                  italic: true,
+                  underline: true,
+                }}
               />
             </Typography>
           )}
@@ -99,7 +117,10 @@ export default function PortfolioItemSection({ id }: { id: number }) {
             <Box
               component="dl"
               aria-label={projectTranslations.details.label}
-              sx={(theme) => ({ m: 0, borderTop: `1px solid ${theme.palette.surfaces.border}` })}
+              sx={(theme) => ({
+                m: 0,
+                borderTop: `1px solid ${theme.palette.surfaces.border}`,
+              })}
             >
               {details.map((detail) => (
                 <Box

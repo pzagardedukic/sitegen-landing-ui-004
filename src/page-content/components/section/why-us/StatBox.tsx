@@ -37,7 +37,10 @@ export default function StatBox({ value, label }: StatBoxProps) {
         </Box>
       </Typography>
 
-      <Typography variant="body1" sx={{ color: "text.secondary", maxWidth: 340 }}>
+      <Typography
+        variant="body1"
+        sx={{ color: "text.secondary", maxWidth: 340 }}
+      >
         {label}
       </Typography>
     </Box>

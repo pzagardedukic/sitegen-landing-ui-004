@@ -70,7 +70,9 @@ export default function LanguageSelector({
             backgroundColor: theme.palette.header.surface,
             color: theme.palette.header.text,
             boxShadow: `inset 0 0 0 1px ${
-              inMenu ? theme.palette.header.border : "var(--pill-border, transparent)"
+              inMenu
+                ? theme.palette.header.border
+                : "var(--pill-border, transparent)"
             }`,
           })}
         >

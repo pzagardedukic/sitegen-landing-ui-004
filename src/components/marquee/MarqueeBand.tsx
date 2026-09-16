@@ -47,7 +47,9 @@ export default function MarqueeBand({
         "&:not(.marquee-band + .marquee-band)": {
           borderTop: `1px solid ${theme.palette.surfaces.border}`,
         },
-        backgroundColor: cream ? theme.palette.surfaces.bgAlt : theme.palette.background.default,
+        backgroundColor: cream
+          ? theme.palette.surfaces.bgAlt
+          : theme.palette.background.default,
         color: theme.palette.text.primary,
       })}
       className="marquee-band"

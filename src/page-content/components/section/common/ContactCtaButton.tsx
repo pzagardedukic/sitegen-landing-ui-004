@@ -1,7 +1,9 @@
 "use client";
 
 import type { SxProps, Theme } from "@mui/material/styles";
-import ArrowButton, { type ArrowButtonTone } from "@/components/button/ArrowButton";
+import ArrowButton, {
+  type ArrowButtonTone,
+} from "@/components/button/ArrowButton";
 import { getPageSlugByKey, withBasePath } from "@/core/static";
 
 type ContactCtaButtonProps = {
@@ -30,7 +32,13 @@ export default function ContactCtaButton({
   const href = `${withBasePath(`/${getPageSlugByKey("contact")}/`)}?subject=${encodeURIComponent(subject)}`;
 
   return (
-    <ArrowButton component="a" href={href} tone={tone} fullWidth={fullWidth} sx={sx}>
+    <ArrowButton
+      component="a"
+      href={href}
+      tone={tone}
+      fullWidth={fullWidth}
+      sx={sx}
+    >
       {label}
     </ArrowButton>
   );

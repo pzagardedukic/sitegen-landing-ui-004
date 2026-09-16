@@ -10,12 +10,19 @@ type RequirementListProps = {
  * line per requirement with a rose dot in a gold ring. A list, because that is what it is —
  * ui-001 set them as plain paragraphs and a screen reader announced no count.
  */
-export default function RequirementList({ requirements, label }: RequirementListProps) {
+export default function RequirementList({
+  requirements,
+  label,
+}: RequirementListProps) {
   if (requirements.length === 0) return null;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-      <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+      <Typography
+        variant="caption"
+        component="p"
+        sx={{ color: "text.secondary" }}
+      >
         {label}
       </Typography>
 

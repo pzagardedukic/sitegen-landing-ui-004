@@ -65,13 +65,13 @@ behaviour and matches `ui-001`.
 Verified against a `NEXT_PUBLIC_THEME_EDITOR_ENABLED=true` export, driving the
 real `THEME_EDITOR_UPDATE` message and reading computed styles back.
 
-| | website.json theme | after override |
-|---|---|---|
-| brand gradient | `#8258C8 → #2C84C8` | `#C81E4A → #F0A500` |
-| header, scrolled | `rgba(11, 34, 52, .92)` | `rgba(62, 42, 0, .92)` |
-| footer | `rgb(242, 247, 251)` | `rgb(254, 249, 239)` |
-| h1 / body font | Sora / Manrope | Playfair Display / Inter |
-| body text | `#111111` | `#04303A` |
+|                  | website.json theme      | after override           |
+| ---------------- | ----------------------- | ------------------------ |
+| brand gradient   | `#8258C8 → #2C84C8`     | `#C81E4A → #F0A500`      |
+| header, scrolled | `rgba(11, 34, 52, .92)` | `rgba(62, 42, 0, .92)`   |
+| footer           | `rgb(242, 247, 251)`    | `rgb(254, 249, 239)`     |
+| h1 / body font   | Sora / Manrope          | Playfair Display / Inter |
+| body text        | `#111111`               | `#04303A`                |
 
 - The gradient and the header and footer palettes follow the customer's colors in
   both branches of `createPreviewTheme` — the base theme and the override branch

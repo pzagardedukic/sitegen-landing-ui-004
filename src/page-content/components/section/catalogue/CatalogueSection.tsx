@@ -25,7 +25,13 @@ export default function CatalogueSection() {
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "40px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "32px", md: "40px" },
+      }}
+    >
       <Box
         sx={(theme) => ({
           borderTop: `1px solid ${theme.palette.surfaces.border}`,
@@ -94,9 +100,12 @@ export default function CatalogueSection() {
                 color: theme.palette.text.primary,
                 textDecoration: "none",
                 boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
-                transition: theme.transitions.create(["box-shadow", "background-color"], {
-                  duration: theme.transitions.duration.short,
-                }),
+                transition: theme.transitions.create(
+                  ["box-shadow", "background-color"],
+                  {
+                    duration: theme.transitions.duration.short,
+                  },
+                ),
                 "&:hover, &:focus-visible": {
                   boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
                   backgroundColor: theme.palette.surfaces.bgAlt,

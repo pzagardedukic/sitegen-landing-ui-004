@@ -3,7 +3,10 @@
 import { Box, Typography } from "@mui/material";
 import Tag from "@/components/common/Tag";
 import { getEventItems, useLanguage } from "@/core/runtime";
-import { getButtonTranslation, getEventsTranslation } from "@/core/translations";
+import {
+  getButtonTranslation,
+  getEventsTranslation,
+} from "@/core/translations";
 import {
   formatEventDate,
   getRelativeEventDay,
@@ -128,7 +131,11 @@ export default function EventPreviewCard({
         }}
       >
         {dateLine && (
-          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{ color: "text.secondary" }}
+          >
             {dateLine}
           </Typography>
         )}
@@ -158,7 +165,11 @@ export default function EventPreviewCard({
         )}
 
         {item.category && (
-          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{ color: "text.secondary" }}
+          >
             {item.category}
           </Typography>
         )}

@@ -26,7 +26,8 @@ const envFile = path.join(root, ".env.local");
 if (fs.existsSync(envFile)) {
   for (const line of fs.readFileSync(envFile, "utf8").split(/\r?\n/)) {
     const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/.exec(line);
-    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+    if (m && !process.env[m[1]])
+      process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
   }
 }
 
@@ -58,7 +59,9 @@ if (dry) {
   console.log(`nacrt: ${todo.length} slik${only ? ` (samo ${only})` : ""}\n`);
   for (const p of todo) {
     const exists = fs.existsSync(path.join(outDir, `${p.name}.webp`));
-    console.log(`  ${exists ? "je" : "  "}  ${p.name.padEnd(30)} ${p.slot.padEnd(10)} ${p.target}`);
+    console.log(
+      `  ${exists ? "je" : "  "}  ${p.name.padEnd(30)} ${p.slot.padEnd(10)} ${p.target}`,
+    );
   }
   process.exit(0);
 }
@@ -88,13 +91,17 @@ async function callOpenRouter(prompt) {
     }),
   });
 
-  if (!res.ok) throw new Error(`${res.status} ${(await res.text()).slice(0, 300)}`);
+  if (!res.ok)
+    throw new Error(`${res.status} ${(await res.text()).slice(0, 300)}`);
 
   const json = await res.json();
   const images = json.choices?.[0]?.message?.images;
   const url = images?.[0]?.image_url?.url;
 
-  if (!url) throw new Error(`brez slike v odgovoru: ${JSON.stringify(json).slice(0, 300)}`);
+  if (!url)
+    throw new Error(
+      `brez slike v odgovoru: ${JSON.stringify(json).slice(0, 300)}`,
+    );
 
   return Buffer.from(url.split(",")[1], "base64");
 }
@@ -112,7 +119,10 @@ function sizeFor(ratio) {
 async function callOpenAI(prompt, ratio) {
   const res = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
-    headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${KEY}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       model: MODEL,
       prompt,
@@ -122,7 +132,8 @@ async function callOpenAI(prompt, ratio) {
     }),
   });
 
-  if (!res.ok) throw new Error(`${res.status} ${(await res.text()).slice(0, 300)}`);
+  if (!res.ok)
+    throw new Error(`${res.status} ${(await res.text()).slice(0, 300)}`);
 
   const json = await res.json();
   const b64 = json.data?.[0]?.b64_json;
@@ -180,11 +191,15 @@ for (const item of todo) {
     console.log(`  ${item.name.padEnd(30)} ${(size / 1024).toFixed(0)} kB`);
   } catch (error) {
     failed.push(`${item.name}: ${error.message}`);
-    console.error(`  ${item.name.padEnd(30)} NAPAKA ${error.message.slice(0, 120)}`);
+    console.error(
+      `  ${item.name.padEnd(30)} NAPAKA ${error.message.slice(0, 120)}`,
+    );
   }
 }
 
-console.log(`\nnarejenih ${made}, preskocenih ${skipped}, napak ${failed.length}`);
+console.log(
+  `\nnarejenih ${made}, preskocenih ${skipped}, napak ${failed.length}`,
+);
 
 /* --- bind into website.json ---------------------------------------------- */
 const siteFile = path.join(root, "website.json");
@@ -195,7 +210,9 @@ for (const [slot, files] of Object.entries(produced)) {
     fs.existsSync(path.join(root, "public", f.replace(/^\//, ""))),
   );
   if (present.length !== files.length) {
-    console.log(`  ${slot}: ${present.length}/${files.length} slik, vpis preskocen`);
+    console.log(
+      `  ${slot}: ${present.length}/${files.length} slik, vpis preskocen`,
+    );
     continue;
   }
   BINDINGS[slot]?.(site, files);

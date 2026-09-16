@@ -45,13 +45,17 @@ export default function SubscriptionCard({ item }: { item: PricingItem }) {
         borderRadius: "12px",
         backgroundColor: theme.palette.background.default,
         borderStyle: "solid",
-        borderColor: highlighted ? theme.palette.text.primary : theme.palette.surfaces.border,
+        borderColor: highlighted
+          ? theme.palette.text.primary
+          : theme.palette.surfaces.border,
         borderWidth: highlighted ? "1.5px" : "1px",
       })}
     >
       {hasBadges && (
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-          {highlighted && <Tag label={packagesTranslation.items.recommended} tone="brand" />}
+          {highlighted && (
+            <Tag label={packagesTranslation.items.recommended} tone="brand" />
+          )}
           <StatusBadge status={item.status} />
           <DiscountBadge
             price={item.price.value}
@@ -72,7 +76,11 @@ export default function SubscriptionCard({ item }: { item: PricingItem }) {
         )}
 
         {item.category && (
-          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{ color: "text.secondary" }}
+          >
             {item.category}
           </Typography>
         )}

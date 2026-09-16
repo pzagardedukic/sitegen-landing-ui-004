@@ -13,7 +13,8 @@ import type { SxProps, Theme } from "@mui/material/styles";
  *   outline  hairline only
  * `neutral` is the ui-002 name for the quiet badge and resolves to mint.
  */
-type TagTone = "brand" | "mint" | "rose" | "dark" | "soft" | "outline" | "neutral";
+type TagTone =
+  "brand" | "mint" | "rose" | "dark" | "soft" | "outline" | "neutral";
 
 type TagProps = {
   label: string;
@@ -26,20 +27,35 @@ function toneSx(tone: TagTone, theme: Theme) {
 
   switch (tone) {
     case "brand":
-      return { backgroundColor: palette.primary.main, color: palette.primary.contrastText };
+      return {
+        backgroundColor: palette.primary.main,
+        color: palette.primary.contrastText,
+      };
     case "rose":
-      return { backgroundColor: palette.surfaces.rose, color: palette.text.primary };
+      return {
+        backgroundColor: palette.surfaces.rose,
+        color: palette.text.primary,
+      };
     case "dark":
-      return { backgroundColor: palette.text.primary, color: palette.background.default };
+      return {
+        backgroundColor: palette.text.primary,
+        color: palette.background.default,
+      };
     case "soft":
-      return { backgroundColor: palette.surfaces.bgAlt, color: palette.text.secondary };
+      return {
+        backgroundColor: palette.surfaces.bgAlt,
+        color: palette.text.secondary,
+      };
     case "outline":
       return {
         boxShadow: `inset 0 0 0 1px ${palette.surfaces.border}`,
         color: palette.text.secondary,
       };
     default:
-      return { backgroundColor: palette.surfaces.mint, color: palette.text.primary };
+      return {
+        backgroundColor: palette.surfaces.mint,
+        color: palette.text.primary,
+      };
   }
 }
 

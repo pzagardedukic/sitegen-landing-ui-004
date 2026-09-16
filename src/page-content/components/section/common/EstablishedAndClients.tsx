@@ -17,10 +17,18 @@ export default function EstablishedAndClients() {
   const aboutSection = getAboutSection(lang);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", mt: { xs: "44px", sm: "56px", md: "100px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        mt: { xs: "44px", sm: "56px", md: "100px" },
+      }}
+    >
       {aboutSection.establishedYear && (
         <MarqueeBand
-          items={[`${aboutTranslation.establishedIn} ${aboutSection.establishedYear}`]}
+          items={[
+            `${aboutTranslation.establishedIn} ${aboutSection.establishedYear}`,
+          ]}
           speed={45}
           tone="plain"
         />

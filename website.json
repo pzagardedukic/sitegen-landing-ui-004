@@ -3,9 +3,7 @@
     "websiteType": "BOOKING",
     "businessSector": "BEAUTY_AND_WELLNESS",
     "primaryLanguage": "SL",
-    "supportedLanguages": [
-      "EN"
-    ]
+    "supportedLanguages": ["EN"]
   },
   "theme": {
     "colors": {

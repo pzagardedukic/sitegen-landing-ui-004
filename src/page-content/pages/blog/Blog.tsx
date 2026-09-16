@@ -12,7 +12,7 @@ import { getBlogTranslation } from "@/core/translations";
 export default function BlogPage() {
   const { lang } = useLanguage();
   const blogTranslation = getBlogTranslation(lang);
-  
+
   return (
     <PageLayout header={<Header />} footer={<Footer />}>
       <HeaderSection title={blogTranslation.title} />

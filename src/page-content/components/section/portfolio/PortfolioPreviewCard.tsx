@@ -56,11 +56,15 @@ export default function PortfolioPreviewCard({
             duration: theme.transitions.duration.standard,
           }),
         },
-        "&:hover .card-img, &:focus-visible .card-img": { transform: "scale(1.04)" },
+        "&:hover .card-img, &:focus-visible .card-img": {
+          transform: "scale(1.04)",
+        },
         "@media (hover: hover)": {
           "& .card-reveal": { display: "none" },
           "& .card-open": { opacity: 0, transform: "translate(-50%, 8px)" },
-          "&:hover .card-reveal, &:focus-visible .card-reveal": { display: "block" },
+          "&:hover .card-reveal, &:focus-visible .card-reveal": {
+            display: "block",
+          },
           "&:hover .card-open, &:focus-visible .card-open": {
             opacity: 1,
             transform: "translate(-50%, 0)",
@@ -83,7 +87,13 @@ export default function PortfolioPreviewCard({
           alt=""
           loading="lazy"
           className="card-img"
-          sx={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          sx={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
         />
 
         {!compact && category && (
@@ -117,7 +127,12 @@ export default function PortfolioPreviewCard({
               }),
             })}
           >
-            <ArrowButton tone="dark" component="span" tabIndex={-1} sx={{ whiteSpace: "nowrap" }}>
+            <ArrowButton
+              tone="dark"
+              component="span"
+              tabIndex={-1}
+              sx={{ whiteSpace: "nowrap" }}
+            >
               {openLabel}
             </ArrowButton>
           </Box>
@@ -143,7 +158,11 @@ export default function PortfolioPreviewCard({
         </Typography>
 
         {truncated && (
-          <Typography className="card-reveal" variant="body1" sx={{ color: "text.secondary" }}>
+          <Typography
+            className="card-reveal"
+            variant="body1"
+            sx={{ color: "text.secondary" }}
+          >
             {truncated}
           </Typography>
         )}

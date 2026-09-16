@@ -14,7 +14,13 @@ export default function PortfolioSection() {
   const portfolioSection = getPortfolioSection(lang);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "44px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "44px" },
+      }}
+    >
       {portfolioSection && (
         <CenteredIntro align="left" description={portfolioSection.text} />
       )}

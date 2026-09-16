@@ -5,14 +5,18 @@ import { Box, InputBase, Typography } from "@mui/material";
 import ArrowButton from "@/components/button/ArrowButton";
 import { useBannerImage } from "@/app/theme/utils/UseBannerImage";
 import { useLanguage } from "@/core/runtime";
-import { getFormTranslation, getSubscriptionsTranslation } from "@/core/translations";
+import {
+  getFormTranslation,
+  getSubscriptionsTranslation,
+} from "@/core/translations";
 import { callPublicApi } from "@/core/utils";
 import { primaryLanguage } from "@/core/static";
 import FormDisclaimer from "../common/FormDisclaimer";
 
 type SubmitStatus = "success" | "error" | null;
 
-const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+const isValidEmail = (value: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 /*
  * The newsletter band from the Lumiera frames: the banner photograph edge to edge under the
@@ -54,7 +58,8 @@ export default function SubscribeSection() {
       await callPublicApi("newsletter", {
         body: {
           email: normalizedEmail,
-          locale: lang?.toLocaleLowerCase() ?? primaryLanguage.toLocaleLowerCase(),
+          locale:
+            lang?.toLocaleLowerCase() ?? primaryLanguage.toLocaleLowerCase(),
         },
       });
 
@@ -134,7 +139,14 @@ export default function SubscribeSection() {
           {subscriptionsTranslation.title}
         </Typography>
 
-        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: "10px" }}>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
           <Box
             sx={(theme) => ({
               width: "100%",
@@ -189,7 +201,9 @@ export default function SubscribeSection() {
                 value={email}
                 placeholder={formTranslations.email.placeholder}
                 disabled={isSubmitting}
-                inputProps={{ "aria-label": formTranslations.email.placeholder }}
+                inputProps={{
+                  "aria-label": formTranslations.email.placeholder,
+                }}
                 onChange={(event) => {
                   setEmail(event.target.value);
                   setEmailError(null);
@@ -209,7 +223,11 @@ export default function SubscribeSection() {
             <ArrowButton
               type="submit"
               disabled={isSubmitting}
-              sx={{ flexShrink: 0, borderRadius: "999px", width: { xs: "100%", sm: "auto" } }}
+              sx={{
+                flexShrink: 0,
+                borderRadius: "999px",
+                width: { xs: "100%", sm: "auto" },
+              }}
             >
               {subscriptionsTranslation.callToAction}
             </ArrowButton>

@@ -32,7 +32,7 @@ const HoverZoomImage = forwardRef<HTMLImageElement, HoverZoomImageProps>(
       zoomOnParentHover = false,
       className = "hover-zoom-image",
     },
-    ref
+    ref,
   ) => {
     return (
       <Box
@@ -81,7 +81,7 @@ const HoverZoomImage = forwardRef<HTMLImageElement, HoverZoomImageProps>(
         />
       </Box>
     );
-  }
+  },
 );
 
 HoverZoomImage.displayName = "HoverZoomImage";

@@ -15,7 +15,10 @@ import BlogGrid from "./BlogGrid";
 export default function BlogSection() {
   const { lang } = useLanguage();
   const blogSection = getBlogSection(lang);
-  const { page, setPage, pageCount, paginatedItems } = usePagination(getBlogItems(lang), 6);
+  const { page, setPage, pageCount, paginatedItems } = usePagination(
+    getBlogItems(lang),
+    6,
+  );
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "48px" }}>
@@ -27,7 +30,11 @@ export default function BlogSection() {
 
       {pageCount > 1 && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <PaginationControls page={page} pageCount={pageCount} onChange={setPage} />
+          <PaginationControls
+            page={page}
+            pageCount={pageCount}
+            onChange={setPage}
+          />
         </Box>
       )}
     </Box>

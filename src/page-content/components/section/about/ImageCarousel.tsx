@@ -83,7 +83,10 @@ export default function ImageCarousel({ items }: ImageCarouselProps) {
     <AboutPhoto
       key={`${item.image}-${index}`}
       item={item}
-      sx={{ height: { sm: 440, md: 560 }, aspectRatio: { xs: "1 / 1", sm: "auto" } }}
+      sx={{
+        height: { sm: 440, md: 560 },
+        aspectRatio: { xs: "1 / 1", sm: "auto" },
+      }}
     />
   ));
 

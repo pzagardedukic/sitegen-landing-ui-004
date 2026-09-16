@@ -6,7 +6,7 @@ vsebina.
 
 ## Vir resnice za dizajn
 
-- Figma: datoteka *Lumiera Template* (`HD2qzS66trb08YEzlolH8T`), mapa *Beauty theme*.
+- Figma: datoteka _Lumiera Template_ (`HD2qzS66trb08YEzlolH8T`), mapa _Beauty theme_.
 - Stran **`sitegen — Lumiera`** — 23 sekcij, vsaka s spec panelom, desktop 1440 / tablet 768 /
   mobile 390, foto in dark variante. Stran **`pregled — Lumiera`** — vse sekcije zapovrstjo.
 - Nabor elementov je enak kot v ui-002 (spec: `sitegen-sekcije-in-elementi.md`). Dizajn
@@ -37,9 +37,11 @@ vsebina.
 ## Faze
 
 ### 0 — načrt (ta commit)
+
 Repo, ta datoteka. Stop.
 
 ### 1 — izhodišče
+
 - Kopija **commitanega** stanja ui-002 (`git archive HEAD`), brez zgodovine.
 - Identiteta: `uiId` → 004 v `sitegen-ui.json` in `package.json`, README.
 - `pnpm install`, `pnpm verify`, `pnpm build` zeleni — to je referenčno stanje.
@@ -48,6 +50,7 @@ Repo, ta datoteka. Stop.
   preizkusne stranke v `fixtures/*` prilagojene novim podatkom.
 
 ### 2 — tema in skupni gradniki
+
 - **Pisave**: Fraunces (naslovi), Figtree (besedilo) prek `next/font/google`.
 - **Tipografija** (desktop / tablet / mobile): h1 70 / 56 / 32, h2 42 / 36 / 28, h3 32 / 28 / 26,
   h4 26 / 24 / 22, h5 22 / 20 / 20, h6 18, besedilo 15/26, caption 14/24, gumb 15 medium.
@@ -63,36 +66,38 @@ Repo, ta datoteka. Stop.
   ikone (SVG iz Lumiere: lokacija, ura, telefon, e-pošta, dokument, predvajaj, lupa, puščice).
 
 ### 3 — sekcije, ena po ena
+
 Za vsako: vrednosti iz Figme → vprašam pred zagonom dev strežnika (`pnpm dev -H 0.0.0.0`) →
 povezavi za računalnik in telefon s sidrom → potrditev → commit.
 
-| # | Sekcija | Mapa (kot v 002) | Lumiera vzorec |
-|---|---|---|---|
-| 1 | hero | `home/` | spa slider, steklen header |
-| 2 | naslovni pas | `header/` | banner notranjih strani, zaobljen rob |
-| 3 | o nas | `about/` | spa about, steklena kartica, drseča trakova |
-| 4 | izkušnje | `why-us/` | why-choose + about-number, certifikati v panelu |
-| 5 | stranke | `clients/` | trak logotipov |
-| 6 | ekipa | `team/` | team kartice na mint podlagi |
-| 7 | storitve | `services/` | Featured Services + kljukice |
-| 8 | projekti | `portfolio/` | shop list (mreža), shop single (detajl) |
-| 9 | galerija | `gallery/` | instagram, trije stolpci |
-| 10 | mnenja | `review/` | review kartice na mint podlagi |
-| 11 | blog | `blog/` | From Our Blog, detajl s stransko kartico |
-| 12 | cta pas | `call-to-action/` | book-banner |
-| 13 | novice | `subscribe/` | newsletter pilula |
-| 14 | kontakt | `contact/` | ikone iz Contact, obrazec v kremnem panelu, zemljevid |
-| 15 | katalogi | `catalogue/` | vrstice s črtami, pilula za prenos |
-| 16 | videi | `video/` | zaobljene sličice, bel gumb predvajaj |
-| 17 | cenik | `pricing/` | LIST (pilule-slike), PACKAGES (Beauty Packages), STORE (shop list) |
-| 18 | zaposlitev | `careers/` | kartice z zahtevami |
-| 19 | FAQ | `faq/` | Lumiera FAQ harmonika |
-| 20 | urnik | `schedule/` | tabela z kremno glavo |
-| 21 | dogodki | `events/` | kartice + orodna vrstica, detajl |
-| 22 | pravno | `legal/` | dokumentni kartici |
-| 23 | 404 | `not-found/` | kremna kompozicija na sredini |
+| #   | Sekcija      | Mapa (kot v 002)  | Lumiera vzorec                                                     |
+| --- | ------------ | ----------------- | ------------------------------------------------------------------ |
+| 1   | hero         | `home/`           | spa slider, steklen header                                         |
+| 2   | naslovni pas | `header/`         | banner notranjih strani, zaobljen rob                              |
+| 3   | o nas        | `about/`          | spa about, steklena kartica, drseča trakova                        |
+| 4   | izkušnje     | `why-us/`         | why-choose + about-number, certifikati v panelu                    |
+| 5   | stranke      | `clients/`        | trak logotipov                                                     |
+| 6   | ekipa        | `team/`           | team kartice na mint podlagi                                       |
+| 7   | storitve     | `services/`       | Featured Services + kljukice                                       |
+| 8   | projekti     | `portfolio/`      | shop list (mreža), shop single (detajl)                            |
+| 9   | galerija     | `gallery/`        | instagram, trije stolpci                                           |
+| 10  | mnenja       | `review/`         | review kartice na mint podlagi                                     |
+| 11  | blog         | `blog/`           | From Our Blog, detajl s stransko kartico                           |
+| 12  | cta pas      | `call-to-action/` | book-banner                                                        |
+| 13  | novice       | `subscribe/`      | newsletter pilula                                                  |
+| 14  | kontakt      | `contact/`        | ikone iz Contact, obrazec v kremnem panelu, zemljevid              |
+| 15  | katalogi     | `catalogue/`      | vrstice s črtami, pilula za prenos                                 |
+| 16  | videi        | `video/`          | zaobljene sličice, bel gumb predvajaj                              |
+| 17  | cenik        | `pricing/`        | LIST (pilule-slike), PACKAGES (Beauty Packages), STORE (shop list) |
+| 18  | zaposlitev   | `careers/`        | kartice z zahtevami                                                |
+| 19  | FAQ          | `faq/`            | Lumiera FAQ harmonika                                              |
+| 20  | urnik        | `schedule/`       | tabela z kremno glavo                                              |
+| 21  | dogodki      | `events/`         | kartice + orodna vrstica, detajl                                   |
+| 22  | pravno       | `legal/`          | dokumentni kartici                                                 |
+| 23  | 404          | `not-found/`      | kremna kompozicija na sredini                                      |
 
 ### 4 — QA
+
 `pnpm verify`, `pnpm build`, `pnpm test:variants` (vse preizkusne stranke), zajem 390 / 768 / 1440 iz
 `out/` prek Edge CDP, primerjava poti in sider z ui-002, preverjanje urejevalnika teme
 (barve, pisave, banner, ponastavitev).
@@ -142,7 +147,7 @@ Pasti, ki so me ujele:
   ostanejo na `workflow` in ne objavijo ničesar;
 - ob drugi objavi `checkout --orphan gh-pages` **odpove**, ker veja krajevno že obstaja. Če
   tega ne opaziš, zapis pristane na odklopljeni glavi, potisk pa javi `Everything
-  up-to-date` — torej uspeh, čeprav ni objavil ničesar. Zato vzemi obstoječo vejo. Da se
+up-to-date` — torej uspeh, čeprav ni objavil ničesar. Zato vzemi obstoječo vejo. Da se
   objava ne le zdi uspešna, primerjaj `out/data/meta.json` z objavljenim
   `…/data/meta.json`: dokler se različici razlikujeta, stara stran še vedno živi.
 

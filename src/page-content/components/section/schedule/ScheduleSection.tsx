@@ -3,7 +3,11 @@
 import { useMemo, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import FilterChips from "@/components/common/FilterChips";
-import { getScheduleSection, getScheduleTables, useLanguage } from "@/core/runtime";
+import {
+  getScheduleSection,
+  getScheduleTables,
+  useLanguage,
+} from "@/core/runtime";
 import { getButtonTranslation } from "@/core/translations";
 import ScheduleTableView from "./ScheduleTableView";
 
@@ -25,7 +29,9 @@ export default function ScheduleSection() {
   const tables = useMemo(
     () =>
       selectedCategoryId
-        ? scheduleTables.filter((table) => table.categoryId === selectedCategoryId)
+        ? scheduleTables.filter(
+            (table) => table.categoryId === selectedCategoryId,
+          )
         : scheduleTables,
     [scheduleTables, selectedCategoryId],
   );
@@ -39,7 +45,13 @@ export default function ScheduleSection() {
     categories.find((category) => category.id === categoryId)?.name ?? "";
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "44px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "44px" },
+      }}
+    >
       {scheduleSection.text && (
         <Typography variant="body1" sx={{ maxWidth: 640 }}>
           {scheduleSection.text}
@@ -61,7 +73,13 @@ export default function ScheduleSection() {
         />
       )}
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "40px", md: "56px" } }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: { xs: "40px", md: "56px" },
+        }}
+      >
         {tables.map((table) => (
           <ScheduleTableView
             key={table.id}

@@ -70,7 +70,10 @@ export default function HeaderLayout({
            * site name. There the outer columns hug their content and the name gets the rest
            * (~200px at 390). It sits a few pixels right of true centre, as Figma draws it.
            */
-          gridTemplateColumns: { xs: "auto minmax(0, 1fr) auto", sm: "1fr auto 1fr" },
+          gridTemplateColumns: {
+            xs: "auto minmax(0, 1fr) auto",
+            sm: "1fr auto 1fr",
+          },
           alignItems: "center",
           columnGap: 2,
           border: "1px solid",
@@ -82,9 +85,13 @@ export default function HeaderLayout({
             : theme.palette.header.glass,
           backdropFilter: scrolled ? "none" : "blur(16px)",
           WebkitBackdropFilter: scrolled ? "none" : "blur(16px)",
-          color: scrolled ? theme.palette.header.text : theme.palette.header.onImage,
+          color: scrolled
+            ? theme.palette.header.text
+            : theme.palette.header.onImage,
           "--logo-filter": scrolled ? "none" : "brightness(0) invert(1)",
-          "--pill-border": scrolled ? theme.palette.header.border : "transparent",
+          "--pill-border": scrolled
+            ? theme.palette.header.border
+            : "transparent",
           transition: theme.transitions.create(
             ["background-color", "border-color", "color"],
             { duration: theme.transitions.duration.short },

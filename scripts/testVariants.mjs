@@ -50,16 +50,22 @@ const flag = (name) => {
 const has = (name) => argv.includes(`--${name}`);
 
 const widths = (flag("widths") ?? "390,768,1440").split(",").map(Number);
-const named = argv.filter((entry) => !entry.startsWith("--") && entry !== flag("widths"));
+const named = argv.filter(
+  (entry) => !entry.startsWith("--") && entry !== flag("widths"),
+);
 
 /*
  * The data scripts read website.json from the working directory and nothing about that is
  * configurable, so a variant has to be written into place. That is only safe from a clean
  * tree: otherwise the restore at the end would take the author's own edits with it.
  */
-const dirty = execFileSync("git", ["status", "--porcelain", "--", "website.json"], {
-  encoding: "utf8",
-}).trim();
+const dirty = execFileSync(
+  "git",
+  ["status", "--porcelain", "--", "website.json"],
+  {
+    encoding: "utf8",
+  },
+).trim();
 
 if (dirty) {
   console.error(
@@ -136,7 +142,9 @@ const fixtures = readdirSync(FIXTURES)
   .filter((name) => named.length === 0 || named.includes(name));
 
 if (fixtures.length === 0) {
-  console.error(`No fixtures matched. Available: ${readdirSync(FIXTURES).join(", ")}`);
+  console.error(
+    `No fixtures matched. Available: ${readdirSync(FIXTURES).join(", ")}`,
+  );
   process.exit(1);
 }
 
@@ -177,7 +185,9 @@ const report = {};
 let failures = 0;
 
 for (const name of fixtures) {
-  const fixture = JSON.parse(readFileSync(join(FIXTURES, `${name}.json`), "utf8"));
+  const fixture = JSON.parse(
+    readFileSync(join(FIXTURES, `${name}.json`), "utf8"),
+  );
   console.log(`\n=== ${name} — ${fixture.description}`);
 
   writeFileSync(
@@ -230,23 +240,35 @@ for (const name of fixtures) {
     for (const route of routes) {
       const url = `http://127.0.0.1:${PORT}/${route}`;
       /* The growth check needs a second reading seconds later; one width is enough. */
-      const result = await inspectRoute(browser, url, { growth: width === widths[0] });
+      const result = await inspectRoute(browser, url, {
+        growth: width === widths[0],
+      });
       const where = `${width} /${route}`;
 
       if (result.complaints.length) {
-        variantReport.problems.push(`${where}: ${result.complaints.join(" | ")}`);
+        variantReport.problems.push(
+          `${where}: ${result.complaints.join(" | ")}`,
+        );
       }
       if (result.overflow > 1) {
-        variantReport.problems.push(`${where}: overflows by ${result.overflow}px (${result.worstOverflow})`);
+        variantReport.problems.push(
+          `${where}: overflows by ${result.overflow}px (${result.worstOverflow})`,
+        );
       }
       if (result.clipped.length) {
-        variantReport.problems.push(`${where}: text clipped — ${result.clipped.join(" / ")}`);
+        variantReport.problems.push(
+          `${where}: text clipped — ${result.clipped.join(" / ")}`,
+        );
       }
       if (result.brokenImages.length) {
-        variantReport.problems.push(`${where}: images did not render — ${result.brokenImages.join(", ")}`);
+        variantReport.problems.push(
+          `${where}: images did not render — ${result.brokenImages.join(", ")}`,
+        );
       }
       if (result.growing) {
-        variantReport.problems.push(`${where}: DOM still growing after it settled (${result.nodes} nodes)`);
+        variantReport.problems.push(
+          `${where}: DOM still growing after it settled (${result.nodes} nodes)`,
+        );
       }
       if (result.headings === 0) {
         variantReport.problems.push(`${where}: no headings on the page`);
@@ -254,10 +276,18 @@ for (const name of fixtures) {
 
       const shotDir = join(OUTPUT, name);
       mkdirSync(shotDir, { recursive: true });
-      const shotPath = join(shotDir, `${(route || "home").replace(/\//g, "_")}-${width}.png`);
+      const shotPath = join(
+        shotDir,
+        `${(route || "home").replace(/\//g, "_")}-${width}.png`,
+      );
       const { boxes } = await capturePageWithBoxes(browser, shotPath, width);
 
-      const invisible = findInvisibleText(shotPath, width, boxes, join(FIXTURES, "out"));
+      const invisible = findInvisibleText(
+        shotPath,
+        width,
+        boxes,
+        join(FIXTURES, "out"),
+      );
       if (invisible && invisible.length) {
         variantReport.problems.push(
           `${where}: text nobody can see — ${invisible.map((i) => `"${i.text}"`).join(", ")}`,
@@ -284,7 +314,10 @@ for (const name of fixtures) {
 restore();
 execFileSync("pnpm", ["build"], { stdio: "pipe", shell: true });
 
-writeFileSync(join(FIXTURES, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
+writeFileSync(
+  join(FIXTURES, "report.json"),
+  `${JSON.stringify(report, null, 2)}\n`,
+);
 
 console.log("\n─────────────────────────────────────────────");
 for (const [name, entry] of Object.entries(report)) {
@@ -294,9 +327,13 @@ for (const [name, entry] of Object.entries(report)) {
       ? `${entry.problems.length} problem(s)`
       : "clean";
   console.log(`${name.padEnd(22)} ${status}`);
-  (entry.problems ?? []).slice(0, 6).forEach((problem) => console.log(`    ${problem}`));
+  (entry.problems ?? [])
+    .slice(0, 6)
+    .forEach((problem) => console.log(`    ${problem}`));
   if ((entry.problems ?? []).length > 6) {
-    console.log(`    ... ${entry.problems.length - 6} more, see fixtures/report.json`);
+    console.log(
+      `    ... ${entry.problems.length - 6} more, see fixtures/report.json`,
+    );
   }
 }
 console.log(`\nScreenshots: ${OUTPUT}`);

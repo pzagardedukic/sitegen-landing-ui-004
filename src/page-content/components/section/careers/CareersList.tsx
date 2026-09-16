@@ -3,7 +3,11 @@
 import { Box } from "@mui/material";
 import type { Career } from "@/core/runtime";
 import { useLanguage } from "@/core/runtime";
-import { getCareerSlugById, getPageSlugByKey, withBasePath } from "@/core/static";
+import {
+  getCareerSlugById,
+  getPageSlugByKey,
+  withBasePath,
+} from "@/core/static";
 import { getCareersTranslation } from "@/core/translations";
 import CareerPreviewCard from "./CareerPreviewCard";
 
@@ -24,7 +28,9 @@ export default function CareersList({ careers }: CareersListProps) {
       {careers.map((career) => (
         <CareerPreviewCard
           key={career.id}
-          href={withBasePath(`/${careersPageSlug}/${getCareerSlugById(career.id)}`)}
+          href={withBasePath(
+            `/${careersPageSlug}/${getCareerSlugById(career.id)}`,
+          )}
           title={career.title}
           text={career.text}
           note={career.note}

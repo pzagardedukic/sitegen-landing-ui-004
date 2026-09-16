@@ -26,7 +26,10 @@ type MobileNavDrawerProps = {
   items: NavItem[];
 };
 
-type LinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
+type LinkClick = (
+  event: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+) => void;
 
 /* Figtree medium 20 — the mobile `nav` style in Figma, which is larger than the bar's 15. */
 const navSx = (active: boolean) => (theme: Theme) => ({
@@ -120,7 +123,9 @@ function MobileSubmenu({
                 }
                 sx={(theme) => ({
                   ...theme.typography.body1,
-                  color: active ? theme.palette.primary.main : theme.palette.text.primary,
+                  color: active
+                    ? theme.palette.primary.main
+                    : theme.palette.text.primary,
                 })}
               >
                 {sub.label}
@@ -192,14 +197,24 @@ export default function MobileNavDrawer({
         <Box
           component="a"
           href={withBasePath("/")}
-          sx={{ display: "flex", alignItems: "center", minWidth: 0, color: "inherit" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            minWidth: 0,
+            color: "inherit",
+          }}
         >
           {home.logo.image ? (
             <Box
               component="img"
               src={home.logo.image}
               alt={`${home.name} Logo`}
-              sx={{ height: 32, maxWidth: 180, width: "auto", objectFit: "contain" }}
+              sx={{
+                height: 32,
+                maxWidth: 180,
+                width: "auto",
+                objectFit: "contain",
+              }}
             />
           ) : (
             <Typography variant="logo" component="span" noWrap>
@@ -221,7 +236,12 @@ export default function MobileNavDrawer({
 
       <Box
         component="nav"
-        sx={{ display: "flex", flexDirection: "column", gap: "30px", py: "30px" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "30px",
+          py: "30px",
+        }}
       >
         {items.map((item) => {
           if (item.subItems?.length) {

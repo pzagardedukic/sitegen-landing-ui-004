@@ -27,14 +27,19 @@ const TYPES = {
 
 export function serveExport(root, port) {
   const resolve = (pathname) => {
-    const relative = normalize(decodeURIComponent(pathname)).replace(/^[/\\]+/, "");
+    const relative = normalize(decodeURIComponent(pathname)).replace(
+      /^[/\\]+/,
+      "",
+    );
     const candidates = [
       join(root, relative),
       join(root, relative, "index.html"),
       join(root, `${relative.replace(/[/\\]+$/, "")}.html`),
     ];
 
-    return candidates.find((candidate) => existsSync(candidate) && statSync(candidate).isFile());
+    return candidates.find(
+      (candidate) => existsSync(candidate) && statSync(candidate).isFile(),
+    );
   };
 
   const server = createServer((request, response) => {

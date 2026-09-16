@@ -46,9 +46,7 @@ export default function MediaFrame({
           overflow: "hidden",
           borderRadius: `${radius}px`,
           backgroundColor: theme.palette.surfaces.placeholder,
-          ...(height
-            ? { height }
-            : { aspectRatio: String(ratio ?? 4 / 3) }),
+          ...(height ? { height } : { aspectRatio: String(ratio ?? 4 / 3) }),
           width: "100%",
           isolation: "isolate",
         }),

@@ -35,10 +35,18 @@ export default function SubscriptionSection() {
     [pricingItems, selectedCategoryId],
   );
 
-  const cards = items.map((item) => <SubscriptionCard key={item.id} item={item} />);
+  const cards = items.map((item) => (
+    <SubscriptionCard key={item.id} item={item} />
+  ));
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "28px", md: "32px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "28px", md: "32px" },
+      }}
+    >
       {categories.length > 0 && (
         <FilterChips
           ariaLabel={allLabel}

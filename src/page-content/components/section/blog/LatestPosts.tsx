@@ -16,7 +16,10 @@ type LatestPostsProps = {
  * rounded 8 and the title in medium 15 beside it, 14 apart. Each post is a plain link; the
  * title takes primary on hover. The panel is left out when there is no other post.
  */
-export default function LatestPosts({ excludeId, count = 5 }: LatestPostsProps) {
+export default function LatestPosts({
+  excludeId,
+  count = 5,
+}: LatestPostsProps) {
   const { lang } = useLanguage();
   const blogTranslations = getBlogTranslation(lang);
 

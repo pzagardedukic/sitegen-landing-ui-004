@@ -4,7 +4,11 @@ import { Box, Typography } from "@mui/material";
 import Carousel from "@/components/carousel/Carousel";
 import { getPortfolioItems, useLanguage } from "@/core/runtime";
 import { getPortfolioTranslation } from "@/core/translations";
-import { getPageSlugByKey, getPortfolioSlugById, withBasePath } from "@/core/static";
+import {
+  getPageSlugByKey,
+  getPortfolioSlugById,
+  withBasePath,
+} from "@/core/static";
 import PortfolioPreviewCard from "./PortfolioPreviewCard";
 
 type PortfolioItem = ReturnType<typeof getPortfolioItems>[number];
@@ -24,15 +28,19 @@ export default function RelatedProjects({ items }: RelatedProjectsProps) {
 
   if (items.length === 0) return null;
 
-  const cards = items.slice(0, 5).map((item) => (
-    <PortfolioPreviewCard
-      key={item.id}
-      variant="compact"
-      title={item.title}
-      image={item.images[0]}
-      href={withBasePath(`/${getPageSlugByKey("portfolio")}/${getPortfolioSlugById(item.id)}`)}
-    />
-  ));
+  const cards = items
+    .slice(0, 5)
+    .map((item) => (
+      <PortfolioPreviewCard
+        key={item.id}
+        variant="compact"
+        title={item.title}
+        image={item.images[0]}
+        href={withBasePath(
+          `/${getPageSlugByKey("portfolio")}/${getPortfolioSlugById(item.id)}`,
+        )}
+      />
+    ));
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>

@@ -91,7 +91,12 @@ export default function BlogPostSection({ id }: { id: number }) {
             <Typography component="div" variant="body1">
               <RichText
                 text={blog.description}
-                allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+                allowStyling={{
+                  newLine: true,
+                  bold: true,
+                  italic: true,
+                  underline: true,
+                }}
               />
             </Typography>
           )}
@@ -103,7 +108,10 @@ export default function BlogPostSection({ id }: { id: number }) {
       </Box>
 
       <Box
-        sx={(theme) => ({ pt: "24px", borderTop: `1px solid ${theme.palette.surfaces.border}` })}
+        sx={(theme) => ({
+          pt: "24px",
+          borderTop: `1px solid ${theme.palette.surfaces.border}`,
+        })}
       >
         <ShareActions title={blog.title} />
       </Box>

@@ -50,7 +50,10 @@ export default function NotFoundSection() {
         {translation.title}
       </Typography>
 
-      <Typography variant="body1" sx={{ maxWidth: 520, color: "text.secondary" }}>
+      <Typography
+        variant="body1"
+        sx={{ maxWidth: 520, color: "text.secondary" }}
+      >
         {translation.text}
       </Typography>
 

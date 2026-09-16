@@ -24,7 +24,9 @@ function pageList(page: number, count: number): (number | "gap")[] {
     .sort((a, b) => a - b)
     .filter((n, i, all) => all.indexOf(n) === i);
 
-  return shown.flatMap((n, i) => (i > 0 && n - shown[i - 1] > 1 ? ["gap" as const, n] : [n]));
+  return shown.flatMap((n, i) =>
+    i > 0 && n - shown[i - 1] > 1 ? ["gap" as const, n] : [n],
+  );
 }
 
 /* Buttons are 36 across on a phone and 40 above, as the Lumiera frames draw them. */
@@ -45,7 +47,12 @@ export default function PaginationControls({
     <Box
       component="nav"
       aria-label="Paginacija"
-      sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "8px" }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "8px",
+      }}
     >
       <CircleButton
         size={40}
@@ -88,13 +95,16 @@ export default function PaginationControls({
               border: 0,
               cursor: "pointer",
               color: theme.palette.text.primary,
-              backgroundColor: entry === page ? theme.palette.surfaces.mint : "transparent",
+              backgroundColor:
+                entry === page ? theme.palette.surfaces.mint : "transparent",
               transition: theme.transitions.create(["background-color"], {
                 duration: theme.transitions.duration.short,
               }),
               "&:hover": {
                 backgroundColor:
-                  entry === page ? theme.palette.surfaces.mint : theme.palette.surfaces.bgAlt,
+                  entry === page
+                    ? theme.palette.surfaces.mint
+                    : theme.palette.surfaces.bgAlt,
               },
             })}
           >

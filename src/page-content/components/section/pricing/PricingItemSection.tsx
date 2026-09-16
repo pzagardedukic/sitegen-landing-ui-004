@@ -3,7 +3,11 @@
 import { Box, Typography } from "@mui/material";
 import BackButton from "@/components/button/BackButton";
 import Tag from "@/components/common/Tag";
-import { getPricingItems, getPricingSection, useLanguage } from "@/core/runtime";
+import {
+  getPricingItems,
+  getPricingSection,
+  useLanguage,
+} from "@/core/runtime";
 import { useBackToList } from "@/core/react";
 import { getPageSlugByKey } from "@/core/static";
 import {
@@ -69,8 +73,17 @@ export default function PricingItemSection({ id }: { id: number }) {
     Boolean(pricingItem.price.discountedValue);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "56px" } }}>
-      <BackButton label={itemTranslation.goBackButton} onClick={handleBackToPricing} />
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "56px" },
+      }}
+    >
+      <BackButton
+        label={itemTranslation.goBackButton}
+        onClick={handleBackToPricing}
+      />
 
       <Box
         sx={{
@@ -82,7 +95,10 @@ export default function PricingItemSection({ id }: { id: number }) {
       >
         {pricingItem.images.length > 0 && (
           <Box sx={{ width: "100%", flex: { md: "0 0 55%" } }}>
-            <MediaGallery images={pricingItem.images} title={pricingItem.title} />
+            <MediaGallery
+              images={pricingItem.images}
+              title={pricingItem.title}
+            />
           </Box>
         )}
 
@@ -99,7 +115,10 @@ export default function PricingItemSection({ id }: { id: number }) {
           {hasBadges && (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
               {pricingItem.recommended && (
-                <Tag label={packagesTranslation.items.recommended} tone="brand" />
+                <Tag
+                  label={packagesTranslation.items.recommended}
+                  tone="brand"
+                />
               )}
               <StatusBadge status={pricingItem.status} />
               <DiscountBadge
@@ -117,7 +136,12 @@ export default function PricingItemSection({ id }: { id: number }) {
             <Typography component="div" variant="body1">
               <RichText
                 text={pricingItem.text}
-                allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+                allowStyling={{
+                  newLine: true,
+                  bold: true,
+                  italic: true,
+                  underline: true,
+                }}
               />
             </Typography>
           )}

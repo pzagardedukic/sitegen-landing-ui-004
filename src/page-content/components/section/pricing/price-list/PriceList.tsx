@@ -47,7 +47,13 @@ export default function PriceList() {
   );
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "28px", md: "32px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "28px", md: "32px" },
+      }}
+    >
       {categories.length > 0 && (
         <FilterChips
           ariaLabel={allLabel}
@@ -63,7 +69,13 @@ export default function PriceList() {
         />
       )}
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "20px", md: 0 } }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: { xs: "20px", md: 0 },
+        }}
+      >
         {items.map((item, index) => {
           const highlighted = item.recommended;
           /* Two borders would meet where a plain row follows the recommended card. */
@@ -91,7 +103,10 @@ export default function PriceList() {
                   : theme.palette.surfaces.border,
                 borderWidth: highlighted
                   ? "1px"
-                  : { xs: "1px", md: index === 0 || afterHighlight ? 0 : "1px 0 0" },
+                  : {
+                      xs: "1px",
+                      md: index === 0 || afterHighlight ? 0 : "1px 0 0",
+                    },
                 backgroundColor: highlighted
                   ? theme.palette.surfaces.surface
                   : "transparent",
@@ -125,11 +140,21 @@ export default function PriceList() {
                   />
                 )}
 
-                <Box sx={{ minWidth: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+                <Box
+                  sx={{
+                    minWidth: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
                   {hasBadges && (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                       {highlighted && (
-                        <Tag label={packagesTranslation.items.recommended} tone="brand" />
+                        <Tag
+                          label={packagesTranslation.items.recommended}
+                          tone="brand"
+                        />
                       )}
                       <StatusBadge status={item.status} />
                       <DiscountBadge
@@ -144,13 +169,20 @@ export default function PriceList() {
                   </Typography>
 
                   {item.text && (
-                    <Typography variant="body1" sx={{ color: "text.secondary" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{ color: "text.secondary" }}
+                    >
                       {stripRichText(item.text)}
                     </Typography>
                   )}
 
                   {item.category && (
-                    <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+                    <Typography
+                      variant="caption"
+                      component="p"
+                      sx={{ color: "text.secondary" }}
+                    >
                       {item.category}
                     </Typography>
                   )}

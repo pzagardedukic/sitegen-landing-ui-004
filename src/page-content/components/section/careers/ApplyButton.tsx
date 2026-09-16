@@ -3,7 +3,10 @@
 import type { SxProps, Theme } from "@mui/material/styles";
 import type { ArrowButtonTone } from "@/components/button/ArrowButton";
 import { useLanguage } from "@/core/runtime";
-import { getButtonTranslation, getCareersTranslation } from "@/core/translations";
+import {
+  getButtonTranslation,
+  getCareersTranslation,
+} from "@/core/translations";
 import ContactCtaButton from "../common/ContactCtaButton";
 
 type ApplyButtonProps = {

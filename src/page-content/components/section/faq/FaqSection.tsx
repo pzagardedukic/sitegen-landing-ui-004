@@ -19,7 +19,13 @@ export default function FaqSection() {
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "48px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "48px" },
+      }}
+    >
       {faqSection.text && (
         <Typography variant="body1" sx={{ maxWidth: 640 }}>
           {faqSection.text}

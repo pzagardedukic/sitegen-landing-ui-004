@@ -3,7 +3,11 @@
 import { Box, Typography } from "@mui/material";
 import Carousel from "@/components/carousel/Carousel";
 import { getPricingItems, useLanguage } from "@/core/runtime";
-import { getPageSlugByKey, getPricingSlugById, withBasePath } from "@/core/static";
+import {
+  getPageSlugByKey,
+  getPricingSlugById,
+  withBasePath,
+} from "@/core/static";
 import { getPricingTranslation_priceListWithImages } from "@/core/translations";
 
 type PricingItem = ReturnType<typeof getPricingItems>[number];
@@ -28,7 +32,9 @@ export default function RelatedItems({ items }: RelatedItemsProps) {
     <Box
       key={item.id}
       component="a"
-      href={withBasePath(`/${getPageSlugByKey("pricing")}/${getPricingSlugById(item.id)}`)}
+      href={withBasePath(
+        `/${getPageSlugByKey("pricing")}/${getPricingSlugById(item.id)}`,
+      )}
       sx={(theme) => ({
         display: "flex",
         flexDirection: "column",

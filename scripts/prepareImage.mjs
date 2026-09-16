@@ -18,7 +18,9 @@ import sharp from "sharp";
 const [source, name, widthArg] = process.argv.slice(2);
 
 if (!source || !name) {
-  console.error("uporaba: node scripts/prepareImage.mjs <izvor> <ime> [sirina]");
+  console.error(
+    "uporaba: node scripts/prepareImage.mjs <izvor> <ime> [sirina]",
+  );
   process.exit(1);
 }
 

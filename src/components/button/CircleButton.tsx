@@ -13,22 +13,34 @@ type CircleButtonProps = ButtonBaseProps & {
 
 function toneSx(tone: CircleButtonTone, theme: Theme) {
   const { palette } = theme;
-  const toPrimary = { backgroundColor: palette.primary.main, color: palette.primary.contrastText };
+  const toPrimary = {
+    backgroundColor: palette.primary.main,
+    color: palette.primary.contrastText,
+  };
 
   switch (tone) {
     case "soft":
       return {
-        base: { backgroundColor: palette.surfaces.bgAlt, color: palette.text.primary },
+        base: {
+          backgroundColor: palette.surfaces.bgAlt,
+          color: palette.text.primary,
+        },
         hover: toPrimary,
       };
     case "dark":
       return {
-        base: { backgroundColor: palette.text.primary, color: palette.background.default },
+        base: {
+          backgroundColor: palette.text.primary,
+          color: palette.background.default,
+        },
         hover: toPrimary,
       };
     case "white":
       return {
-        base: { backgroundColor: palette.surfaces.onImage, color: palette.text.primary },
+        base: {
+          backgroundColor: palette.surfaces.onImage,
+          color: palette.text.primary,
+        },
         hover: toPrimary,
       };
     default:

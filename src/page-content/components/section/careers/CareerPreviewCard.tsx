@@ -95,7 +95,11 @@ export default function CareerPreviewCard({
         )}
 
         {note && (
-          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{ color: "text.secondary" }}
+          >
             {note}
           </Typography>
         )}

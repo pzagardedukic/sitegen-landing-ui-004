@@ -19,7 +19,11 @@ type FaqItemProps = {
  * No card, no fill: ui-002 drew each question as a rounded box, which turned a list of
  * seven questions into seven competing panels.
  */
-export default function FaqItem({ question, answer, defaultOpen = false }: FaqItemProps) {
+export default function FaqItem({
+  question,
+  answer,
+  defaultOpen = false,
+}: FaqItemProps) {
   const [open, setOpen] = useState(defaultOpen);
   const answerId = useId();
 

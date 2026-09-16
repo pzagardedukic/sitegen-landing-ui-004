@@ -55,9 +55,20 @@ const hrefFor = (item: ContactItem) => {
  * tap meant to reach a contact opened the pill instead and appeared to do nothing at all.
  * Every contact is one tap now, and what the card offers is visible without probing it.
  */
-export default function TeamCard({ name, text, image, contact = [] }: TeamCardProps) {
+export default function TeamCard({
+  name,
+  text,
+  image,
+  contact = [],
+}: TeamCardProps) {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "16px", md: "18px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "16px", md: "18px" },
+      }}
+    >
       <Box
         sx={(theme) => ({
           position: "relative",
@@ -102,7 +113,11 @@ export default function TeamCard({ name, text, image, contact = [] }: TeamCardPr
                 role="listitem"
                 component="a"
                 href={hrefFor(item)}
-                target={item.type === "EMAIL" || item.type === "PHONE" ? undefined : "_blank"}
+                target={
+                  item.type === "EMAIL" || item.type === "PHONE"
+                    ? undefined
+                    : "_blank"
+                }
                 rel="noopener noreferrer"
                 aria-label={`${item.type}: ${name}`}
                 sx={(theme) => ({
@@ -114,9 +129,12 @@ export default function TeamCard({ name, text, image, contact = [] }: TeamCardPr
                   backgroundColor: theme.palette.surfaces.mint,
                   color: theme.palette.text.primary,
                   "& .MuiSvgIcon-root": { fontSize: 15 },
-                  transition: theme.transitions.create(["background-color", "color"], {
-                    duration: theme.transitions.duration.short,
-                  }),
+                  transition: theme.transitions.create(
+                    ["background-color", "color"],
+                    {
+                      duration: theme.transitions.duration.short,
+                    },
+                  ),
                   "&:hover, &:focus-visible": {
                     backgroundColor: theme.palette.primary.main,
                     color: theme.palette.primary.contrastText,
@@ -130,7 +148,14 @@ export default function TeamCard({ name, text, image, contact = [] }: TeamCardPr
         )}
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "8px", textAlign: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          textAlign: "center",
+        }}
+      >
         <Typography variant="h6" component="h3">
           {name}
         </Typography>

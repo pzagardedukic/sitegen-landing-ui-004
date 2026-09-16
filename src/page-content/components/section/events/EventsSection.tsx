@@ -8,8 +8,15 @@ import ListToolbar from "@/components/common/ListToolbar";
 import PaginationControls from "@/components/button/PaginationControls";
 import { getEventItems, getEventsSection, useLanguage } from "@/core/runtime";
 import { useListFilters } from "@/core/react";
-import { getEventSlugById, getPageSlugByKey, withBasePath } from "@/core/static";
-import { getButtonTranslation, getEventsTranslation } from "@/core/translations";
+import {
+  getEventSlugById,
+  getPageSlugByKey,
+  withBasePath,
+} from "@/core/static";
+import {
+  getButtonTranslation,
+  getEventsTranslation,
+} from "@/core/translations";
 import {
   formatEventDate,
   getEventDateTimestamp,
@@ -116,12 +123,20 @@ function EventsSectionInner() {
       key={event.id}
       item={event}
       showApplyButton={showApplyButton}
-      href={withBasePath(`/${getPageSlugByKey("events")}/${getEventSlugById(event.id)}`)}
+      href={withBasePath(
+        `/${getPageSlugByKey("events")}/${getEventSlugById(event.id)}`,
+      )}
     />
   ));
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "40px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "32px", md: "40px" },
+      }}
+    >
       {eventsSection.text && (
         <Typography variant="body1" sx={{ maxWidth: 640 }}>
           {eventsSection.text}
@@ -185,13 +200,21 @@ function EventsSectionInner() {
           </Box>
         </>
       ) : (
-        <Typography variant="body1" sx={{ color: "text.secondary", py: "32px" }}>
+        <Typography
+          variant="body1"
+          sx={{ color: "text.secondary", py: "32px" }}
+        >
           {eventsTranslation.noResults}
         </Typography>
       )}
 
       {pageCount > 1 && (
-        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "center", md: "flex-start" },
+          }}
+        >
           <PaginationControls
             page={currentPage}
             pageCount={pageCount}

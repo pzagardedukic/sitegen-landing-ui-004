@@ -87,13 +87,22 @@ export default function ListToolbar({
             outline: "none",
             background: "none",
             color: theme.palette.text.primary,
-            "&::placeholder": { color: theme.palette.text.secondary, opacity: 1 },
+            "&::placeholder": {
+              color: theme.palette.text.secondary,
+              opacity: 1,
+            },
             "&::-webkit-search-cancel-button": { cursor: "pointer" },
           })}
         />
       </Box>
 
-      <Box sx={{ position: "relative", flexShrink: 0, width: { xs: "100%", sm: sortWidth } }}>
+      <Box
+        sx={{
+          position: "relative",
+          flexShrink: 0,
+          width: { xs: "100%", sm: sortWidth },
+        }}
+      >
         <Box
           component="select"
           value={sortValue}

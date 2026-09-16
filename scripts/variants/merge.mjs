@@ -16,7 +16,9 @@ export function applyPatch(base, patch) {
     }
 
     const isPlainObject = (candidate) =>
-      typeof candidate === "object" && candidate !== null && !Array.isArray(candidate);
+      typeof candidate === "object" &&
+      candidate !== null &&
+      !Array.isArray(candidate);
 
     if (isPlainObject(value) && isPlainObject(result[key])) {
       result[key] = applyPatch(result[key], value);

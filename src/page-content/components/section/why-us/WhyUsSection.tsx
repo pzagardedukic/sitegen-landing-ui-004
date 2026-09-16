@@ -11,7 +11,9 @@ import ExperienceItems from "./ExperienceItems";
 /* Numbers are grouped the way the page's language writes them; anything else stays as given. */
 function formatStat(value: unknown, locale: string): string {
   const number = Number(value);
-  return Number.isFinite(number) ? new Intl.NumberFormat(locale).format(number) : String(value);
+  return Number.isFinite(number)
+    ? new Intl.NumberFormat(locale).format(number)
+    : String(value);
 }
 
 /*
@@ -30,10 +32,16 @@ export default function WhyUsSection() {
 
   const stats: { value: string; label: string }[] = [];
   if (experience?.clientCount) {
-    stats.push({ value: formatStat(experience.clientCount, locale), label: whyUsTranslation.clientCount });
+    stats.push({
+      value: formatStat(experience.clientCount, locale),
+      label: whyUsTranslation.clientCount,
+    });
   }
   if (experience?.projectCount) {
-    stats.push({ value: formatStat(experience.projectCount, locale), label: whyUsTranslation.projectCount });
+    stats.push({
+      value: formatStat(experience.projectCount, locale),
+      label: whyUsTranslation.projectCount,
+    });
   }
 
   return (
@@ -45,7 +53,10 @@ export default function WhyUsSection() {
         gap: { xs: "44px", sm: "56px", md: "72px" },
       }}
     >
-      <CenteredIntro title={whyUsTranslation.title} description={experience?.text} />
+      <CenteredIntro
+        title={whyUsTranslation.title}
+        description={experience?.text}
+      />
 
       {stats.length > 0 && (
         <Box

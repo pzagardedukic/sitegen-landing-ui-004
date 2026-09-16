@@ -78,7 +78,11 @@ export default function PriceValue({
           </Typography>
 
           {unitLabel && (
-            <Typography component="span" variant="caption" sx={{ color: "text.secondary" }}>
+            <Typography
+              component="span"
+              variant="caption"
+              sx={{ color: "text.secondary" }}
+            >
               / {unitLabel}
             </Typography>
           )}

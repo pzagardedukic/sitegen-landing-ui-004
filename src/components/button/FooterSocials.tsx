@@ -64,7 +64,10 @@ export default function FooterSocials({
         color: "inherit",
         "& .MuiIconButton-root": { color: "currentColor", p: "6px" },
         "& .MuiSvgIcon-root": { fontSize: size },
-        "& .MuiIconButton-root:hover": { opacity: 0.7, backgroundColor: "transparent" },
+        "& .MuiIconButton-root:hover": {
+          opacity: 0.7,
+          backgroundColor: "transparent",
+        },
       }}
     >
       {icons.map(({ name, url, icon }) => (

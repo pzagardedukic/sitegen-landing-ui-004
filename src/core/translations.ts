@@ -67,19 +67,31 @@ const sentenceCased =
 export const getAboutTranslation = sentenceCased(core.getAboutTranslation);
 export const getBlogTranslation = sentenceCased(core.getBlogTranslation);
 export const getButtonTranslation = sentenceCased(core.getButtonTranslation);
-export const getCallToActionTranslation = sentenceCased(core.getCallToActionTranslation);
+export const getCallToActionTranslation = sentenceCased(
+  core.getCallToActionTranslation,
+);
 export const getCareersTranslation = sentenceCased(core.getCareersTranslation);
-export const getCataloguesTranslation = sentenceCased(core.getCataloguesTranslation);
+export const getCataloguesTranslation = sentenceCased(
+  core.getCataloguesTranslation,
+);
 export const getContactTranslation = sentenceCased(core.getContactTranslation);
-export const getDemoPopupTranslation = sentenceCased(core.getDemoPopupTranslation);
+export const getDemoPopupTranslation = sentenceCased(
+  core.getDemoPopupTranslation,
+);
 export const getEventsTranslation = sentenceCased(core.getEventsTranslation);
 export const getFaqTranslation = sentenceCased(core.getFaqTranslation);
 export const getGalleryTranslation = sentenceCased(core.getGalleryTranslation);
 export const getLegalTranslation = sentenceCased(core.getLegalTranslation);
-export const getNotFoundTranslation = sentenceCased(core.getNotFoundTranslation);
-export const getPortfolioTranslation = sentenceCased(core.getPortfolioTranslation);
+export const getNotFoundTranslation = sentenceCased(
+  core.getNotFoundTranslation,
+);
+export const getPortfolioTranslation = sentenceCased(
+  core.getPortfolioTranslation,
+);
 export const getPriceTranslation = sentenceCased(core.getPriceTranslation);
-export const getPricingStoreTranslation = sentenceCased(core.getPricingStoreTranslation);
+export const getPricingStoreTranslation = sentenceCased(
+  core.getPricingStoreTranslation,
+);
 export const getPricingTranslation_packagesNoImages = sentenceCased(
   core.getPricingTranslation_packagesNoImages,
 );
@@ -90,8 +102,12 @@ export const getPricingTranslation_priceListWithImages = sentenceCased(
   core.getPricingTranslation_priceListWithImages,
 );
 export const getReviewTranslation = sentenceCased(core.getReviewTranslation);
-export const getServicesTranslation = sentenceCased(core.getServicesTranslation);
-export const getSubscriptionsTranslation = sentenceCased(core.getSubscriptionsTranslation);
+export const getServicesTranslation = sentenceCased(
+  core.getServicesTranslation,
+);
+export const getSubscriptionsTranslation = sentenceCased(
+  core.getSubscriptionsTranslation,
+);
 export const getTeamTranslation = sentenceCased(core.getTeamTranslation);
 export const getVideosTranslation = sentenceCased(core.getVideosTranslation);
 export const getWhyUsTranslation = sentenceCased(core.getWhyUsTranslation);

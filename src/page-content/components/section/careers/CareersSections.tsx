@@ -1,7 +1,11 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import { getCareersItems, getCareersSection, useLanguage } from "@/core/runtime";
+import {
+  getCareersItems,
+  getCareersSection,
+  useLanguage,
+} from "@/core/runtime";
 import CareersList from "./CareersList";
 
 /*
@@ -20,7 +24,13 @@ export default function CareersSection() {
   const careersItems = getCareersItems(lang);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "48px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "48px" },
+      }}
+    >
       {careersSection.text && (
         <Typography variant="body1" sx={{ maxWidth: 640 }}>
           {careersSection.text}

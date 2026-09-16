@@ -39,7 +39,12 @@ export default function ReviewCard({ review }: Props) {
   return (
     <Box
       {...(isLink
-        ? { component: "a", href: url, target: "_blank", rel: "noopener noreferrer" }
+        ? {
+            component: "a",
+            href: url,
+            target: "_blank",
+            rel: "noopener noreferrer",
+          }
         : {})}
       sx={(theme) => ({
         height: "100%",

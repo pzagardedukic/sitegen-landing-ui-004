@@ -69,7 +69,10 @@ export default function DesktopNavigation({ items }: DesktopNavigationProps) {
   };
 
   return (
-    <Box component="nav" sx={{ display: "flex", alignItems: "center", gap: "30px" }}>
+    <Box
+      component="nav"
+      sx={{ display: "flex", alignItems: "center", gap: "30px" }}
+    >
       {items.map((item) => {
         if (item.subItems?.length) {
           const dropdownItems: DropdownItem[] = item.subItems.map((sub) => ({

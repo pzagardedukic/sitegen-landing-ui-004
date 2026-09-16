@@ -64,9 +64,12 @@ function CertificateTile({ item }: { item: CertificateItem }) {
             placeItems: "center",
             backgroundColor: theme.palette.surfaces.mint,
             color: theme.palette.text.primary,
-            transition: theme.transitions.create(["background-color", "color"], {
-              duration: theme.transitions.duration.short,
-            }),
+            transition: theme.transitions.create(
+              ["background-color", "color"],
+              {
+                duration: theme.transitions.duration.short,
+              },
+            ),
           })}
         >
           <ArrowOutwardIcon />
@@ -87,7 +90,9 @@ export default function ExperienceItems() {
 
   if (items.length === 0) return null;
 
-  const tiles = items.map((item, index) => <CertificateTile key={index} item={item} />);
+  const tiles = items.map((item, index) => (
+    <CertificateTile key={index} item={item} />
+  ));
 
   return (
     <Box

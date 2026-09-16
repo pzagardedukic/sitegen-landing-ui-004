@@ -11,7 +11,11 @@ type ContactInfoCardProps = {
  * then the label in the h6 face and the value or values under it in the muted text colour,
  * 12 apart.
  */
-export default function ContactInfoCard({ label, icon, children }: ContactInfoCardProps) {
+export default function ContactInfoCard({
+  label,
+  icon,
+  children,
+}: ContactInfoCardProps) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
       <Box

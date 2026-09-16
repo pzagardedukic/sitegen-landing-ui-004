@@ -5,10 +5,18 @@ import { Box } from "@mui/material";
 import ArrowButton from "@/components/button/ArrowButton";
 import PaginationControls from "@/components/button/PaginationControls";
 import Carousel from "@/components/carousel/Carousel";
-import { getPortfolioItems, getPortfolioSection, useLanguage } from "@/core/runtime";
+import {
+  getPortfolioItems,
+  getPortfolioSection,
+  useLanguage,
+} from "@/core/runtime";
 import { usePagination } from "@/core/react";
 import { getButtonTranslation } from "@/core/translations";
-import { getPageSlugByKey, getPortfolioSlugById, withBasePath } from "@/core/static";
+import {
+  getPageSlugByKey,
+  getPortfolioSlugById,
+  withBasePath,
+} from "@/core/static";
 import CategorySelector from "../common/CategorySelector";
 import PortfolioPreviewCard from "./PortfolioPreviewCard";
 
@@ -42,13 +50,19 @@ export default function Portfolio({ maxCnt, callToAction }: PortfolioProps) {
 
   // Selected category index, 0 = "All".
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const selectedCategory = selectedIndex === 0 ? undefined : categories[selectedIndex - 1];
+  const selectedCategory =
+    selectedIndex === 0 ? undefined : categories[selectedIndex - 1];
   const filteredItems = selectedCategory
     ? portfolioItems.filter((item) => item.category.includes(selectedCategory))
     : portfolioItems;
 
-  const { page, setPage, pageCount, paginatedItems, resetPage } = usePagination(filteredItems, 6);
-  const displayedItems = maxCnt ? filteredItems.slice(0, maxCnt) : paginatedItems;
+  const { page, setPage, pageCount, paginatedItems, resetPage } = usePagination(
+    filteredItems,
+    6,
+  );
+  const displayedItems = maxCnt
+    ? filteredItems.slice(0, maxCnt)
+    : paginatedItems;
   const showPagination = !maxCnt && pageCount > 1;
 
   const cards = displayedItems.map((item) => (
@@ -59,12 +73,20 @@ export default function Portfolio({ maxCnt, callToAction }: PortfolioProps) {
       image={item.images[0]}
       category={item.category}
       openLabel={buttonTranslation.learnMore}
-      href={withBasePath(`/${getPageSlugByKey("portfolio")}/${getPortfolioSlugById(item.id)}`)}
+      href={withBasePath(
+        `/${getPageSlugByKey("portfolio")}/${getPortfolioSlugById(item.id)}`,
+      )}
     />
   ));
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "44px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "44px" },
+      }}
+    >
       {categories.length > 0 && (
         <CategorySelector
           categories={categories}
@@ -120,7 +142,11 @@ export default function Portfolio({ maxCnt, callToAction }: PortfolioProps) {
           )}
 
           {showPagination && (
-            <PaginationControls page={page} pageCount={pageCount} onChange={setPage} />
+            <PaginationControls
+              page={page}
+              pageCount={pageCount}
+              onChange={setPage}
+            />
           )}
         </Box>
       )}

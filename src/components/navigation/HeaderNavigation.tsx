@@ -47,7 +47,11 @@ export default function HeaderNavigation({ items }: HeaderNavigationProps) {
         </IconButton>
       </Box>
 
-      <MobileNavDrawer open={open} onClose={() => setOpen(false)} items={items} />
+      <MobileNavDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        items={items}
+      />
     </>
   );
 }

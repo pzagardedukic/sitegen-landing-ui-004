@@ -33,13 +33,20 @@ export default function ServicesPreviewSection() {
         gap: { xs: "44px", md: "64px" },
       }}
     >
-      <CenteredIntro title={servicesTranslation.title} description={servicesSection.text} />
+      <CenteredIntro
+        title={servicesTranslation.title}
+        description={servicesSection.text}
+      />
 
       <Box sx={{ width: "100%" }}>
         <Services maxCnt={6} href={servicesHref} />
       </Box>
 
-      <ArrowButton component="a" href={servicesHref} sx={{ width: { xs: "100%", sm: "auto" } }}>
+      <ArrowButton
+        component="a"
+        href={servicesHref}
+        sx={{ width: { xs: "100%", sm: "auto" } }}
+      >
         {servicesTranslation.callToAction}
       </ArrowButton>
     </Box>

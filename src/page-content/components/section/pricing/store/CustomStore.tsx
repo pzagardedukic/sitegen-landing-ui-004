@@ -6,7 +6,11 @@ import FilterChips from "@/components/common/FilterChips";
 import ListToolbar from "@/components/common/ListToolbar";
 import PaginationControls from "@/components/button/PaginationControls";
 import { getPricingSection } from "@/core/runtime";
-import { getPageSlugByKey, getPricingSlugById, withBasePath } from "@/core/static";
+import {
+  getPageSlugByKey,
+  getPricingSlugById,
+  withBasePath,
+} from "@/core/static";
 import { useListFilters } from "@/core/react";
 import { useLanguage } from "@/core/runtime";
 import {
@@ -125,7 +129,10 @@ function CustomStoreInner() {
             item.price.discountedValue,
             item.price.currency,
             item.price.onAgreement ? priceTranslation.onAgreement : "",
-            ...item.features.flatMap((feature) => [feature.label, feature.value]),
+            ...item.features.flatMap((feature) => [
+              feature.label,
+              feature.value,
+            ]),
           ].join(" "),
         );
 
@@ -155,7 +162,13 @@ function CustomStoreInner() {
 
         return sortOrder === "ascending" ? priceDifference : -priceDifference;
       });
-  }, [pricingItems, searchQuery, selectedCategoryId, sortOrder, priceTranslation]);
+  }, [
+    pricingItems,
+    searchQuery,
+    selectedCategoryId,
+    sortOrder,
+    priceTranslation,
+  ]);
 
   const { pageCount, currentPage, pageItems } = paginate(
     filteredAndSortedItems,
@@ -164,17 +177,28 @@ function CustomStoreInner() {
   );
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "28px", md: "32px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "28px", md: "32px" },
+      }}
+    >
       <ListToolbar
         searchValue={searchInput}
         onSearchChange={setSearchInput}
         searchLabel={pricingStoreTranslation.search}
         sortValue={sortOrder}
-        onSortChange={(value) => setSortOrder(value as "ascending" | "descending")}
+        onSortChange={(value) =>
+          setSortOrder(value as "ascending" | "descending")
+        }
         sortLabel={pricingStoreTranslation.sortByPrice}
         sortOptions={[
           { value: "ascending", label: pricingStoreTranslation.priceAscending },
-          { value: "descending", label: pricingStoreTranslation.priceDescending },
+          {
+            value: "descending",
+            label: pricingStoreTranslation.priceDescending,
+          },
         ]}
       />
 
@@ -218,13 +242,21 @@ function CustomStoreInner() {
           ))}
         </Box>
       ) : (
-        <Typography variant="body1" sx={{ color: "text.secondary", py: "32px" }}>
+        <Typography
+          variant="body1"
+          sx={{ color: "text.secondary", py: "32px" }}
+        >
           {pricingStoreTranslation.noResults}
         </Typography>
       )}
 
       {pageCount > 1 && (
-        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "center", md: "flex-start" },
+          }}
+        >
           <PaginationControls
             page={currentPage}
             pageCount={pageCount}

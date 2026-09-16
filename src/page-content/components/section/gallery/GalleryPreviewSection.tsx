@@ -20,14 +20,25 @@ export default function GalleryPreviewSection() {
   if (galleryItems.length === 0) return null;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "40px", md: "56px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "40px", md: "56px" },
+      }}
+    >
       <Typography variant="h2" component="h2" sx={{ textAlign: "center" }}>
         {galleryTranslation.title}
       </Typography>
 
       <CustomGallery items={galleryItems} />
 
-      <Box sx={{ display: "flex", justifyContent: { xs: "stretch", sm: "center", md: "flex-start" } }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: { xs: "stretch", sm: "center", md: "flex-start" },
+        }}
+      >
         <ArrowButton
           component="a"
           href={getPageSlugByKeyWithBasePath("gallery")}

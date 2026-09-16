@@ -18,7 +18,13 @@ export default function PortfolioPreviewSection() {
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "44px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "44px" },
+      }}
+    >
       <CenteredIntro
         align="left"
         title={portfolioSection.name || portfolioTranslation.title}

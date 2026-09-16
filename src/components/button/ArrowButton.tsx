@@ -6,13 +6,7 @@ import type { ElementType } from "react";
 import { ChevronRightIcon } from "../icons/icons";
 
 export type ArrowButtonTone =
-  | "primary"
-  | "dark"
-  | "border"
-  | "outline"
-  | "soft"
-  | "white"
-  | "text";
+  "primary" | "dark" | "border" | "outline" | "soft" | "white" | "text";
 
 type ArrowButtonOwnProps = {
   /** Which Lumiera Buttons-Arrow variant. */
@@ -29,12 +23,18 @@ type ArrowButtonOwnProps = {
  */
 function toneSx(tone: ArrowButtonTone, theme: Theme) {
   const { palette } = theme;
-  const toPrimary = { backgroundColor: palette.primary.main, color: palette.primary.contrastText };
+  const toPrimary = {
+    backgroundColor: palette.primary.main,
+    color: palette.primary.contrastText,
+  };
 
   switch (tone) {
     case "dark":
       return {
-        base: { backgroundColor: palette.text.primary, color: palette.background.default },
+        base: {
+          backgroundColor: palette.text.primary,
+          color: palette.background.default,
+        },
         hover: toPrimary,
       };
     case "border":
@@ -54,16 +54,25 @@ function toneSx(tone: ArrowButtonTone, theme: Theme) {
           color: palette.text.primary,
           boxShadow: `inset 0 0 0 1px ${palette.text.primary}`,
         },
-        hover: { backgroundColor: palette.text.primary, color: palette.background.default },
+        hover: {
+          backgroundColor: palette.text.primary,
+          color: palette.background.default,
+        },
       };
     case "soft":
       return {
-        base: { backgroundColor: palette.surfaces.bgAlt, color: palette.text.primary },
+        base: {
+          backgroundColor: palette.surfaces.bgAlt,
+          color: palette.text.primary,
+        },
         hover: toPrimary,
       };
     case "white":
       return {
-        base: { backgroundColor: palette.surfaces.onImage, color: palette.text.primary },
+        base: {
+          backgroundColor: palette.surfaces.onImage,
+          color: palette.text.primary,
+        },
         hover: toPrimary,
       };
     case "text":
@@ -86,7 +95,10 @@ function toneSx(tone: ArrowButtonTone, theme: Theme) {
     default:
       return {
         base: toPrimary,
-        hover: { backgroundColor: palette.text.primary, color: palette.background.default },
+        hover: {
+          backgroundColor: palette.text.primary,
+          color: palette.background.default,
+        },
       };
   }
 }
@@ -129,9 +141,10 @@ export default function ArrowButton<C extends ElementType = "button">({
               { duration: theme.transitions.duration.short },
             ),
             "& .MuiButton-startIcon, & .MuiButton-endIcon": { m: 0 },
-            "& .MuiButton-endIcon > .MuiSvgIcon-root, & .MuiButton-startIcon > .MuiSvgIcon-root": {
-              fontSize: 18,
-            },
+            "& .MuiButton-endIcon > .MuiSvgIcon-root, & .MuiButton-startIcon > .MuiSvgIcon-root":
+              {
+                fontSize: 18,
+              },
             ...base,
             "&:hover": hover,
             "&.Mui-disabled": {

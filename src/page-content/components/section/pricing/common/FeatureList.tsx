@@ -16,16 +16,27 @@ type FeatureListProps = {
  * and its value in the muted colour at the end of the row. A description list, because that
  * is what a label and its value are.
  */
-export default function FeatureList({ features, ring = false }: FeatureListProps) {
+export default function FeatureList({
+  features,
+  ring = false,
+}: FeatureListProps) {
   if (features.length === 0) return null;
 
   return (
     <Box
       component="dl"
-      sx={{ m: 0, display: "flex", flexDirection: "column", gap: { xs: "8px", md: "10px" } }}
+      sx={{
+        m: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "8px", md: "10px" },
+      }}
     >
       {features.map((feature, index) => (
-        <Box key={index} sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <Box
+          key={index}
+          sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+        >
           <Box
             aria-hidden
             sx={(theme) => ({
@@ -36,11 +47,17 @@ export default function FeatureList({ features, ring = false }: FeatureListProps
               backgroundColor: ring
                 ? theme.palette.surfaces.rose
                 : theme.palette.primary.main,
-              boxShadow: ring ? `inset 0 0 0 1px ${theme.palette.primary.main}` : "none",
+              boxShadow: ring
+                ? `inset 0 0 0 1px ${theme.palette.primary.main}`
+                : "none",
             })}
           />
 
-          <Typography component="dt" variant="body1" sx={{ flex: 1, minWidth: 0 }}>
+          <Typography
+            component="dt"
+            variant="body1"
+            sx={{ flex: 1, minWidth: 0 }}
+          >
             {feature.label}
           </Typography>
 

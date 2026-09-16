@@ -35,17 +35,32 @@ export default function PricingSection() {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "36px", md: "40px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "36px", md: "40px" },
+      }}
+    >
       {(pricingSection.text || pricingSection.note) && (
         <Box
-          sx={{ maxWidth: 640, display: "flex", flexDirection: "column", gap: "14px" }}
+          sx={{
+            maxWidth: 640,
+            display: "flex",
+            flexDirection: "column",
+            gap: "14px",
+          }}
         >
           {pricingSection.text && (
             <Typography variant="body1">{pricingSection.text}</Typography>
           )}
 
           {pricingSection.note && (
-            <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+            <Typography
+              variant="caption"
+              component="p"
+              sx={{ color: "text.secondary" }}
+            >
               {pricingSection.note}
             </Typography>
           )}

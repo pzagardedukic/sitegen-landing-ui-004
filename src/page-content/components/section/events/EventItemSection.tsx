@@ -6,7 +6,10 @@ import Tag from "@/components/common/Tag";
 import { getEventItems, getEventsSection, useLanguage } from "@/core/runtime";
 import { useBackToList } from "@/core/react";
 import { getPageSlugByKey } from "@/core/static";
-import { getButtonTranslation, getEventsTranslation } from "@/core/translations";
+import {
+  getButtonTranslation,
+  getEventsTranslation,
+} from "@/core/translations";
 import { formatEventDate, getRelativeEventDay } from "@/core/utils";
 import ContactCtaButton from "../common/ContactCtaButton";
 import RichText from "../common/RichText";
@@ -38,7 +41,9 @@ export default function EventItemSection({ id }: { id: number }) {
     return null;
   }
 
-  const formattedDate = formatEventDate(event.date, lang, { includeWeekday: true });
+  const formattedDate = formatEventDate(event.date, lang, {
+    includeWeekday: true,
+  });
   const relativeDay = getRelativeEventDay(event.date);
   const relativeDayLabel =
     relativeDay === "today"
@@ -63,7 +68,10 @@ export default function EventItemSection({ id }: { id: number }) {
         gap: "24px",
       }}
     >
-      <BackButton label={eventsTranslation.backToEvents} onClick={handleBackToEvents} />
+      <BackButton
+        label={eventsTranslation.backToEvents}
+        onClick={handleBackToEvents}
+      />
 
       {event.image && (
         <Box
@@ -82,7 +90,9 @@ export default function EventItemSection({ id }: { id: number }) {
 
       {hasBadges && (
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-          {event.isCancelled && <Tag label={eventsTranslation.cancelled} tone="dark" />}
+          {event.isCancelled && (
+            <Tag label={eventsTranslation.cancelled} tone="dark" />
+          )}
 
           {relativeDayLabel && (
             <Tag
@@ -94,7 +104,11 @@ export default function EventItemSection({ id }: { id: number }) {
       )}
 
       {dateLine && (
-        <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+        <Typography
+          variant="caption"
+          component="p"
+          sx={{ color: "text.secondary" }}
+        >
           {dateLine}
         </Typography>
       )}
@@ -107,13 +121,22 @@ export default function EventItemSection({ id }: { id: number }) {
         <Typography component="div" variant="body1">
           <RichText
             text={event.text}
-            allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+            allowStyling={{
+              newLine: true,
+              bold: true,
+              italic: true,
+              underline: true,
+            }}
           />
         </Typography>
       )}
 
       {event.category && (
-        <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+        <Typography
+          variant="caption"
+          component="p"
+          sx={{ color: "text.secondary" }}
+        >
           {event.category}
         </Typography>
       )}

@@ -39,9 +39,14 @@ export default function ContactSection() {
     const form = formRef.current;
     if (!form) return;
 
-    const stillness = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const stillness = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const frame = requestAnimationFrame(() => {
-      form.scrollIntoView({ behavior: stillness ? "auto" : "smooth", block: "start" });
+      form.scrollIntoView({
+        behavior: stillness ? "auto" : "smooth",
+        block: "start",
+      });
     });
 
     return () => cancelAnimationFrame(frame);

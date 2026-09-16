@@ -15,7 +15,13 @@ export default function ServicesSection() {
   const servicesSection = getServicesSection(lang);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "44px", md: "64px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "44px", md: "64px" },
+      }}
+    >
       <CenteredIntro align="left" description={servicesSection?.text} />
       <Services />
     </Box>

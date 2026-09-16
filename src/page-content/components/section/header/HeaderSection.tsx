@@ -66,8 +66,16 @@ export default function HeaderSection({ title, id }: HeaderSectionProps) {
           bottom: 0,
           height: { xs: LIP.xs, sm: LIP.sm, md: LIP.md },
           backgroundColor: theme.palette.background.default,
-          borderTopLeftRadius: { xs: `${LIP.xs}px`, sm: `${LIP.sm}px`, md: `${LIP.md}px` },
-          borderTopRightRadius: { xs: `${LIP.xs}px`, sm: `${LIP.sm}px`, md: `${LIP.md}px` },
+          borderTopLeftRadius: {
+            xs: `${LIP.xs}px`,
+            sm: `${LIP.sm}px`,
+            md: `${LIP.md}px`,
+          },
+          borderTopRightRadius: {
+            xs: `${LIP.xs}px`,
+            sm: `${LIP.sm}px`,
+            md: `${LIP.md}px`,
+          },
         },
       })}
     >

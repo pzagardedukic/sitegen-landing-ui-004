@@ -34,7 +34,11 @@ export default function BlogPreviewSection() {
           gap: "24px",
         }}
       >
-        <CenteredIntro align="left" title={blogTranslation.title} description={blogSection.text} />
+        <CenteredIntro
+          align="left"
+          title={blogTranslation.title}
+          description={blogSection.text}
+        />
 
         <ArrowButton
           tone="outline"

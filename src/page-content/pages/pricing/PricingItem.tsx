@@ -14,7 +14,7 @@ export default function PricingItemPage({ slug }: { slug: string }) {
 
   const pricingId = parseInt(slug, 10);
   const pricingItem = getPricingItems(lang).find(
-    (item) => item.id === pricingId
+    (item) => item.id === pricingId,
   );
 
   if (isNaN(pricingId) || !pricingItem) {

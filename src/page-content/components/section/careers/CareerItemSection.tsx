@@ -54,7 +54,12 @@ export default function CareerItemSection({ id }: { id: number }) {
         <Typography component="div" variant="body1">
           <RichText
             text={career.text}
-            allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+            allowStyling={{
+              newLine: true,
+              bold: true,
+              italic: true,
+              underline: true,
+            }}
           />
         </Typography>
       )}
@@ -65,7 +70,11 @@ export default function CareerItemSection({ id }: { id: number }) {
       />
 
       {career.note && (
-        <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+        <Typography
+          variant="caption"
+          component="p"
+          sx={{ color: "text.secondary" }}
+        >
           {career.note}
         </Typography>
       )}

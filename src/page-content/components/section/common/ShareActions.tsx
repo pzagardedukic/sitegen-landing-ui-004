@@ -31,9 +31,12 @@ const circleSx = (theme: Theme) => ({
   color: theme.palette.text.primary,
   boxShadow: `inset 0 0 0 1px ${theme.palette.surfaces.border}`,
   "& .MuiSvgIcon-root": { fontSize: 15 },
-  transition: theme.transitions.create(["background-color", "color", "box-shadow"], {
-    duration: theme.transitions.duration.short,
-  }),
+  transition: theme.transitions.create(
+    ["background-color", "color", "box-shadow"],
+    {
+      duration: theme.transitions.duration.short,
+    },
+  ),
   "&:hover, &:focus-visible": {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
@@ -68,13 +71,32 @@ export default function ShareActions({
   };
 
   const links = [
-    { name: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, icon: <FacebookIcon /> },
-    { name: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`, icon: <LinkedInIcon /> },
-    { name: "X", href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`, icon: <XIcon /> },
+    {
+      name: "Facebook",
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      icon: <FacebookIcon />,
+    },
+    {
+      name: "LinkedIn",
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+      icon: <LinkedInIcon />,
+    },
+    {
+      name: "X",
+      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      icon: <XIcon />,
+    },
   ];
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "10px",
+      }}
+    >
       <Typography variant="caption" sx={{ color: "text.secondary", mr: "4px" }}>
         {buttonTranslations.shareOn}
       </Typography>

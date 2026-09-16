@@ -11,8 +11,7 @@ import {
 import { alpha, type Theme } from "@mui/material/styles";
 
 export type DropdownItem = (
-  | { label: string; href: string }
-  | { label: string; onClick: () => void }
+  { label: string; href: string } | { label: string; onClick: () => void }
 ) & { active?: boolean };
 
 type HoverDropdownProps = {

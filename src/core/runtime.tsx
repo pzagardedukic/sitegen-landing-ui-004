@@ -6,11 +6,7 @@ import {
   createWebsiteRuntime,
 } from "@ptlabTadej/sitegen-landing-core/runtime";
 
-import {
-  BASE_PATH,
-  primaryLanguage,
-  supportedLanguages,
-} from "./static";
+import { BASE_PATH, primaryLanguage, supportedLanguages } from "./static";
 
 const websiteRuntime = createWebsiteRuntime({
   primaryLanguage,

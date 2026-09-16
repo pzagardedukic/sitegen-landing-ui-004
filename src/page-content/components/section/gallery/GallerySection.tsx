@@ -13,15 +13,33 @@ import { CustomGallery } from "../common/CustomGallery";
  */
 export default function GallerySection() {
   const galleryItems = getGalleryItems();
-  const { page, setPage, pageCount, paginatedItems } = usePagination(galleryItems, 6);
+  const { page, setPage, pageCount, paginatedItems } = usePagination(
+    galleryItems,
+    6,
+  );
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "40px", md: "56px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "40px", md: "56px" },
+      }}
+    >
       <CustomGallery items={galleryItems} currentPageItems={paginatedItems} />
 
       {pageCount > 1 && (
-        <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-end" } }}>
-          <PaginationControls page={page} pageCount={pageCount} onChange={setPage} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "center", md: "flex-end" },
+          }}
+        >
+          <PaginationControls
+            page={page}
+            pageCount={pageCount}
+            onChange={setPage}
+          />
         </Box>
       )}
     </Box>

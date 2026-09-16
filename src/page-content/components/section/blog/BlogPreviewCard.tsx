@@ -29,7 +29,9 @@ export default function BlogPreviewCard({
 }: BlogPreviewCardProps) {
   const { lang } = useLanguage();
   const excerpt = stripRichText(truncateWordSafe(text, 150));
-  const meta = [date ? formatEventDate(date, lang) : "", author].filter(Boolean).join(" · ");
+  const meta = [date ? formatEventDate(date, lang) : "", author]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <Box
@@ -41,8 +43,12 @@ export default function BlogPreviewCard({
         gap: "20px",
         color: "inherit",
         textDecoration: "none",
-        "&:hover .blog-img, &:focus-visible .blog-img": { transform: "scale(1.04)" },
-        "&:hover .blog-title, &:focus-visible .blog-title": { color: theme.palette.primary.main },
+        "&:hover .blog-img, &:focus-visible .blog-img": {
+          transform: "scale(1.04)",
+        },
+        "&:hover .blog-title, &:focus-visible .blog-title": {
+          color: theme.palette.primary.main,
+        },
       })}
     >
       <Box

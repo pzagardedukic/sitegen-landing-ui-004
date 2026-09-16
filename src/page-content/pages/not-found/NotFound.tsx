@@ -13,7 +13,11 @@ import NotFoundSection from "@/page-content/components/section/not-found/NotFoun
 export default function NotFoundPage() {
   return (
     <PageLayout header={<Header />} footer={<Footer />} solidHeader>
-      <Section id="404" color="surfaces.surface" paddingY={{ xs: "96px", md: "120px" }}>
+      <Section
+        id="404"
+        color="surfaces.surface"
+        paddingY={{ xs: "96px", md: "120px" }}
+      >
         <NotFoundSection />
       </Section>
     </PageLayout>

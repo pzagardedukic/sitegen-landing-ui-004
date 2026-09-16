@@ -29,7 +29,10 @@ export function collectComplaints(browser) {
     if (method === "Network.loadingFailed") {
       complaints.push(`request failed: ${params.errorText}`);
     }
-    if (method === "Network.responseReceived" && params.response.status >= 400) {
+    if (
+      method === "Network.responseReceived" &&
+      params.response.status >= 400
+    ) {
       complaints.push(`HTTP ${params.response.status}: ${params.response.url}`);
     }
   });
@@ -122,7 +125,11 @@ const TEXT_BOX_PROBE = `JSON.stringify((() => {
     .slice(0, 150);
 })())`;
 
-export async function inspectRoute(browser, url, { settleMs = 3500, growth = true } = {}) {
+export async function inspectRoute(
+  browser,
+  url,
+  { settleMs = 3500, growth = true } = {},
+) {
   const { complaints, stop } = collectComplaints(browser);
 
   await browser.send("Page.navigate", { url: "about:blank" });
@@ -137,7 +144,10 @@ export async function inspectRoute(browser, url, { settleMs = 3500, growth = tru
    */
   let previous = -1;
   for (let pass = 0; pass < 12; pass += 1) {
-    const nodes = await browser.evaluate("document.querySelectorAll('*').length", "settle");
+    const nodes = await browser.evaluate(
+      "document.querySelectorAll('*').length",
+      "settle",
+    );
     if (nodes === previous && nodes > 20) break;
     previous = nodes;
     await sleep(600);
@@ -157,7 +167,8 @@ export async function inspectRoute(browser, url, { settleMs = 3500, growth = tru
   return {
     ...second,
     /* A node count that is still climbing seconds after the page settled is a runaway. */
-    growing: second.nodes > first.nodes * 1.2 && second.nodes - first.nodes > 40,
+    growing:
+      second.nodes > first.nodes * 1.2 && second.nodes - first.nodes > 40,
     complaints: [...new Set(complaints)],
   };
 }
@@ -184,12 +195,25 @@ export function findInvisibleText(pngPath, imageWidth, textBoxes, workDir) {
     mkdirSync(workDir, { recursive: true });
     execFileSync(
       "ffmpeg",
-      ["-y", "-loglevel", "error", "-i", pngPath, "-f", "rawvideo", "-pix_fmt", "rgb24", rawPath],
+      [
+        "-y",
+        "-loglevel",
+        "error",
+        "-i",
+        pngPath,
+        "-f",
+        "rawvideo",
+        "-pix_fmt",
+        "rgb24",
+        rawPath,
+      ],
       { stdio: "pipe" },
     );
   } catch {
     if (!ffmpegMissingReported) {
-      console.log("  (ffmpeg not available — skipping the invisible-text check)");
+      console.log(
+        "  (ffmpeg not available — skipping the invisible-text check)",
+      );
       ffmpegMissingReported = true;
     }
     return null;
@@ -199,7 +223,11 @@ export function findInvisibleText(pngPath, imageWidth, textBoxes, workDir) {
   const height = Math.floor(pixels.length / (imageWidth * 3));
   const luminance = (x, y) => {
     const index = (y * imageWidth + x) * 3;
-    return 0.299 * pixels[index] + 0.587 * pixels[index + 1] + 0.114 * pixels[index + 2];
+    return (
+      0.299 * pixels[index] +
+      0.587 * pixels[index + 1] +
+      0.114 * pixels[index + 2]
+    );
   };
 
   const invisible = [];
@@ -274,7 +302,9 @@ export async function capturePageWithBoxes(browser, file, width) {
   for (let pass = 0; pass < 4; pass += 1) {
     const measured = Math.min(
       16000,
-      Math.ceil(await browser.evaluate("document.body.scrollHeight", "page height")),
+      Math.ceil(
+        await browser.evaluate("document.body.scrollHeight", "page height"),
+      ),
     );
     if (measured === pageHeight) break;
     pageHeight = measured;
@@ -284,10 +314,15 @@ export async function capturePageWithBoxes(browser, file, width) {
 
   await sleep(700);
 
-  const boxes = JSON.parse(await browser.evaluate(TEXT_BOX_PROBE, "text boxes"));
+  const boxes = JSON.parse(
+    await browser.evaluate(TEXT_BOX_PROBE, "text boxes"),
+  );
 
   const shot = await browser.withTimeout(
-    browser.send("Page.captureScreenshot", { format: "png", optimizeForSpeed: true }),
+    browser.send("Page.captureScreenshot", {
+      format: "png",
+      optimizeForSpeed: true,
+    }),
     120000,
     `capture ${file}`,
   );

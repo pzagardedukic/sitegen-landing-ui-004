@@ -47,7 +47,13 @@ export default function LegalSection() {
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "32px", md: "48px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "32px", md: "48px" },
+      }}
+    >
       <Box
         sx={{
           display: "grid",

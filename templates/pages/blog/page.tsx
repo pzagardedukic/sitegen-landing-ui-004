@@ -6,6 +6,6 @@ export default function Blog() {
   if (!isSectionEnabled("blog")) {
     notFound();
   }
-  
+
   return <BlogPage />;
 }

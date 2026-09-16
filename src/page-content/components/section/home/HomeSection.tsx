@@ -124,9 +124,12 @@ export default function HomeSection() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            transition: theme.transitions.create(["background-color", "color"], {
-              duration: theme.transitions.duration.short,
-            }),
+            transition: theme.transitions.create(
+              ["background-color", "color"],
+              {
+                duration: theme.transitions.duration.short,
+              },
+            ),
           })}
         >
           <ChevronDownIcon size={12} />

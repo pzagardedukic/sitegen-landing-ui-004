@@ -1,6 +1,6 @@
 # sitegen-landing-ui-004
 
-The fourth visual implementation of the Sitegen landing-site contract: the light **Lumiera** theme (beauty / spa), with its own demo content for the fictional salon *Mirna Spa & Beauty*.
+The fourth visual implementation of the Sitegen landing-site contract: the light **Lumiera** theme (beauty / spa), with its own demo content for the fictional salon _Mirna Spa & Beauty_.
 
 It is a **redesign only**. Behaviour is deliberately identical to `sitegen-landing-ui-002` (and through it `sitegen-landing-ui-001`): the same `website.json` schema (with different demo content), the same core major, the same section order and enablement conditions, the same routes, anchors and SEO. What differs is the theme and the visual components.
 

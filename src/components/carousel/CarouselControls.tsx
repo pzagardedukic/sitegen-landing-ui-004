@@ -32,7 +32,13 @@ export default function CarouselControls({
   const share = 100 / Math.max(1, pageCount);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: { xs: "24px", md: "32px" } }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: { xs: "24px", md: "32px" },
+      }}
+    >
       <Box
         aria-hidden
         sx={(theme) => ({

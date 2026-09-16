@@ -45,10 +45,19 @@ export default function CenteredIntro({
       )}
 
       {description && (
-        <Typography component="div" variant="body1" sx={{ maxWidth: { md: left ? "none" : descriptionMaxWidth } }}>
+        <Typography
+          component="div"
+          variant="body1"
+          sx={{ maxWidth: { md: left ? "none" : descriptionMaxWidth } }}
+        >
           <RichText
             text={description}
-            allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+            allowStyling={{
+              newLine: true,
+              bold: true,
+              italic: true,
+              underline: true,
+            }}
           />
         </Typography>
       )}

@@ -3,7 +3,10 @@
 import { Box, Typography } from "@mui/material";
 import ArrowButton from "@/components/button/ArrowButton";
 import RichText from "../common/RichText";
-import ImageCarousel, { AboutPhoto, type ImageCarouselItem } from "./ImageCarousel";
+import ImageCarousel, {
+  AboutPhoto,
+  type ImageCarouselItem,
+} from "./ImageCarousel";
 
 type AboutBlockProps = {
   title: string;
@@ -57,7 +60,12 @@ export default function AboutBlock({
         <Typography component="div" variant="body1">
           <RichText
             text={description}
-            allowStyling={{ newLine: true, bold: true, italic: true, underline: true }}
+            allowStyling={{
+              newLine: true,
+              bold: true,
+              italic: true,
+              underline: true,
+            }}
           />
         </Typography>
       )}
@@ -85,13 +93,20 @@ export default function AboutBlock({
         gap: { xs: "44px", sm: "56px", md: "80px" },
       }}
     >
-      <Box sx={{ flex: { md: `0 0 ${count === 1 ? 520 : 440}px` }, minWidth: 0 }}>{text}</Box>
+      <Box
+        sx={{ flex: { md: `0 0 ${count === 1 ? 520 : 440}px` }, minWidth: 0 }}
+      >
+        {text}
+      </Box>
 
       {count === 1 ? (
         <Box sx={{ flex: { md: 1 }, minWidth: 0 }}>
           <AboutPhoto
             item={items[0]}
-            sx={{ aspectRatio: { xs: "1 / 1", sm: "auto", md: "1 / 1" }, height: { sm: 480, md: "auto" } }}
+            sx={{
+              aspectRatio: { xs: "1 / 1", sm: "auto", md: "1 / 1" },
+              height: { sm: 480, md: "auto" },
+            }}
           />
         </Box>
       ) : (

@@ -17,7 +17,9 @@ function BackToTop({ label }: { label: string }) {
       onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
         // Scrolled by hand so the address bar does not keep a #main after the jump.
         event.preventDefault();
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
         window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
       }}
       sx={(theme) => ({
@@ -31,9 +33,12 @@ function BackToTop({ label }: { label: string }) {
         borderRadius: "999px",
         border: `1px solid ${theme.palette.footer.buttonBorder}`,
         color: "inherit",
-        transition: theme.transitions.create(["background-color", "color", "border-color"], {
-          duration: theme.transitions.duration.short,
-        }),
+        transition: theme.transitions.create(
+          ["background-color", "color", "border-color"],
+          {
+            duration: theme.transitions.duration.short,
+          },
+        ),
         "&:hover": {
           backgroundColor: theme.palette.footer.text.primary,
           borderColor: theme.palette.footer.text.primary,
@@ -96,7 +101,10 @@ export default function Footer() {
 
       <Box
         aria-hidden
-        sx={(theme) => ({ height: "1px", backgroundColor: theme.palette.footer.divider })}
+        sx={(theme) => ({
+          height: "1px",
+          backgroundColor: theme.palette.footer.divider,
+        })}
       />
 
       <Box

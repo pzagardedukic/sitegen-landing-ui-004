@@ -76,10 +76,18 @@ export default function ServiceCard({
             src={image}
             alt=""
             loading="lazy"
-            sx={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+            sx={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
           />
           {openButton && (
-            <Box sx={{ position: "absolute", top: 16, right: 16 }}>{openButton}</Box>
+            <Box sx={{ position: "absolute", top: 16, right: 16 }}>
+              {openButton}
+            </Box>
           )}
         </Box>
       )}
@@ -121,7 +129,13 @@ export default function ServiceCard({
         {features.length > 0 && (
           <Box
             component="ul"
-            sx={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px", mt: "6px" }}
+            sx={{
+              listStyle: "none",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              mt: "6px",
+            }}
           >
             {features.map((feature, featureIndex) => (
               <Box

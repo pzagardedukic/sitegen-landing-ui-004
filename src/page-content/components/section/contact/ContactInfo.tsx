@@ -2,8 +2,19 @@
 
 import React from "react";
 import { Box, Link, Typography } from "@mui/material";
-import { ClockIcon, LocationIcon, MailIcon, PhoneIcon } from "@/components/icons/icons";
-import { getCompany, getContacts, getMap, getWorkingHours, useLanguage } from "@/core/runtime";
+import {
+  ClockIcon,
+  LocationIcon,
+  MailIcon,
+  PhoneIcon,
+} from "@/components/icons/icons";
+import {
+  getCompany,
+  getContacts,
+  getMap,
+  getWorkingHours,
+  useLanguage,
+} from "@/core/runtime";
 import { getContactTranslation } from "@/core/translations";
 import ContactInfoCard from "./ContactInfoCard";
 import WorkingHours from "./WorkingHours";
@@ -59,7 +70,10 @@ export default function ContactInfo() {
       </ContactInfoCard>
 
       {phone && (
-        <ContactInfoCard label={contactTranslation.contactInfo.phone.title} icon={<PhoneIcon />}>
+        <ContactInfoCard
+          label={contactTranslation.contactInfo.phone.title}
+          icon={<PhoneIcon />}
+        >
           <Typography
             component={Link}
             href={`tel:${phone.replace(/\s+/g, "")}`}
@@ -73,7 +87,10 @@ export default function ContactInfo() {
       )}
 
       {email && (
-        <ContactInfoCard label={contactTranslation.contactInfo.email.title} icon={<MailIcon />}>
+        <ContactInfoCard
+          label={contactTranslation.contactInfo.email.title}
+          icon={<MailIcon />}
+        >
           <Typography
             component={Link}
             href={`mailto:${email}`}
@@ -88,7 +105,10 @@ export default function ContactInfo() {
       )}
 
       {workingHours.enabled && (
-        <ContactInfoCard label={contactTranslation.workingHours.title} icon={<ClockIcon />}>
+        <ContactInfoCard
+          label={contactTranslation.workingHours.title}
+          icon={<ClockIcon />}
+        >
           <WorkingHours />
         </ContactInfoCard>
       )}

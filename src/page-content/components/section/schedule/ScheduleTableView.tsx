@@ -24,7 +24,10 @@ export default function ScheduleTableView({
   categoryLabel,
   rows,
 }: ScheduleTableViewProps) {
-  const columnCount = rows.reduce((count, row) => Math.max(count, row.length), 0);
+  const columnCount = rows.reduce(
+    (count, row) => Math.max(count, row.length),
+    0,
+  );
 
   if (columnCount === 0) return null;
 
@@ -58,7 +61,11 @@ export default function ScheduleTableView({
       )}
 
       {categoryLabel && (
-        <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+        <Typography
+          variant="caption"
+          component="p"
+          sx={{ color: "text.secondary" }}
+        >
           {categoryLabel}
         </Typography>
       )}

@@ -38,8 +38,17 @@ export default function TeamSection() {
   ));
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: "44px", md: "64px" } }}>
-      <CenteredIntro title={teamTranslation.title} description={teamSection.text} />
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: { xs: "44px", md: "64px" },
+      }}
+    >
+      <CenteredIntro
+        title={teamTranslation.title}
+        description={teamSection.text}
+      />
 
       {cards.length > 0 && (
         <>

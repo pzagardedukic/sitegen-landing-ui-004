@@ -24,7 +24,11 @@ type StoreItemCardProps = {
  * The whole card is the link, so the picture, the name and the price all lead to the item
  * rather than only the title doing so.
  */
-export default function StoreItemCard({ item, href, recommendedLabel }: StoreItemCardProps) {
+export default function StoreItemCard({
+  item,
+  href,
+  recommendedLabel,
+}: StoreItemCardProps) {
   const featureSummary = item.features
     .slice(0, 2)
     .map((feature) => `${feature.label}: ${feature.value}`)
@@ -49,7 +53,9 @@ export default function StoreItemCard({ item, href, recommendedLabel }: StoreIte
         textDecoration: "none",
         color: "inherit",
         backgroundColor: theme.palette.surfaces.surface,
-        "&:hover .store-image, &:focus-visible .store-image": { transform: "scale(1.04)" },
+        "&:hover .store-image, &:focus-visible .store-image": {
+          transform: "scale(1.04)",
+        },
         "&:hover .store-title, &:focus-visible .store-title": {
           color: theme.palette.primary.main,
         },
@@ -113,7 +119,11 @@ export default function StoreItemCard({ item, href, recommendedLabel }: StoreIte
         }}
       >
         {item.category && (
-          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{ color: "text.secondary" }}
+          >
             {item.category}
           </Typography>
         )}
@@ -129,7 +139,11 @@ export default function StoreItemCard({ item, href, recommendedLabel }: StoreIte
         )}
 
         {featureSummary && (
-          <Typography variant="caption" component="p" sx={{ color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{ color: "text.secondary" }}
+          >
             {featureSummary}
           </Typography>
         )}

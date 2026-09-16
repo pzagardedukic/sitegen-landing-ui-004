@@ -22,7 +22,12 @@ export default function Reviews() {
   const cards = reviewItems.map((item, index) => (
     <ReviewCard
       key={`${item.title}-${index}`}
-      review={{ text: item.text, author: item.title, url: item.url, image: item.image }}
+      review={{
+        text: item.text,
+        author: item.title,
+        url: item.url,
+        image: item.image,
+      }}
     />
   ));
 

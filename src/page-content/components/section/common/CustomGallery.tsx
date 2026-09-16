@@ -33,9 +33,31 @@ type ImgSize = { w: number; h: number };
  * lightbox.
  */
 const LAYOUTS = {
-  phone: { columns: 2, gap: 14, heights: [[210, 140, 170], [140, 210, 170]] },
-  tablet: { columns: 2, gap: 20, heights: [[300, 200, 240], [200, 300, 240]] },
-  desktop: { columns: 3, gap: 24, heights: [[380, 260], [260, 380], [320, 320]] },
+  phone: {
+    columns: 2,
+    gap: 14,
+    heights: [
+      [210, 140, 170],
+      [140, 210, 170],
+    ],
+  },
+  tablet: {
+    columns: 2,
+    gap: 20,
+    heights: [
+      [300, 200, 240],
+      [200, 300, 240],
+    ],
+  },
+  desktop: {
+    columns: 3,
+    gap: 24,
+    heights: [
+      [380, 260],
+      [260, 380],
+      [320, 320],
+    ],
+  },
 } as const;
 
 export const CustomGallery = ({
@@ -47,7 +69,11 @@ export const CustomGallery = ({
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const isTablet = useMediaQuery(theme.breakpoints.up("sm"));
-  const layout = isDesktop ? LAYOUTS.desktop : isTablet ? LAYOUTS.tablet : LAYOUTS.phone;
+  const layout = isDesktop
+    ? LAYOUTS.desktop
+    : isTablet
+      ? LAYOUTS.tablet
+      : LAYOUTS.phone;
 
   const [sizes, setSizes] = React.useState<Record<string, ImgSize>>({});
 
@@ -117,7 +143,11 @@ export const CustomGallery = ({
                     alt={`Gallery Image ${position + 1}`}
                     onClick={open}
                     width={thumbSize}
-                    sx={{ height: thumbSize, borderRadius: "12px", display: "block" }}
+                    sx={{
+                      height: thumbSize,
+                      borderRadius: "12px",
+                      display: "block",
+                    }}
                   />
                 )}
               </Item>
@@ -141,7 +171,11 @@ export const CustomGallery = ({
         {columns.map((column, columnIndex) => (
           <Box
             key={columnIndex}
-            sx={{ display: "flex", flexDirection: "column", gap: `${layout.gap}px` }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: `${layout.gap}px`,
+            }}
           >
             {column.map((src, position) => {
               const size = sizes[src];

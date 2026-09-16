@@ -40,7 +40,9 @@ export default function BackButton({ label, onClick, sx }: BackButtonProps) {
           transition: theme.transitions.create(["box-shadow"], {
             duration: theme.transitions.duration.short,
           }),
-          "&:hover": { boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}` },
+          "&:hover": {
+            boxShadow: `inset 0 0 0 1px ${theme.palette.text.primary}`,
+          },
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

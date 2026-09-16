@@ -59,7 +59,9 @@ export async function launch({ port, profileDir }) {
     throw new Error("The browser never opened its DevTools endpoint.");
   };
 
-  const target = (await fetchJson("/json/list")).find((entry) => entry.type === "page");
+  const target = (await fetchJson("/json/list")).find(
+    (entry) => entry.type === "page",
+  );
   const socket = new WebSocket(target.webSocketDebuggerUrl);
   await new Promise((resolve, reject) => {
     socket.addEventListener("open", resolve, { once: true });

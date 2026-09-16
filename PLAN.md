@@ -131,11 +131,30 @@ Ponovna objava po spremembi:
 
 ```bash
 # PowerShell, ker Git Bash osnovno pot pretvori v windowsovsko pot
-$env:NEXT_PUBLIC_BASE_PATH = '/sitegen-landing-ui-004'; pnpm build
+$env:NEXT_PUBLIC_BASE_PATH = '/sitegen-landing-ui-004'
+$env:NEXT_PUBLIC_SITE_URL  = 'https://pzagardedukic.github.io/sitegen-landing-ui-004'
+pnpm build
 git worktree add <tmp> gh-pages     # obstojeco vejo, ne --orphan
 git -C <tmp> rm -rqf .              # git naj pobrise, ne Remove-Item
 # vsebina out/ + .nojekyll -> commit -> git push origin gh-pages
 ```
+
+**Obe spremenljivki sta obvezni.** `NEXT_PUBLIC_SITE_URL` mora vsebovati tudi osnovno pot,
+ker zemljevid strani sestavlja naslove kot `${SITE_URL}${pot}`, kjer je pot brez predpone.
+
+Dve pasti, ki ju je odkrila prav nastavitev te spremenljivke (16. 9. 2026) — obe sta se
+pokazali šele, ker naslov strani prej ni bil nastavljen in se je pol te kode preskočilo:
+
+- **osnovna pot se je podvojila v slikah za deljenje.** Jedro sliko poda kot
+  `imgWithBasePath(...)`, torej pot, ki predpono že nosi, Next pa jo razreši še glede na
+  `metadataBase`, ki jo nosi tudi. Izid je bil
+  `…/sitegen-landing-ui-004/sitegen-landing-ui-004/images/…` na vsaki strani z lastno sliko
+  (najmanj 30 datotek). Popravljeno v `src/core/seo.ts`: ko je naslov strani nastavljen, gre
+  pot brez predpone, ker jo prispeva `metadataBase`; brez naslova strani jo pot nosi sama;
+- **kanonična povezava se podeduje.** `alternates: { canonical: "/" }` na korenskem sloju je
+  pomenil, da je 16 od 46 strani trdilo, da so kopija domače. Napačna kanonična povezava je
+  slabša od nobene, ker stran vabi iz indeksa. Odstranjena s korenskega sloja; pravilne, po
+  straneh, pridejo s posnetki za SEO.
 
 Pasti, ki so me ujele:
 

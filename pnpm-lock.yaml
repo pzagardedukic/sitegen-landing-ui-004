@@ -21,8 +21,8 @@ importers:
         specifier: ^7.1.0
         version: 7.3.11(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8))(@types/react@19.2.18)(react@19.2.8))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@ptlabTadej/sitegen-landing-core':
-        specifier: 1.0.0
-        version: 1.0.0(next@16.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: 1.1.0
+        version: 1.1.0(next@16.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       framer-motion:
         specifier: ^12.26.1
         version: 12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -984,8 +984,8 @@ packages:
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
-  '@ptlabTadej/sitegen-landing-core@1.0.0':
-    resolution: {integrity: sha512-yyPVONfG0mPxQDdGt7xrtYI15ZCbXi3eQhdhvIatNZWwZPxQswHDQVoN5JY9da066WHzMPzhiCyOPkuNI/IwlA==, tarball: https://npm.pkg.github.com/download/@ptlabTadej/sitegen-landing-core/1.0.0/42fe965c31e294d9a51b9a4e1982e4c78d364216}
+  '@ptlabTadej/sitegen-landing-core@1.1.0':
+    resolution: {integrity: sha512-3OdZAOHL+ETD9+YjQQmQ6a+UsImiDIc8sKMxCSDBrGVBv9FHrjM+FeeGLBuo8XLLJVUN1Ah3BgccpUi3j34SEA==, tarball: https://npm.pkg.github.com/download/@ptlabTadej/sitegen-landing-core/1.1.0/a7a84b0ff06d805077815eebc94370c34255b175}
     engines: {node: '>=20'}
     peerDependencies:
       next: ^16.2.4
@@ -1579,6 +1579,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -3165,7 +3166,7 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
-  '@ptlabTadej/sitegen-landing-core@1.0.0(next@16.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@ptlabTadej/sitegen-landing-core@1.1.0(next@16.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@ptlabTadej/sitegen-v2-shared-types': 0.1.47
       next: 16.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0)

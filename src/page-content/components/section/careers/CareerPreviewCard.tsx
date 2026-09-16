@@ -22,6 +22,13 @@ type CareerPreviewCardProps = {
  * Below desktop the two halves stack, 24 apart — held side by side at 768 the requirement
  * lines broke over three rows each. Both optional parts simply drop out where the data has
  * none, which is the frame drawn as "seznam brez opcijskih".
+ *
+ * The role's name carries the link and stretches over the whole card, so the text and the
+ * requirements lead to the advert too; the apply button sits above that overlay, because a
+ * link inside a link is not a thing a browser can express. The card reacted to hover from
+ * the start, which made a card that only its title could open — the reader aimed at the
+ * card and nothing happened. The price is that the body text can no longer be selected with
+ * a drag, the same trade the event card already makes.
  */
 export default function CareerPreviewCard({
   href,
@@ -36,6 +43,7 @@ export default function CareerPreviewCard({
   return (
     <Box
       sx={(theme) => ({
+        position: "relative",
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
         alignItems: "flex-start",
@@ -47,6 +55,7 @@ export default function CareerPreviewCard({
           duration: theme.transitions.duration.short,
         }),
         "&:hover": { borderColor: theme.palette.text.primary },
+        "&:hover .career-title": { color: theme.palette.primary.main },
       })}
     >
       <Box
@@ -63,13 +72,17 @@ export default function CareerPreviewCard({
           component="a"
           href={href}
           variant="h4"
+          className="career-title"
           sx={(theme) => ({
             textDecoration: "none",
             color: "inherit",
             transition: theme.transitions.create(["color"], {
               duration: theme.transitions.duration.short,
             }),
+            /* Kept alongside the parent's hover rule: the keyboard never hovers the card. */
             "&:hover, &:focus-visible": { color: theme.palette.primary.main },
+            /* The whole card follows the name's link. */
+            "&::after": { content: '""', position: "absolute", inset: 0 },
           })}
         >
           {title}
@@ -102,7 +115,9 @@ export default function CareerPreviewCard({
           label={requirementsLabel}
         />
 
-        <ApplyButton title={title} tone="outline" fullWidth />
+        <Box sx={{ position: "relative", zIndex: 1 }}>
+          <ApplyButton title={title} tone="outline" fullWidth />
+        </Box>
       </Box>
     </Box>
   );

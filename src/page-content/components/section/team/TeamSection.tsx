@@ -61,6 +61,8 @@ export default function TeamSection() {
               gap={24}
               controlsGap={{ xs: 24 }}
               ariaLabel={teamTranslation.title}
+              /* A face and a line about the person — it carries a tap, not a read. */
+              autoPlayMs={6000}
             />
           </Box>
         </>

@@ -149,6 +149,35 @@ Pasti, ki so me ujele:
 Repozitorij je zaradi brezplačnih Pages **javen**. Demo fotografije so iz predloge Lumiera
 in videi so tuje povezave — pred resno objavo jih je treba zamenjati (glej `DEMO-SLIKE.md`).
 
+### Pripombe pregledovalca (16. 9. 2026)
+
+Tri stvari z objavljene demo strani.
+
+**Kartica oglasa je vodila samo prek naslova.** Ovijanje cele kartice v povezavo ni mogoče,
+ker vsebuje gumb „Prijavi se", ki je sam povezava na drug naslov. Uporabljen je isti prijem
+kot pri kartici dogodka: naslov nosi povezavo in se prek `::after` raztegne čez kartico,
+gumb pa je dvignjen nadnjo. Cena je, da se besedila v kartici ne da več označiti z vlečenjem
+— enako, kot velja pri dogodkih že od prej.
+
+**Vrtiljaki se lahko premikajo sami.** `Carousel` je dobil `autoPlayMs`, privzeto izklopljen.
+Vklopljen je samo tam, kjer se rezine gledajo in ne berejo: predstavitvene fotografije,
+mnenja strank, ekipa — po 6 s. Cenik, storitve, dogodki, videi in sorodne postavke ostajajo
+ročni, ker bi tam premikanje bralcu odneslo vsebino izpod oči. Premakne se prek iste poti
+kot gumba, zato se stanje ne razide; z zadnje rezine skoči na prvo brez animacije, ker je
+drsenje nazaj čez vse rezine videti kot previjanje. Ustavi se ob prehodu miške, ob žarišču,
+med vlečenjem in v skritem zavihku, **dokončno** pa ob pritisku puščice ali vlečenju — to je
+hkrati edini način, da premikanje ustaviš, saj narisane kontrole nimajo gumba za premor.
+Strogo branje WCAG 2.2.2 bi tak gumb želelo; to je zavestna izbira, ne spregled.
+
+**Kazalci.** Tema je bila pri tem že urejena — klikljivo je praviloma pravi gumb ali prava
+povezava. Popravljeni sta dve mesti (`HoverZoomImage` je roko kazal tudi brez klika, ovoj
+spustnega menija je ni imel), sled vrtiljaka pa je dobila `grab`/`grabbing`, ker se vleče in
+ne klika.
+
+Past, ki me je ujela pri preverjanju: **brezglavi Edge privzeto zahteva zmanjšano gibanje**
+(`prefers-reduced-motion: reduce`). Vrtiljaki zato mirujejo iz pravega razloga in meritev ne
+pove ničesar, dokler željo izrecno ne nastaviš prek `Emulation.setEmulatedMedia`.
+
 ### 5 — popravki po QA (načrt, 15. 9. 2026)
 
 Štiri odprte točke iz faze 4. Vrstni red je namenoma tak: najprej tisto, kar je dokazljivo

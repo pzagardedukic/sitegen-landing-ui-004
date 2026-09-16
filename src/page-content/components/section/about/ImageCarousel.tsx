@@ -95,6 +95,8 @@ export default function ImageCarousel({ items }: ImageCarouselProps) {
       controlsGap={{ xs: 24, sm: 28, md: 32 }}
       controlsSx={{ maxWidth: { sm: 520, md: 560 } }}
       ariaLabel="Galerija o nas"
+      /* Photographs with a caption, nothing to read and compare: they may move on their own. */
+      autoPlayMs={6000}
     />
   );
 }

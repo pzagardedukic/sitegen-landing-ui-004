@@ -30,6 +30,13 @@ type CarouselProps = {
   controlsSx?: SxProps<Theme>;
   /** Back arrow ground — `white` when the carousel sits on the cream wash. */
   controlsPrevTone?: "soft" | "white";
+  /**
+   * Milliseconds between automatic advances. Off by default; opt in per call site, and only
+   * where the slides are there to be looked at rather than read and compared. Ignored under
+   * reduced motion, while the tab is hidden, and while the track is hovered, focused or
+   * being dragged; it stops for good once the reader works the controls or drags the track.
+   */
+  autoPlayMs?: number;
 };
 
 const px = <T extends number | string>(value: T) =>
@@ -62,6 +69,7 @@ export default function Carousel({
   controlsGap = { xs: 24, sm: 28, md: 32 },
   controlsSx,
   controlsPrevTone = "soft",
+  autoPlayMs,
 }: CarouselProps) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
@@ -140,14 +148,71 @@ export default function Carousel({
     };
   }, [sync]);
 
-  const goTo = (target: number) => {
-    const node = trackRef.current;
-    if (!node) return;
+  const goTo = useCallback(
+    (target: number, behavior: ScrollBehavior = "smooth") => {
+      const node = trackRef.current;
+      if (!node) return;
 
-    const clamped = Math.min(Math.max(target, 0), pageCount - 1);
+      const clamped = Math.min(Math.max(target, 0), pageCount - 1);
 
-    node.scrollTo({ left: clamped * stepOf(node), behavior: "smooth" });
-  };
+      node.scrollTo({ left: clamped * stepOf(node), behavior });
+    },
+    [pageCount, stepOf],
+  );
+
+  /*
+   * Two states decide whether autoplay runs. `paused` is temporary — the pointer is over the
+   * track, focus is inside it, a finger is down, or the tab is in the background. `stopped`
+   * is final: once the reader works the arrows or drags the track, the carousel stays where
+   * they left it. That is also how the motion can be stopped at all, since the controls
+   * Lumiera draws carry no pause button; a strict reading of WCAG 2.2.2 would want one, and
+   * adding it is a design decision rather than an implementation one.
+   */
+  const [paused, setPaused] = useState(false);
+  const [stopped, setStopped] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const dragStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    // Read inside an effect: this is a static export, and `window` is absent as it renders.
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => setReduceMotion(query.matches);
+
+    apply();
+    query.addEventListener("change", apply);
+
+    return () => query.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
+    const onVisibilityChange = () => setPaused(document.hidden);
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (!autoPlayMs || reduceMotion || paused || stopped || pageCount <= 1) return;
+
+    const timer = window.setInterval(() => {
+      const next = page + 1 >= pageCount ? 0 : page + 1;
+      /*
+       * The way home is taken without animation: gliding back across every slide reads as a
+       * rewind rather than as the next step, and on a long track it outlasts the interval.
+       */
+      goTo(next, next === 0 ? "auto" : "smooth");
+    }, autoPlayMs);
+
+    return () => window.clearInterval(timer);
+    /*
+     * `page` and `pageCount` belong in here: the effect is torn down and rebuilt whenever
+     * they change, so the timer can never read a stale index, and the wait starts over after
+     * a manual move instead of firing again immediately.
+     */
+  }, [autoPlayMs, goTo, page, pageCount, paused, reduceMotion, stopped]);
+
+  const takeOver = () => setStopped(true);
 
   if (items.length === 0) return null;
 
@@ -157,6 +222,33 @@ export default function Carousel({
     <Box aria-roledescription="carousel" aria-label={ariaLabel}>
       <Box
         ref={trackRef}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={(event: React.FocusEvent<HTMLDivElement>) => {
+          // Focus moving between slides is not focus leaving the track.
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+            setPaused(false);
+          }
+        }}
+        onPointerDown={(event: React.PointerEvent<HTMLDivElement>) => {
+          dragStartX.current = event.clientX;
+          setPaused(true);
+        }}
+        onPointerMove={(event: React.PointerEvent<HTMLDivElement>) => {
+          // A tap carries a pixel or two of travel; only a real drag counts as taking over.
+          if (dragStartX.current !== null && Math.abs(event.clientX - dragStartX.current) > 8) {
+            takeOver();
+          }
+        }}
+        onPointerUp={() => {
+          dragStartX.current = null;
+          setPaused(false);
+        }}
+        onPointerCancel={() => {
+          dragStartX.current = null;
+          setPaused(false);
+        }}
         sx={{
           "--carousel-gap": gapCss,
           display: "grid",
@@ -168,6 +260,12 @@ export default function Carousel({
           scrollbarWidth: "none",
           msOverflowStyle: "none",
           "&::-webkit-scrollbar": { display: "none" },
+          /*
+           * The track is dragged, not clicked, so it says so. A slide that is itself a link
+           * still shows the hand, because the child's own cursor wins over the track's.
+           */
+          cursor: "grab",
+          "&:active": { cursor: "grabbing" },
         }}
       >
         {items.map((item, index) => (
@@ -187,8 +285,14 @@ export default function Carousel({
           <CarouselControls
             page={page}
             pageCount={pageCount}
-            onPrev={() => goTo(page - 1)}
-            onNext={() => goTo(page + 1)}
+            onPrev={() => {
+              takeOver();
+              goTo(page - 1);
+            }}
+            onNext={() => {
+              takeOver();
+              goTo(page + 1);
+            }}
             prevTone={controlsPrevTone}
           />
         </Box>

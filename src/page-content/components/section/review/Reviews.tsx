@@ -47,6 +47,8 @@ export default function Reviews() {
           controlsGap={{ xs: 24 }}
           controlsPrevTone="white"
           ariaLabel={reviewTranslation.title}
+          /* One short quote per slide, so moving on by itself costs the reader nothing. */
+          autoPlayMs={6000}
         />
       </Box>
     </>

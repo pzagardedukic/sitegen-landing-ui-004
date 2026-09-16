@@ -76,7 +76,8 @@ export default function HoverDropdown({
       onMouseEnter={(e) => openMenu(e.currentTarget)}
       onMouseLeave={closeMenuDelayed}
       onClick={(e) => openMenu(e.currentTarget)}
-      sx={{ display: "inline-block" }}
+      /* The wrapper opens the menu too, so its edges must not feel different from the trigger. */
+      sx={{ display: "inline-block", cursor: "pointer" }}
     >
       {trigger}
 

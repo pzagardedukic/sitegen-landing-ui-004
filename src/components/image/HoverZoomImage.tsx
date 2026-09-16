@@ -41,7 +41,8 @@ const HoverZoomImage = forwardRef<HTMLImageElement, HoverZoomImageProps>(
         sx={{
           width,
           overflow: "hidden",
-          cursor: "pointer",
+          /* Only a picture that answers a click says so; `onClick` is optional here. */
+          cursor: onClick ? "pointer" : undefined,
           display: "inline-block",
           position: "relative",
 

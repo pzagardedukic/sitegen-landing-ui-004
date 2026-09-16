@@ -2,26 +2,17 @@ import { createSeoRuntime } from "@ptlabTadej/sitegen-landing-core/seo";
 import fullWebsiteJson from "../../website.json" with { type: "json" };
 import { imgWithBasePath, primaryLanguage } from "./static";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
 /*
- * Social images are handed to Next as a path and resolved against `metadataBase`, which is
- * this same site URL — base path included. `imgWithBasePath` puts the base path on too, so
- * with both in play the export came out with it twice over
- * (…/sitegen-landing-ui-004/sitegen-landing-ui-004/images/…) on every page that carries an
- * image of its own. Where there is a site URL the base is supplied by `metadataBase`, so the
- * path is left bare; where there is none — a customer with no domain yet — nothing resolves
- * it and the path has to carry the base itself.
- *
- * Absolute URLs pass through untouched either way.
+ * Nothing in the pages reads this any more: the SEO snapshots own page metadata, and the
+ * seed in `snapshot-model` builds its own absolute URLs. Kept as it is — and as ui-001 keeps
+ * it — so the themes stay comparable, but treat it as unused rather than as a second source
+ * of truth for titles, descriptions or images.
  */
-const seoImagePath = siteUrl ? (path?: string | null) => path ?? "" : imgWithBasePath;
-
 const seoRuntime = createSeoRuntime({
   website: fullWebsiteJson,
   primaryLanguage,
-  imgWithBasePath: seoImagePath,
-  siteUrl,
+  imgWithBasePath,
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
 });
 
 export const {

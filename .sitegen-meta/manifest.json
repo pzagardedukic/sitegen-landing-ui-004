@@ -1,0 +1,296 @@
+{
+  "schema": 1,
+  "basePath": "/sitegen-landing-ui-004",
+  "siteOrigin": "https://pzagardedukic.github.io",
+  "primaryLanguage": "SL",
+  "supportedLanguages": [
+    "SL",
+    "EN"
+  ],
+  "structure": "{\"primaryLanguage\":\"SL\",\"languages\":[\"EN\",\"SL\"],\"optionalSections\":{\"blog\":true,\"careers\":true,\"catalogues\":true,\"clients\":true,\"events\":true,\"experience\":true,\"faq\":true,\"gallery\":true,\"portfolio\":true,\"pricing\":true,\"reviews\":true,\"schedule\":true,\"services\":true,\"subscribe\":true,\"team\":true,\"videos\":true},\"counts\":{\"portfolio\":6,\"blog\":5,\"pricing\":10,\"careers\":3,\"events\":5}}",
+  "routes": [
+    {
+      "path": "/",
+      "file": "index.html",
+      "page": "home"
+    },
+    {
+      "path": "/o-nas/",
+      "file": "o-nas/index.html",
+      "page": "about"
+    },
+    {
+      "path": "/blog/",
+      "file": "blog/index.html",
+      "page": "blog"
+    },
+    {
+      "path": "/blog/1-maska-iz-gline-kolikokrat-na-teden-je-dovolj/",
+      "file": "blog/1-maska-iz-gline-kolikokrat-na-teden-je-dovolj/index.html",
+      "page": "blog",
+      "slug": "1-maska-iz-gline-kolikokrat-na-teden-je-dovolj",
+      "id": 1
+    },
+    {
+      "path": "/blog/2-katero-olje-za-masazo-in-zakaj-ne-vsako/",
+      "file": "blog/2-katero-olje-za-masazo-in-zakaj-ne-vsako/index.html",
+      "page": "blog",
+      "slug": "2-katero-olje-za-masazo-in-zakaj-ne-vsako",
+      "id": 2
+    },
+    {
+      "path": "/blog/3-zakaj-se-po-masazi-pocutite-utrujeni/",
+      "file": "blog/3-zakaj-se-po-masazi-pocutite-utrujeni/index.html",
+      "page": "blog",
+      "slug": "3-zakaj-se-po-masazi-pocutite-utrujeni",
+      "id": 3
+    },
+    {
+      "path": "/blog/4-limfna-drenaza-obraza-ki-jo-zmorete-sami/",
+      "file": "blog/4-limfna-drenaza-obraza-ki-jo-zmorete-sami/index.html",
+      "page": "blog",
+      "slug": "4-limfna-drenaza-obraza-ki-jo-zmorete-sami",
+      "id": 4
+    },
+    {
+      "path": "/blog/5-zascita-pred-soncem-tudi-pozimi/",
+      "file": "blog/5-zascita-pred-soncem-tudi-pozimi/index.html",
+      "page": "blog",
+      "slug": "5-zascita-pred-soncem-tudi-pozimi",
+      "id": 5
+    },
+    {
+      "path": "/zaposlitev/",
+      "file": "zaposlitev/index.html",
+      "page": "careers"
+    },
+    {
+      "path": "/zaposlitev/1-masazni-terapevt-oziroma-terapevtka/",
+      "file": "zaposlitev/1-masazni-terapevt-oziroma-terapevtka/index.html",
+      "page": "careers",
+      "slug": "1-masazni-terapevt-oziroma-terapevtka",
+      "id": 1
+    },
+    {
+      "path": "/zaposlitev/2-kozmeticarka/",
+      "file": "zaposlitev/2-kozmeticarka/index.html",
+      "page": "careers",
+      "slug": "2-kozmeticarka",
+      "id": 2
+    },
+    {
+      "path": "/zaposlitev/3-receptor-oziroma-receptorka/",
+      "file": "zaposlitev/3-receptor-oziroma-receptorka/index.html",
+      "page": "careers",
+      "slug": "3-receptor-oziroma-receptorka",
+      "id": 3
+    },
+    {
+      "path": "/katalogi/",
+      "file": "katalogi/index.html",
+      "page": "catalogues"
+    },
+    {
+      "path": "/kontakt/",
+      "file": "kontakt/index.html",
+      "page": "contact"
+    },
+    {
+      "path": "/galerija/",
+      "file": "galerija/index.html",
+      "page": "gallery"
+    },
+    {
+      "path": "/pravno/",
+      "file": "pravno/index.html",
+      "page": "legal"
+    },
+    {
+      "path": "/projekti/",
+      "file": "projekti/index.html",
+      "page": "portfolio"
+    },
+    {
+      "path": "/projekti/1-ritual-globinske-nege-obraza/",
+      "file": "projekti/1-ritual-globinske-nege-obraza/index.html",
+      "page": "portfolio",
+      "slug": "1-ritual-globinske-nege-obraza",
+      "id": 1
+    },
+    {
+      "path": "/projekti/2-masaza-s-toplimi-kamni/",
+      "file": "projekti/2-masaza-s-toplimi-kamni/index.html",
+      "page": "portfolio",
+      "slug": "2-masaza-s-toplimi-kamni",
+      "id": 2
+    },
+    {
+      "path": "/projekti/3-manikura-z-masazo-rok/",
+      "file": "projekti/3-manikura-z-masazo-rok/index.html",
+      "page": "portfolio",
+      "slug": "3-manikura-z-masazo-rok",
+      "id": 3
+    },
+    {
+      "path": "/projekti/4-spa-pedikura/",
+      "file": "projekti/4-spa-pedikura/index.html",
+      "page": "portfolio",
+      "slug": "4-spa-pedikura",
+      "id": 4
+    },
+    {
+      "path": "/projekti/5-nega-las-in-lasisca/",
+      "file": "projekti/5-nega-las-in-lasisca/index.html",
+      "page": "portfolio",
+      "slug": "5-nega-las-in-lasisca",
+      "id": 5
+    },
+    {
+      "path": "/projekti/6-lifting-obraza-brez-igel/",
+      "file": "projekti/6-lifting-obraza-brez-igel/index.html",
+      "page": "portfolio",
+      "slug": "6-lifting-obraza-brez-igel",
+      "id": 6
+    },
+    {
+      "path": "/cenik/",
+      "file": "cenik/index.html",
+      "page": "pricing"
+    },
+    {
+      "path": "/cenik/1-paket-umiritev/",
+      "file": "cenik/1-paket-umiritev/index.html",
+      "page": "pricing",
+      "slug": "1-paket-umiritev",
+      "id": 1
+    },
+    {
+      "path": "/cenik/2-paket-mirna/",
+      "file": "cenik/2-paket-mirna/index.html",
+      "page": "pricing",
+      "slug": "2-paket-mirna",
+      "id": 2
+    },
+    {
+      "path": "/cenik/3-paket-za-dva/",
+      "file": "cenik/3-paket-za-dva/index.html",
+      "page": "pricing",
+      "slug": "3-paket-za-dva",
+      "id": 3
+    },
+    {
+      "path": "/cenik/4-klasicna-masaza/",
+      "file": "cenik/4-klasicna-masaza/index.html",
+      "page": "pricing",
+      "slug": "4-klasicna-masaza",
+      "id": 4
+    },
+    {
+      "path": "/cenik/5-masaza-s-toplimi-kamni/",
+      "file": "cenik/5-masaza-s-toplimi-kamni/index.html",
+      "page": "pricing",
+      "slug": "5-masaza-s-toplimi-kamni",
+      "id": 5
+    },
+    {
+      "path": "/cenik/6-nosecniska-masaza/",
+      "file": "cenik/6-nosecniska-masaza/index.html",
+      "page": "pricing",
+      "slug": "6-nosecniska-masaza",
+      "id": 6
+    },
+    {
+      "path": "/cenik/7-ritual-obraza/",
+      "file": "cenik/7-ritual-obraza/index.html",
+      "page": "pricing",
+      "slug": "7-ritual-obraza",
+      "id": 7
+    },
+    {
+      "path": "/cenik/8-serija-liftinga-obraza/",
+      "file": "cenik/8-serija-liftinga-obraza/index.html",
+      "page": "pricing",
+      "slug": "8-serija-liftinga-obraza",
+      "id": 8
+    },
+    {
+      "path": "/cenik/9-manikura-s-trajnim-lakom/",
+      "file": "cenik/9-manikura-s-trajnim-lakom/index.html",
+      "page": "pricing",
+      "slug": "9-manikura-s-trajnim-lakom",
+      "id": 9
+    },
+    {
+      "path": "/cenik/10-porocni-paket/",
+      "file": "cenik/10-porocni-paket/index.html",
+      "page": "pricing",
+      "slug": "10-porocni-paket",
+      "id": 10
+    },
+    {
+      "path": "/storitve/",
+      "file": "storitve/index.html",
+      "page": "services"
+    },
+    {
+      "path": "/urnik/",
+      "file": "urnik/index.html",
+      "page": "schedule"
+    },
+    {
+      "path": "/dogodki/",
+      "file": "dogodki/index.html",
+      "page": "events"
+    },
+    {
+      "path": "/dogodki/1-vecer-aromaterapije/",
+      "file": "dogodki/1-vecer-aromaterapije/index.html",
+      "page": "events",
+      "slug": "1-vecer-aromaterapije",
+      "id": 1
+    },
+    {
+      "path": "/dogodki/2-masaza-za-nosecnice-in-partnerje/",
+      "file": "dogodki/2-masaza-za-nosecnice-in-partnerje/index.html",
+      "page": "events",
+      "slug": "2-masaza-za-nosecnice-in-partnerje",
+      "id": 2
+    },
+    {
+      "path": "/dogodki/3-manikura-doma-ki-zdrzi/",
+      "file": "dogodki/3-manikura-doma-ki-zdrzi/index.html",
+      "page": "events",
+      "slug": "3-manikura-doma-ki-zdrzi",
+      "id": 3
+    },
+    {
+      "path": "/dogodki/4-dan-odprtih-vrat/",
+      "file": "dogodki/4-dan-odprtih-vrat/index.html",
+      "page": "events",
+      "slug": "4-dan-odprtih-vrat",
+      "id": 4
+    },
+    {
+      "path": "/dogodki/5-priceske-za-praznike/",
+      "file": "dogodki/5-priceske-za-praznike/index.html",
+      "page": "events",
+      "slug": "5-priceske-za-praznike",
+      "id": 5
+    },
+    {
+      "path": "/videi/",
+      "file": "videi/index.html",
+      "page": "videos"
+    },
+    {
+      "path": "/pogosta-vprasanja/",
+      "file": "pogosta-vprasanja/index.html",
+      "page": "faq"
+    },
+    {
+      "path": "/404/",
+      "file": "404.html",
+      "page": "not-found"
+    }
+  ]
+}

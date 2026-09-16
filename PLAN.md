@@ -149,12 +149,14 @@ pokazali šele, ker naslov strani prej ni bil nastavljen in se je pol te kode pr
   `imgWithBasePath(...)`, torej pot, ki predpono že nosi, Next pa jo razreši še glede na
   `metadataBase`, ki jo nosi tudi. Izid je bil
   `…/sitegen-landing-ui-004/sitegen-landing-ui-004/images/…` na vsaki strani z lastno sliko
-  (najmanj 30 datotek). Popravljeno v `src/core/seo.ts`: ko je naslov strani nastavljen, gre
-  pot brez predpone, ker jo prispeva `metadataBase`; brez naslova strani jo pot nosi sama;
+  (najmanj 30 datotek). Takrat popravljeno v `src/core/seo.ts`, tako da je bila ob
+  nastavljenem naslovu strani pot brez predpone. **Ta popravek je od posnetkov za SEO naprej
+  odstranjen in `seo.ts` je spet tak kot v 001** — slike zdaj sestavi seme, ki samo preveri,
+  ali pot predpono že nosi;
 - **kanonična povezava se podeduje.** `alternates: { canonical: "/" }` na korenskem sloju je
   pomenil, da je 16 od 46 strani trdilo, da so kopija domače. Napačna kanonična povezava je
-  slabša od nobene, ker stran vabi iz indeksa. Odstranjena s korenskega sloja; pravilne, po
-  straneh, pridejo s posnetki za SEO.
+  slabša od nobene, ker stran vabi iz indeksa. Takrat odstranjena s korenskega sloja; **od
+  posnetkov naprej ima vsaka stran svojo** (46 od 46).
 
 Pasti, ki so me ujele:
 
@@ -201,6 +203,47 @@ ne klika.
 Past, ki me je ujela pri preverjanju: **brezglavi Edge privzeto zahteva zmanjšano gibanje**
 (`prefers-reduced-motion: reduce`). Vrtiljaki zato mirujejo iz pravega razloga in meritev ne
 pove ničesar, dokler željo izrecno ne nastaviš prek `Emulation.setEmulatedMedia`.
+
+### Jedro 1.1.0 in posnetki za SEO (16. 9. 2026)
+
+Tema 001 je dobila oboje prva; tu je isto, prilagojeno naši.
+
+**Jedro 1.1.0 samo po sebi ne izriše nobenega HTML.** Doda le gradnike: sinhrono polnjenje
+`initialWebsiteJson`, izvozno pot `./language` (zagon jezika pred prvim izrisom, dogodek
+`sitegen:content-ready`) in `sanitizeRichText`. Mehanika posnetkov živi v **temi**. Kljub
+zapisu v njegovi lastni dokumentaciji, da 1.1.0 ni objavljena, je v registru na voljo.
+
+**Cevovod.** `prepare:site` poleg podatkov in strani pripravi `.sitegen-meta/manifest.json`
+in `src/data/primary-seo.json`; `build` za Nextom z esbuildom sestavi samostojni izrisovalnik
+in ga požene — ta v vsako izvoženo datoteko vstavi primarni jezik kot resnično označevanje
+ter na novo napiše `sitemap.xml`, `robots.txt` in podatkovne datoteke. Nove odvisnosti:
+`@next/env`, `esbuild`, `@emotion/cache`. Zgrajeni sveženj `.sitegen-meta/refresh.cjs` je
+**objavljen v gitu**, enako kot v 001 — zavestna izbira, ki pa vsak diff napihne za desetine
+tisočev vrstic.
+
+**Tematsko odvisna sta bila samo dva dela.** `scripts/snapshot/fonts.ts` nadomešča
+`next/font/google` in mora izvažati **naši** pisavi (Fraunces, Figtree) namesto njunih petih;
+preslikava komponent strani se je ujela do zadnjega imena in je prešla dobesedno.
+
+**Metapodatki imajo zdaj en sam vir.** `PrimarySeoHead` jih piše iz semena za vsako pot
+posebej, zato so klici `generateMetadata` odstranjeni s petih podstrani, `robots.ts` in
+`sitemap.ts` pa berejo isto seme. Dokler sta oba mehanizma tekla hkrati, je na podstraneh
+nastal **drugi** `og:image` z naslovom na `localhost`.
+
+Dve pasti, vredni zapisa:
+
+- **`markContentReady()` je edina vez, ki umakne posnetek.** Sproži ga izključno `PageLayout`.
+  Brez tega klica bi vsaka stran vsebino pokazala **dvakrat** — posnetek spodaj, aplikacija
+  čezenj. V statičnem HTML se to **ne vidi**, ker je posnetek tam pričakovan; ujameš ga samo
+  z vprašanjem brskalniku, ali je otok po nalaganju izginil.
+- **izvoz je zgrajen za osnovno pot**, zato ga krajevno ni mogoče streči iz korena: sredstva
+  vrnejo 404 in stran je videti pokvarjena iz napačnega razloga. Postavi ga v mapo, imenovano
+  po osnovni poti, in šele to streži.
+
+Dokazano na objavljeni strani: surov HTML `/zaposlitev/` brez JavaScripta nosi vsebino
+oglasov, vsaka stran ima svoj naslov in svojo kanonično povezavo (46 od 46), `og:image` je
+en sam in pravilen, `localhost` se v izvozu ne pojavi nikjer, v brskalniku pa je en `main`,
+en `h1` in nobene podvojene vsebine.
 
 ### 5 — popravki po QA (načrt, 15. 9. 2026)
 

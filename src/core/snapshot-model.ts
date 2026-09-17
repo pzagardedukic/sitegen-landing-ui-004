@@ -5,7 +5,11 @@ import {
   stripRichText,
   truncateWordSafe,
 } from "@ptlabTadej/sitegen-landing-core/utils";
-import { getNavigationTranslation } from "@ptlabTadej/sitegen-landing-core/translations";
+import {
+  getLegalTranslation,
+  getNavigationTranslation,
+  getNotFoundTranslation,
+} from "./translations";
 import type { SupportedLang } from "@ptlabTadej/sitegen-landing-core/types";
 import {
   createThemeFontBootstrapScript,
@@ -247,6 +251,11 @@ export function makeSeoSeed(
     string,
     string
   >;
+  // Pages with no section and no menu entry: named the way their own h1 names them.
+  const ownTitles: Record<string, string> = {
+    legal: getLegalTranslation(primary).title,
+    "not-found": getNotFoundTranslation(primary).title,
+  };
   const absolute = (resource?: string | null): string => {
     if (!resource) return "";
     if (/^https?:\/\//i.test(resource)) return resource;
@@ -273,8 +282,8 @@ export function makeSeoSeed(
       const label =
         clean(text(section?.sectionName ?? section?.title ?? section?.name)) ||
         nav[route.page] ||
-        siteName;
-      title = `${label} | ${siteName}`;
+        ownTitles[route.page];
+      title = label ? `${label} | ${siteName}` : siteName;
       description = clean(text(section?.text)) || description;
     }
     const noindex = route.page === "not-found" || item?.status === "DISABLED";

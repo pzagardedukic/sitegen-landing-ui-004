@@ -418,3 +418,53 @@ Primerjalna točka je `e550fdf`, zadnji commit pred nadgradnjo jedra. Zgradim ga
 - 6.1–6.5 zeleno ali z zapisanimi, pojasnjenimi izjemami.
 - Tabela pred/po brez nepojasnjenih razlik.
 - Petra potrdi pregled na telefonu.
+
+#### Izid (17. 9. 2026)
+
+Primerjalna točka `e550fdf`, obe gradnji postreženi lokalno; brskalnik Playwright nad Edgeom.
+
+**Trije popravki, vsi potisnjeni na `main`:**
+
+- `ee3b5b3` — **slovenski blisk za angleške obiskovalce.** Pri prenosu posnetkov je izpadel
+  blok v `globals.css`, ki posnetek skrije, dokler čaka drugi jezik. Obiskovalec s
+  shranjenim EN je na domači strani 0,7–1,6 s bral slovensko. Po popravku v devetih poskusih
+  na treh straneh posnetek ni izrisan v nobeni sličici; plošča za ponovni poskus je
+  oblikovana v barvah teme.
+- `f24c970` — **gradnja za urejevalnik teme je padala** („Missing or duplicate snapshot
+  island“), ker `layout.editor.tsx` ni imel otoka. Privzeta gradnja je uspevala, zato se ni
+  videlo. Urejevalnik nato preverjen v celoti: barve (22 zlatih mest, 388 besedilnih),
+  pisave, banner, ponovno nalaganje, ponastavitev.
+- `60330e1` — **naslov pravnega in 404** je bil „Mirna Spa & Beauty | Mirna Spa & Beauty“;
+  zdaj „Pogoji in zasebnost | …“ in „404 - Stran ni najdena | …“.
+- Ob tem `8b68d50`: preizkusne stranke izpišejo naslov prekinjene zahteve (drugi del #13).
+
+**Rezultati po korakih**
+
+- 6.1: `verify`, Prettier in `build` čisti; `test:export` potrdi 45 posnetkov. Brez
+  `NEXT_PUBLIC_SITE_URL` je `sitemap.xml` prazen in kanoničnih povezav ni — pričakovano,
+  objavljena gradnja ima oboje.
+- 6.2: brez JavaScripta vseh 46 poti pokaže vsebino z enim `h1` in brez prelivanja. Z
+  JavaScriptom otok izgine, en `main`, en `h1`, brez napak ob hidraciji, CLS 0 na petih
+  vzorčnih straneh, podvojena vsebina v nobeni sličici. 404 ima `noindex`.
+- 6.3: 138 primerjav (46 poti × 3 širine) — sidra, povezave, besedilo, prelivanje, napake in
+  število vozlišč **enaki**. Namerno drugačni so samo naslovi strani. Razlike v slikah na `/`,
+  `/o-nas/` in `/kontakt/` so trakovi v gibanju in slike, ki se v primerjalni gradnji niso
+  naložile pravočasno; regresije ni.
+- 6.4: 27 od 28 preverjanj — meni, spustni meni, preklop jezika (tudi po ponovnem nalaganju
+  in med stranmi), samodejni in ročni vrtiljaki, `reduce`, obrazca, FAQ, filtri dogodkov,
+  kazalci, videi, zemljevid. Neuspeli je bil napačen test: blog iskalnika nima.
+- 6.5: 9 od 12 strank čistih v celotnem teku; preostale tri so imele samo prekinjene zahteve.
+  Ponovitev z naslovi: vse so vdelani Googlov zemljevid na `/kontakt/`.
+- 6.6: objavljena stran — 44 od 44 kanoničnih povezav pravilnih, en `og:image`, brez
+  `localhost` in podvojene osnovne poti. **Popravkov iz te faze še nima**; ponovna objava
+  čaka na odobritev.
+
+**Odprto kot issue (na vseh temah, kjer velja)**
+
+- #14 trakovi ne upoštevajo zmanjšanega gibanja (tudi 001#12, 002#4, 003#1)
+- #15 angleški `alt` v galeriji (001#14, 002#6, 003#3)
+- #16 plošča za ponovni poskus prekrije berljivo stran v primarnem jeziku (001#16)
+- #17 galerija v posnetku nima slik (001#17)
+- prazne podstrani cenika: že #1 tu, novo 001#13, 002#5, 003#2
+- naslov pravnega/404 v 001: 001#15
+- za prenos posnetkov v 002 in 003 opisani obe pasti: 002#7, 003#4

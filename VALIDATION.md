@@ -1,5 +1,53 @@
 # Validation record
 
+## Core 1.1.0 and SEO snapshots, 17 September 2026
+
+Regression pass after the core upgrade, the SEO snapshots and the Prettier run, with
+`e550fdf` (the last commit before the upgrade) as the reference. Both exports were
+served locally and driven with Playwright over Edge.
+
+### Snapshot island
+
+- Without JavaScript all 46 routes show their content with one `h1` and no horizontal
+  overflow.
+- With JavaScript the island is gone after hydration: one `main`, one `h1`, no hydration
+  warnings, CLS 0 on the five sampled routes, and no frame in which the snapshot and the
+  app are both on screen.
+- A visitor with a saved `EN` preference never gets a painted snapshot frame (nine runs
+  on three routes). Before `ee3b5b3` they read Slovenian for 0.7–1.6 s on the home page,
+  because the `data-sitegen-pending-language` rule was missing from `globals.css`.
+- With the app bundles blocked, the retry panel appears after 15 s in the visitor's
+  language. For a primary-language visitor it also covers the readable snapshot (#16).
+
+### Before/after equivalence
+
+138 comparisons (46 routes × 390/768/1440): anchors, links, main text, overflow, console
+errors, failed requests and a stable node count are identical. Page titles differ on
+purpose; share links differ only by port. Pixel differences are limited to the moving
+marquee bands and to images the reference capture had not loaded yet.
+
+### Theme editor
+
+The editor export failed to build until `f24c970` — the snapshot step refuses an export
+without the island, and only the default layout had it. After the fix,
+`THEME_EDITOR_UPDATE` recolours every primary (22) and text (388) use, swaps heading,
+body and banner fonts and the banner image, survives a reload, and an empty payload
+restores the `website.json` theme.
+
+### Interactions
+
+Mobile drawer (open, Escape, navigate), the desktop "Več" dropdown, the language switch
+(on a subpage, after reload, across pages), autoplay (moves, pauses on hover, stops for
+good on an arrow), manual carousels, `prefers-reduced-motion: reduce`, contact and
+newsletter validation, the FAQ accordion, the events filter, pointer cursors on six
+routes, video tiles and the map iframe all behave. No page error on any of them.
+
+### Variants
+
+`pnpm test:variants`: 9 of 12 fixtures clean; the other three reported only aborted
+requests. With the URL now recorded (`8b68d50`) every one of them is the Google Maps
+embed on `/kontakt/`, which shows a consent page in headless Edge.
+
 ## Redesign, 2 September 2026
 
 Checks run against this repository after the visual layer was finished, with

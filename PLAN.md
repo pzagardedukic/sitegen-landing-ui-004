@@ -332,3 +332,89 @@ Zato temnega načina ni mogoče krmiliti iz podatkov, ne da bi se spremenilo jed
 neuporabljeni; stikala ob gradnji ne uvajamo, ker bi bila funkcija, ki je stranka ne more
 vklopiti sama. Če bo temni način kdaj potreben, se začne s poljem v shemi teme (jedro,
 ptlabTadej), ne v posamezni temi.
+
+### 6 — testiranje po jedru 1.1.0 (načrt, 17. 9. 2026)
+
+#### Kontekst
+
+Od zadnjega QA (faza 4, 15. 9.) so se v `sitegen-landing-ui-004` zamenjali temelji:
+
+- jedro 1.1.0;
+- posnetki za SEO: izvoženi HTML nosi primarni jezik, otok `PrimarySnapshot` se umakne ob `sitegen:content-ready`;
+- metapodatki imajo en vir (`PrimarySeoHead`);
+- Prettier je preoblikoval skoraj vse datoteke.
+
+Vse to je bilo preverjeno le ozko, predvsem na objavljeni strani za SEO. Cilj je celoten regresijski test: stran mora delovati in izgledati enako kot pred nadgradnjo, novi mehanizem pa ne sme puščati podvojene vsebine, bliskov ali napak ob hidraciji.
+
+Primerjalna točka je `e550fdf`, zadnji commit pred nadgradnjo jedra. Zgradim ga v začasnem worktreeju v scratchpadu.
+
+#### Vrata (pred začetkom)
+
+1. Po potrditvi ta načrt zapišem v `PLAN.md` kot „### 6 — testiranje po jedru 1.1.0“, commitam, potisnem na `main` in **se ustavim**.
+2. Preden zaženem kakršenkoli strežnik, vprašam za vrata. Predlog: 3000 za Petrin pregled, testni strežniki pa na lastnih vratih (npr. 3410/3411), da ne trčijo v nič njenega.
+
+#### Koraki
+
+**6.1 Statično (brez brskalnika)**
+
+- `pnpm verify`, `npx prettier --check .` in `pnpm build` brez osnovne poti.
+- `pnpm test:export`, ki uporabi `scripts/checkSnapshotExport.ts`. Preveri, da ima vsaka pot `<main>` v posnetku, pravi `lang`, zagonski skript in seme SEO.
+- `sitemap.xml` in `robots.txt`: pričakujem 46 poti, nikjer `localhost`, nikjer podvojene predpone.
+
+**6.2 Posnetki v brskalniku** (CDP nad headless Edge, ki že obstaja v `scripts/variants/browser.mjs`)
+
+- **Brez JavaScripta:** vseh 46 poti pokaže berljivo vsebino (slog iz `refresh.css`). Zajem pri 390 in 1440 na 5 značilnih poteh.
+- **Z JavaScriptom:** po nalaganju ni več `#sitegen-primary-snapshot`, na strani je en `main` in en `h1`, v konzoli ni napake ob hidraciji (`Hydration`, `did not match`).
+- **Prvi izris:** zajem takoj po `DOMContentLoaded` in po 2 s. Iščem podvojeno vsebino in skok postavitve (CLS prek `PerformanceObserver`).
+- **Obiskovalec z EN** (`localStorage.site_language = "EN"`): posnetek je slovenski. Preverim, da se ob prvem izrisu ne pokaže SL, da `lang` preide na `en` in kaj naredi `#sitegen-language-recovery`.
+- **404** in neobstoječa pot.
+
+**6.3 Regresija pred/po** (`e550fdf` proti `HEAD`, obe gradnji postrežem lokalno)
+
+- Za vseh 46 poti primerjam poti, sidra, povezave in naslove. Pričakovane razlike so samo `<head>` (kanonične povezave, `og:*`).
+- Primerjam slike pri 390, 768 in 1440 po hidraciji, s pikselsko razliko prek ffmpeg. Vsako razliko nad pragom obrežem in pogledam.
+- Pri 390, 768 in 1440 preverim: brez vodoravnega prelivanja, brez napak v konzoli in neuspelih zahtevkov, stabilno število vozlišč (branje dvakrat v 4 s razmiku, kot v `VALIDATION.md`).
+
+**6.4 Interakcije** (izrecno nastavljen `prefers-reduced-motion: no-preference`)
+
+- Mobilni meni odpri/zapri, spustni meni in preklop jezika SL↔EN na podstrani.
+- Vrtiljaki:
+  - samodejni se premikajo na 6 s in se ustavijo ob miški ali žarišču, dokončno ob puščici;
+  - ročni ostanejo na mestu;
+  - z `reduce` vsi mirujejo.
+- Obrazci (kontakt, novice): prazno pošiljanje, napačen e-naslov, privolitev.
+- FAQ harmonika, filtri dogodkov in bloga, video okno, zemljevid (samo naslov okvirja), klikljive kartice (`elementFromPoint`) in kazalci.
+- Urejevalnik teme: `THEME_EDITOR_UPDATE` za barve, pisave in banner, nato ponastavitev. Vsebina mora preživeti ponovno nalaganje.
+
+**6.5 Različice strank**
+
+- `pnpm test:variants`: vseh 12 preizkusnih strank. Pričakujem 12/12 brez težav, kot v fazi 5.
+
+**6.6 Objavljena stran**
+
+- Primerjam `out/data/meta.json` z objavljenim. Ponovim preverbo SEO na Pages: surov HTML, 46/46 kanoničnih povezav, en `og:image`.
+- **Ponovne objave ne naredim brez vprašanja**, tudi če jo kak popravek zahteva.
+
+**6.7 Petrin pregled**
+
+- Gradnjo postrežem na `0.0.0.0:3000` (po dovoljenju za vrata) in dam dva naslova: `http://localhost:3000/` za računalnik in `http://<LAN-IP>:3000/` za telefon. Seznam poti za ročni ogled.
+- Nato čakam.
+
+#### Ravnanje z najdbami
+
+- Dokazljive napake popravim sproti: en commit na napako, s posnetkom prej/potem, potisk na `main`.
+- Stvari okusa in dvomljive primere zberem in vprašam.
+- Izid zapišem v `PLAN.md` (6 — izid) in dopolnim `VALIDATION.md`.
+- Začasne gradnje, worktree in profile Edgea počistim.
+
+#### Datoteke
+
+- Ob popravkih po potrebi: `src/components/seo/PrimarySnapshot.tsx`, `src/components/layout/PageLayout.tsx` in komponente sekcij.
+- Zapisi: `PLAN.md`, `VALIDATION.md`.
+- Testni skripti gredo v scratchpad, razen če se izkaže, da je kak vreden trajno (potem v `scripts/`, z vprašanjem).
+
+#### Preverjanje, da je faza končana
+
+- 6.1–6.5 zeleno ali z zapisanimi, pojasnjenimi izjemami.
+- Tabela pred/po brez nepojasnjenih razlik.
+- Petra potrdi pregled na telefonu.

@@ -12,4 +12,4 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - '@ptlabTadej/sitegen-landing-core@1.1.0'
+  - "@ptlabTadej/sitegen-landing-core@1.1.0"

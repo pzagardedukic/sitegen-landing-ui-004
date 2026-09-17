@@ -1,1 +1,346 @@
-{"schema":1,"basePath":"/sitegen-landing-ui-004","primaryLanguage":"SL","siteName":"Mirna Spa & Beauty","organization":{"@context":"https://schema.org","@type":"Organization","name":"Mirna Spa & Beauty","url":"https://pzagardedukic.github.io/sitegen-landing-ui-004/","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","email":"pozdravljeni@mirna-spa.example","telephone":"+386 1 555 02 14","sameAs":["https://mirna-spa.example","https://instagram.com/mirna.spa.example","https://facebook.com/mirna.spa.example","https://www.linkedin.com/company/example"],"address":{"@type":"PostalAddress","streetAddress":"Trnovski pristan 14","postalCode":"1000","addressLocality":"Ljubljana","addressCountry":"Slovenia"}},"fonts":{"heading":"Fraunces","body":"Figtree","banner":"Figtree"},"pages":{"/":{"title":"Mirna Spa & Beauty","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/","image":"","noindex":false},"/o-nas/":{"title":"O salonu | Mirna Spa & Beauty","description":"Mirna je salon s štirimi sobami za masažo in nego obraza ter kotičkom za manikuro. Termine razporejamo z dvajsetminutnim razmikom, zato nihče ne čaka v...","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/o-nas/","image":"","noindex":false},"/blog/":{"title":"Blog | Mirna Spa & Beauty","description":"Kratki zapisi o negi kože, sprostitvi in tem, kaj res pomaga — brez čudežnih obljub.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/","image":"","noindex":false},"/blog/1-maska-iz-gline-kolikokrat-na-teden-je-dovolj/":{"title":"Maska iz gline: kolikokrat na teden je dovolj | Mirna Spa & Beauty","description":"Glina lepo očisti, a pri prepogosti uporabi izsuši kožo. Kako izbrati pravo vrsto in kdaj jo raje izpustiti.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/1-maska-iz-gline-kolikokrat-na-teden-je-dovolj/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-maska.webp","noindex":false},"/blog/2-katero-olje-za-masazo-in-zakaj-ne-vsako/":{"title":"Katero olje za masažo in zakaj ne vsako | Mirna Spa & Beauty","description":"Mandljevo, jojobovo ali kokosovo? Razlike v vpijanju, vonju in tem, kaj ustreza občutljivi koži.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/2-katero-olje-za-masazo-in-zakaj-ne-vsako/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-olje.webp","noindex":false},"/blog/3-zakaj-se-po-masazi-pocutite-utrujeni/":{"title":"Zakaj se po masaži počutite utrujeni | Mirna Spa & Beauty","description":"Zaspanost po masaži ni slab znak. Kaj se dogaja v telesu in kako preživeti preostanek dneva.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/3-zakaj-se-po-masazi-pocutite-utrujeni/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-sprostitev.webp","noindex":false},"/blog/4-limfna-drenaza-obraza-ki-jo-zmorete-sami/":{"title":"Limfna drenaža obraza, ki jo zmorete sami | Mirna Spa & Beauty","description":"Pet gibov za jutra, ko je obraz zabuhel. Brez pripomočkov, v treh minutah pred ogledalom.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/4-limfna-drenaza-obraza-ki-jo-zmorete-sami/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-drenaza.webp","noindex":false},"/blog/5-zascita-pred-soncem-tudi-pozimi/":{"title":"Zaščita pred soncem tudi pozimi | Mirna Spa & Beauty","description":"UVA žarki prehajajo skozi oblake in okna vse leto. Kakšen faktor izbrati za mesto in kakšnega za smučišče.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/5-zascita-pred-soncem-tudi-pozimi/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-sonce.webp","noindex":false},"/zaposlitev/":{"title":"Zaposlitev | Mirna Spa & Beauty","description":"Iščemo sodelavke in sodelavce, ki jim je mar za stranko pred sabo in ne le za naslednji termin.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/","image":"","noindex":false},"/zaposlitev/1-masazni-terapevt-oziroma-terapevtka/":{"title":"Masažni terapevt oziroma terapevtka | Mirna Spa & Beauty","description":"Izvajanje klasičnih, sproščujočih in športnih masaž ter masaže s toplimi kamni. Delo v majhni ekipi s stalnimi strankami.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/1-masazni-terapevt-oziroma-terapevtka/","image":"","noindex":false},"/zaposlitev/2-kozmeticarka/":{"title":"Kozmetičarka | Mirna Spa & Beauty","description":"Nega obraza, depilacija in svetovanje pri izbiri kozmetike. Delo z naravnimi izdelki in pisnimi rutinami za stranke.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/2-kozmeticarka/","image":"","noindex":false},"/zaposlitev/3-receptor-oziroma-receptorka/":{"title":"Receptor oziroma receptorka | Mirna Spa & Beauty","description":"Prvi stik s strankami, urejanje rezervacij in darilnih bonov ter skrb, da je salon pripravljen na vsak termin.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/3-receptor-oziroma-receptorka/","image":"","noindex":false},"/katalogi/":{"title":"Katalogi | Mirna Spa & Beauty","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/katalogi/","image":"","noindex":false},"/kontakt/":{"title":"Kontakt | Mirna Spa & Beauty","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/kontakt/","image":"","noindex":false},"/galerija/":{"title":"Galerija | Mirna Spa & Beauty","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/galerija/","image":"","noindex":false},"/pravno/":{"title":"Mirna Spa & Beauty | Mirna Spa & Beauty","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/pravno/","image":"","noindex":false},"/projekti/":{"title":"Rituali | Mirna Spa & Beauty","description":"Rituali so daljše obravnave, ki združujejo več postopkov v en obisk. Vsak ima svoj namen in trajanje; spodaj je pregled tistih, ki jih izvajamo vse leto.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/","image":"","noindex":false},"/projekti/1-ritual-globinske-nege-obraza/":{"title":"Ritual globinske nege obraza | Mirna Spa & Beauty","description":"Čiščenje, piling z encimi, maska iz zelene gline in masaža obraza, vratu in dekolteja. Primeren za mešano in utrujeno kožo, rezultat je viden takoj.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/1-ritual-globinske-nege-obraza/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-obraz.webp","noindex":false},"/projekti/2-masaza-s-toplimi-kamni/":{"title":"Masaža s toplimi kamni | Mirna Spa & Beauty","description":"Bazaltni kamni, segreti na 50 stopinj, sprostijo globoke mišice hitreje kot roke same. Masaža celega telesa z mandljevim oljem in eteričnim oljem sivke.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/2-masaza-s-toplimi-kamni/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-kamni.webp","noindex":false},"/projekti/3-manikura-z-masazo-rok/":{"title":"Manikura z masažo rok | Mirna Spa & Beauty","description":"Oblikovanje nohtov, nega obnohtne kože, parafinska kopel in trajni lak v odtenku po izbiri. Konča se z desetminutno masažo rok.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/3-manikura-z-masazo-rok/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-manikura.webp","noindex":false},"/projekti/4-spa-pedikura/":{"title":"Spa pedikura | Mirna Spa & Beauty","description":"Kopel s cvetovi in soljo, odstranjevanje trde kože, nega nohtov in masaža stopal do kolen. Po želji s trajnim lakom.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/4-spa-pedikura/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-pedikura.webp","noindex":false},"/projekti/5-nega-las-in-lasisca/":{"title":"Nega las in lasišča | Mirna Spa & Beauty","description":"Diagnostika lasišča, globinsko pranje, maska po meri in masaža glave. Primerna za suho lasišče, izpadanje las in po barvanju.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/5-nega-las-in-lasisca/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-lasje.webp","noindex":false},"/projekti/6-lifting-obraza-brez-igel/":{"title":"Lifting obraza brez igel | Mirna Spa & Beauty","description":"Mikrotokovi in ročna limfna drenaža napnejo obrazne mišice in zmanjšajo zabuhlost. Priporočamo serijo šestih obiskov v razmiku enega tedna.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/6-lifting-obraza-brez-igel/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-estetika.webp","noindex":false},"/cenik/":{"title":"Paketi in cene | Mirna Spa & Beauty","description":"Paketi združujejo obravnave, ki se dopolnjujejo, po nižji ceni kot posamezni obiski. Vse pakete lahko podarite kot darilni bon z veljavnostjo šest mesecev.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/","image":"","noindex":false},"/cenik/1-paket-umiritev/":{"title":"Paket Umiritev | Mirna Spa & Beauty","description":"Sproščujoča masaža in kratka nega obraza.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/1-paket-umiritev/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/onas-ritual.webp","noindex":false},"/cenik/2-paket-mirna/":{"title":"Paket Mirna | Mirna Spa & Beauty","description":"Najbolj priljubljen: masaža s kamni, ritual obraza in manikura.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/2-paket-mirna/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-kamni.webp","noindex":false},"/cenik/3-paket-za-dva/":{"title":"Paket Za dva | Mirna Spa & Beauty","description":"Masaža v paru v isti sobi in penina ob koncu.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/3-paket-za-dva/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/onas-prostor.webp","noindex":false},"/cenik/4-klasicna-masaza/":{"title":"Klasična masaža | Mirna Spa & Beauty","description":"Masaža hrbta, vratu in ramen.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/4-klasicna-masaza/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/storitev-masaze.webp","noindex":false},"/cenik/5-masaza-s-toplimi-kamni/":{"title":"Masaža s toplimi kamni | Mirna Spa & Beauty","description":"Masaža celega telesa z bazaltnimi kamni.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/5-masaza-s-toplimi-kamni/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-kamni.webp","noindex":false},"/cenik/6-nosecniska-masaza/":{"title":"Nosečniška masaža | Mirna Spa & Beauty","description":"Masaža v bočnem položaju, od 14. tedna nosečnosti.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/6-nosecniska-masaza/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-nosecnice.webp","noindex":false},"/cenik/7-ritual-obraza/":{"title":"Ritual obraza | Mirna Spa & Beauty","description":"Čiščenje, piling, maska in masaža obraza.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/7-ritual-obraza/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-obraz.webp","noindex":false},"/cenik/8-serija-liftinga-obraza/":{"title":"Serija liftinga obraza | Mirna Spa & Beauty","description":"Šest obiskov z mikrotokovi in limfno drenažo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/8-serija-liftinga-obraza/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-estetika.webp","noindex":false},"/cenik/9-manikura-s-trajnim-lakom/":{"title":"Manikura s trajnim lakom | Mirna Spa & Beauty","description":"Oblikovanje, nega obnohtne kože in trajni lak.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/9-manikura-s-trajnim-lakom/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-manikura.webp","noindex":false},"/cenik/10-porocni-paket/":{"title":"Poročni paket | Mirna Spa & Beauty","description":"Poskusno ličenje, nega obraza in manikura za nevesto.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/10-porocni-paket/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-lasje.webp","noindex":false},"/storitve/":{"title":"Storitve | Mirna Spa & Beauty","description":"Tri vrste obiska, od masaže do urejenih nohtov. Trajanje in ceno povemo vnaprej, dodatnih stroškov na koncu ni.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/storitve/","image":"","noindex":false},"/urnik/":{"title":"Urnik terminov | Mirna Spa & Beauty","description":"Redni tedenski termini po področjih. Individualne termine izven urnika uredimo po telefonu.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/urnik/","image":"","noindex":false},"/dogodki/":{"title":"Dogodki | Mirna Spa & Beauty","description":"Delavnice in večeri v salonu. Namenjeni so strankam in vsem, ki bi nas radi spoznali.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/","image":"","noindex":false},"/dogodki/1-vecer-aromaterapije/":{"title":"Večer aromaterapije | Mirna Spa & Beauty","description":"Spoznamo osem eteričnih olj, njihove vonje in učinke ter se naučimo mešati olje za masažo doma. Vsaka udeleženka odnese svojo stekleničko mešanice. Število...","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/1-vecer-aromaterapije/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-aroma.webp","noindex":false},"/dogodki/2-masaza-za-nosecnice-in-partnerje/":{"title":"Masaža za nosečnice in partnerje | Mirna Spa & Beauty","description":"Delavnica za pare, kjer Eva pokaže preproste gibe za hrbet, noge in stopala v času nosečnosti. Prinesite udobna oblačila in blazino; olja in podloge so...","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/2-masaza-za-nosecnice-in-partnerje/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-nosecnice.webp","noindex":false},"/dogodki/3-manikura-doma-ki-zdrzi/":{"title":"Manikura doma, ki zdrži | Mirna Spa & Beauty","description":"Tina razloži, kako pripraviti noht, zakaj se lak lušči in kako ga nanesti v tankih plasteh. Vsaka udeleženka dobi komplet za nego obnohtne kože.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/3-manikura-doma-ki-zdrzi/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-nohti.webp","noindex":false},"/dogodki/4-dan-odprtih-vrat/":{"title":"Dan odprtih vrat | Mirna Spa & Beauty","description":"Ogled sob, analiza kože in desetminutne masaže rok brez prijave in plačila. Za obiskovalke tega dne velja 20 % popust na prvi obisk.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/4-dan-odprtih-vrat/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-odprti-dan.webp","noindex":false},"/dogodki/5-priceske-za-praznike/":{"title":"Pričeske za praznike | Mirna Spa & Beauty","description":"Lara pokaže tri pričeske, ki jih naredite sami v dvajsetih minutah, in razloži, kako lase pripraviti večer prej. Primerno za srednje dolge in dolge lase.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/5-priceske-za-praznike/","image":"https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-lasje.webp","noindex":false},"/videi/":{"title":"Videi | Mirna Spa & Beauty","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/videi/","image":"","noindex":false},"/pogosta-vprasanja/":{"title":"FAQ | Mirna Spa & Beauty","description":"Najpogostejša vprašanja pred prvim obiskom. Če vašega ni med njimi, nam pišite — odgovorimo isti dan.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/pogosta-vprasanja/","image":"","noindex":false},"/404/":{"title":"Mirna Spa & Beauty | Mirna Spa & Beauty","description":"Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.","canonical":"https://pzagardedukic.github.io/sitegen-landing-ui-004/404/","image":"","noindex":true}}}
+{
+  "schema": 1,
+  "basePath": "/sitegen-landing-ui-004",
+  "primaryLanguage": "SL",
+  "siteName": "Mirna Spa & Beauty",
+  "organization": {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Mirna Spa & Beauty",
+    "url": "https://pzagardedukic.github.io/sitegen-landing-ui-004/",
+    "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+    "email": "pozdravljeni@mirna-spa.example",
+    "telephone": "+386 1 555 02 14",
+    "sameAs": [
+      "https://mirna-spa.example",
+      "https://instagram.com/mirna.spa.example",
+      "https://facebook.com/mirna.spa.example",
+      "https://www.linkedin.com/company/example"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Trnovski pristan 14",
+      "postalCode": "1000",
+      "addressLocality": "Ljubljana",
+      "addressCountry": "Slovenia"
+    }
+  },
+  "fonts": { "heading": "Fraunces", "body": "Figtree", "banner": "Figtree" },
+  "pages": {
+    "/": {
+      "title": "Mirna Spa & Beauty",
+      "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/",
+      "image": "",
+      "noindex": false
+    },
+    "/o-nas/": {
+      "title": "O salonu | Mirna Spa & Beauty",
+      "description": "Mirna je salon s štirimi sobami za masažo in nego obraza ter kotičkom za manikuro. Termine razporejamo z dvajsetminutnim razmikom, zato nihče ne čaka v...",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/o-nas/",
+      "image": "",
+      "noindex": false
+    },
+    "/blog/": {
+      "title": "Blog | Mirna Spa & Beauty",
+      "description": "Kratki zapisi o negi kože, sprostitvi in tem, kaj res pomaga — brez čudežnih obljub.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/",
+      "image": "",
+      "noindex": false
+    },
+    "/blog/1-maska-iz-gline-kolikokrat-na-teden-je-dovolj/": {
+      "title": "Maska iz gline: kolikokrat na teden je dovolj | Mirna Spa & Beauty",
+      "description": "Glina lepo očisti, a pri prepogosti uporabi izsuši kožo. Kako izbrati pravo vrsto in kdaj jo raje izpustiti.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/1-maska-iz-gline-kolikokrat-na-teden-je-dovolj/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-maska.webp",
+      "noindex": false
+    },
+    "/blog/2-katero-olje-za-masazo-in-zakaj-ne-vsako/": {
+      "title": "Katero olje za masažo in zakaj ne vsako | Mirna Spa & Beauty",
+      "description": "Mandljevo, jojobovo ali kokosovo? Razlike v vpijanju, vonju in tem, kaj ustreza občutljivi koži.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/2-katero-olje-za-masazo-in-zakaj-ne-vsako/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-olje.webp",
+      "noindex": false
+    },
+    "/blog/3-zakaj-se-po-masazi-pocutite-utrujeni/": {
+      "title": "Zakaj se po masaži počutite utrujeni | Mirna Spa & Beauty",
+      "description": "Zaspanost po masaži ni slab znak. Kaj se dogaja v telesu in kako preživeti preostanek dneva.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/3-zakaj-se-po-masazi-pocutite-utrujeni/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-sprostitev.webp",
+      "noindex": false
+    },
+    "/blog/4-limfna-drenaza-obraza-ki-jo-zmorete-sami/": {
+      "title": "Limfna drenaža obraza, ki jo zmorete sami | Mirna Spa & Beauty",
+      "description": "Pet gibov za jutra, ko je obraz zabuhel. Brez pripomočkov, v treh minutah pred ogledalom.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/4-limfna-drenaza-obraza-ki-jo-zmorete-sami/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-drenaza.webp",
+      "noindex": false
+    },
+    "/blog/5-zascita-pred-soncem-tudi-pozimi/": {
+      "title": "Zaščita pred soncem tudi pozimi | Mirna Spa & Beauty",
+      "description": "UVA žarki prehajajo skozi oblake in okna vse leto. Kakšen faktor izbrati za mesto in kakšnega za smučišče.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/blog/5-zascita-pred-soncem-tudi-pozimi/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/blog-sonce.webp",
+      "noindex": false
+    },
+    "/zaposlitev/": {
+      "title": "Zaposlitev | Mirna Spa & Beauty",
+      "description": "Iščemo sodelavke in sodelavce, ki jim je mar za stranko pred sabo in ne le za naslednji termin.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/",
+      "image": "",
+      "noindex": false
+    },
+    "/zaposlitev/1-masazni-terapevt-oziroma-terapevtka/": {
+      "title": "Masažni terapevt oziroma terapevtka | Mirna Spa & Beauty",
+      "description": "Izvajanje klasičnih, sproščujočih in športnih masaž ter masaže s toplimi kamni. Delo v majhni ekipi s stalnimi strankami.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/1-masazni-terapevt-oziroma-terapevtka/",
+      "image": "",
+      "noindex": false
+    },
+    "/zaposlitev/2-kozmeticarka/": {
+      "title": "Kozmetičarka | Mirna Spa & Beauty",
+      "description": "Nega obraza, depilacija in svetovanje pri izbiri kozmetike. Delo z naravnimi izdelki in pisnimi rutinami za stranke.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/2-kozmeticarka/",
+      "image": "",
+      "noindex": false
+    },
+    "/zaposlitev/3-receptor-oziroma-receptorka/": {
+      "title": "Receptor oziroma receptorka | Mirna Spa & Beauty",
+      "description": "Prvi stik s strankami, urejanje rezervacij in darilnih bonov ter skrb, da je salon pripravljen na vsak termin.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/zaposlitev/3-receptor-oziroma-receptorka/",
+      "image": "",
+      "noindex": false
+    },
+    "/katalogi/": {
+      "title": "Katalogi | Mirna Spa & Beauty",
+      "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/katalogi/",
+      "image": "",
+      "noindex": false
+    },
+    "/kontakt/": {
+      "title": "Kontakt | Mirna Spa & Beauty",
+      "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/kontakt/",
+      "image": "",
+      "noindex": false
+    },
+    "/galerija/": {
+      "title": "Galerija | Mirna Spa & Beauty",
+      "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/galerija/",
+      "image": "",
+      "noindex": false
+    },
+    "/pravno/": {
+      "title": "Mirna Spa & Beauty | Mirna Spa & Beauty",
+      "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/pravno/",
+      "image": "",
+      "noindex": false
+    },
+    "/projekti/": {
+      "title": "Rituali | Mirna Spa & Beauty",
+      "description": "Rituali so daljše obravnave, ki združujejo več postopkov v en obisk. Vsak ima svoj namen in trajanje; spodaj je pregled tistih, ki jih izvajamo vse leto.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/",
+      "image": "",
+      "noindex": false
+    },
+    "/projekti/1-ritual-globinske-nege-obraza/": {
+      "title": "Ritual globinske nege obraza | Mirna Spa & Beauty",
+      "description": "Čiščenje, piling z encimi, maska iz zelene gline in masaža obraza, vratu in dekolteja. Primeren za mešano in utrujeno kožo, rezultat je viden takoj.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/1-ritual-globinske-nege-obraza/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-obraz.webp",
+      "noindex": false
+    },
+    "/projekti/2-masaza-s-toplimi-kamni/": {
+      "title": "Masaža s toplimi kamni | Mirna Spa & Beauty",
+      "description": "Bazaltni kamni, segreti na 50 stopinj, sprostijo globoke mišice hitreje kot roke same. Masaža celega telesa z mandljevim oljem in eteričnim oljem sivke.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/2-masaza-s-toplimi-kamni/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-kamni.webp",
+      "noindex": false
+    },
+    "/projekti/3-manikura-z-masazo-rok/": {
+      "title": "Manikura z masažo rok | Mirna Spa & Beauty",
+      "description": "Oblikovanje nohtov, nega obnohtne kože, parafinska kopel in trajni lak v odtenku po izbiri. Konča se z desetminutno masažo rok.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/3-manikura-z-masazo-rok/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-manikura.webp",
+      "noindex": false
+    },
+    "/projekti/4-spa-pedikura/": {
+      "title": "Spa pedikura | Mirna Spa & Beauty",
+      "description": "Kopel s cvetovi in soljo, odstranjevanje trde kože, nega nohtov in masaža stopal do kolen. Po želji s trajnim lakom.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/4-spa-pedikura/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-pedikura.webp",
+      "noindex": false
+    },
+    "/projekti/5-nega-las-in-lasisca/": {
+      "title": "Nega las in lasišča | Mirna Spa & Beauty",
+      "description": "Diagnostika lasišča, globinsko pranje, maska po meri in masaža glave. Primerna za suho lasišče, izpadanje las in po barvanju.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/5-nega-las-in-lasisca/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-lasje.webp",
+      "noindex": false
+    },
+    "/projekti/6-lifting-obraza-brez-igel/": {
+      "title": "Lifting obraza brez igel | Mirna Spa & Beauty",
+      "description": "Mikrotokovi in ročna limfna drenaža napnejo obrazne mišice in zmanjšajo zabuhlost. Priporočamo serijo šestih obiskov v razmiku enega tedna.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/projekti/6-lifting-obraza-brez-igel/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-estetika.webp",
+      "noindex": false
+    },
+    "/cenik/": {
+      "title": "Paketi in cene | Mirna Spa & Beauty",
+      "description": "Paketi združujejo obravnave, ki se dopolnjujejo, po nižji ceni kot posamezni obiski. Vse pakete lahko podarite kot darilni bon z veljavnostjo šest mesecev.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/",
+      "image": "",
+      "noindex": false
+    },
+    "/cenik/1-paket-umiritev/": {
+      "title": "Paket Umiritev | Mirna Spa & Beauty",
+      "description": "Sproščujoča masaža in kratka nega obraza.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/1-paket-umiritev/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/onas-ritual.webp",
+      "noindex": false
+    },
+    "/cenik/2-paket-mirna/": {
+      "title": "Paket Mirna | Mirna Spa & Beauty",
+      "description": "Najbolj priljubljen: masaža s kamni, ritual obraza in manikura.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/2-paket-mirna/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-kamni.webp",
+      "noindex": false
+    },
+    "/cenik/3-paket-za-dva/": {
+      "title": "Paket Za dva | Mirna Spa & Beauty",
+      "description": "Masaža v paru v isti sobi in penina ob koncu.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/3-paket-za-dva/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/onas-prostor.webp",
+      "noindex": false
+    },
+    "/cenik/4-klasicna-masaza/": {
+      "title": "Klasična masaža | Mirna Spa & Beauty",
+      "description": "Masaža hrbta, vratu in ramen.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/4-klasicna-masaza/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/storitev-masaze.webp",
+      "noindex": false
+    },
+    "/cenik/5-masaza-s-toplimi-kamni/": {
+      "title": "Masaža s toplimi kamni | Mirna Spa & Beauty",
+      "description": "Masaža celega telesa z bazaltnimi kamni.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/5-masaza-s-toplimi-kamni/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-kamni.webp",
+      "noindex": false
+    },
+    "/cenik/6-nosecniska-masaza/": {
+      "title": "Nosečniška masaža | Mirna Spa & Beauty",
+      "description": "Masaža v bočnem položaju, od 14. tedna nosečnosti.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/6-nosecniska-masaza/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-nosecnice.webp",
+      "noindex": false
+    },
+    "/cenik/7-ritual-obraza/": {
+      "title": "Ritual obraza | Mirna Spa & Beauty",
+      "description": "Čiščenje, piling, maska in masaža obraza.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/7-ritual-obraza/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-obraz.webp",
+      "noindex": false
+    },
+    "/cenik/8-serija-liftinga-obraza/": {
+      "title": "Serija liftinga obraza | Mirna Spa & Beauty",
+      "description": "Šest obiskov z mikrotokovi in limfno drenažo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/8-serija-liftinga-obraza/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-estetika.webp",
+      "noindex": false
+    },
+    "/cenik/9-manikura-s-trajnim-lakom/": {
+      "title": "Manikura s trajnim lakom | Mirna Spa & Beauty",
+      "description": "Oblikovanje, nega obnohtne kože in trajni lak.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/9-manikura-s-trajnim-lakom/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-manikura.webp",
+      "noindex": false
+    },
+    "/cenik/10-porocni-paket/": {
+      "title": "Poročni paket | Mirna Spa & Beauty",
+      "description": "Poskusno ličenje, nega obraza in manikura za nevesto.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/cenik/10-porocni-paket/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/ritual-lasje.webp",
+      "noindex": false
+    },
+    "/storitve/": {
+      "title": "Storitve | Mirna Spa & Beauty",
+      "description": "Tri vrste obiska, od masaže do urejenih nohtov. Trajanje in ceno povemo vnaprej, dodatnih stroškov na koncu ni.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/storitve/",
+      "image": "",
+      "noindex": false
+    },
+    "/urnik/": {
+      "title": "Urnik terminov | Mirna Spa & Beauty",
+      "description": "Redni tedenski termini po področjih. Individualne termine izven urnika uredimo po telefonu.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/urnik/",
+      "image": "",
+      "noindex": false
+    },
+    "/dogodki/": {
+      "title": "Dogodki | Mirna Spa & Beauty",
+      "description": "Delavnice in večeri v salonu. Namenjeni so strankam in vsem, ki bi nas radi spoznali.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/",
+      "image": "",
+      "noindex": false
+    },
+    "/dogodki/1-vecer-aromaterapije/": {
+      "title": "Večer aromaterapije | Mirna Spa & Beauty",
+      "description": "Spoznamo osem eteričnih olj, njihove vonje in učinke ter se naučimo mešati olje za masažo doma. Vsaka udeleženka odnese svojo stekleničko mešanice. Število...",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/1-vecer-aromaterapije/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-aroma.webp",
+      "noindex": false
+    },
+    "/dogodki/2-masaza-za-nosecnice-in-partnerje/": {
+      "title": "Masaža za nosečnice in partnerje | Mirna Spa & Beauty",
+      "description": "Delavnica za pare, kjer Eva pokaže preproste gibe za hrbet, noge in stopala v času nosečnosti. Prinesite udobna oblačila in blazino; olja in podloge so...",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/2-masaza-za-nosecnice-in-partnerje/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-nosecnice.webp",
+      "noindex": false
+    },
+    "/dogodki/3-manikura-doma-ki-zdrzi/": {
+      "title": "Manikura doma, ki zdrži | Mirna Spa & Beauty",
+      "description": "Tina razloži, kako pripraviti noht, zakaj se lak lušči in kako ga nanesti v tankih plasteh. Vsaka udeleženka dobi komplet za nego obnohtne kože.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/3-manikura-doma-ki-zdrzi/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-nohti.webp",
+      "noindex": false
+    },
+    "/dogodki/4-dan-odprtih-vrat/": {
+      "title": "Dan odprtih vrat | Mirna Spa & Beauty",
+      "description": "Ogled sob, analiza kože in desetminutne masaže rok brez prijave in plačila. Za obiskovalke tega dne velja 20 % popust na prvi obisk.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/4-dan-odprtih-vrat/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-odprti-dan.webp",
+      "noindex": false
+    },
+    "/dogodki/5-priceske-za-praznike/": {
+      "title": "Pričeske za praznike | Mirna Spa & Beauty",
+      "description": "Lara pokaže tri pričeske, ki jih naredite sami v dvajsetih minutah, in razloži, kako lase pripraviti večer prej. Primerno za srednje dolge in dolge lase.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/dogodki/5-priceske-za-praznike/",
+      "image": "https://pzagardedukic.github.io/sitegen-landing-ui-004/images/dogodek-lasje.webp",
+      "noindex": false
+    },
+    "/videi/": {
+      "title": "Videi | Mirna Spa & Beauty",
+      "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/videi/",
+      "image": "",
+      "noindex": false
+    },
+    "/pogosta-vprasanja/": {
+      "title": "FAQ | Mirna Spa & Beauty",
+      "description": "Najpogostejša vprašanja pred prvim obiskom. Če vašega ni med njimi, nam pišite — odgovorimo isti dan.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/pogosta-vprasanja/",
+      "image": "",
+      "noindex": false
+    },
+    "/404/": {
+      "title": "Mirna Spa & Beauty | Mirna Spa & Beauty",
+      "description": "Masaže, nega obraza in manikura ob Ljubljanici. Dovolj časa za vsak obisk, naravna kozmetika in terapevtke, ki vedo, kaj delajo.",
+      "canonical": "https://pzagardedukic.github.io/sitegen-landing-ui-004/404/",
+      "image": "",
+      "noindex": true
+    }
+  }
+}

@@ -21,7 +21,10 @@ export default function RootLayout({
      * `suppressHydrationWarning` belongs here because the language bootstrap below marks the
      * root element before React runs, so the server and client markup differ by design.
      */
-    <html lang={homeMeta.primaryLanguage.toLowerCase()} suppressHydrationWarning>
+    <html
+      lang={homeMeta.primaryLanguage.toLowerCase()}
+      suppressHydrationWarning
+    >
       <head>
         {/*
           Runs before first paint: applies a saved language preference, so a visitor who

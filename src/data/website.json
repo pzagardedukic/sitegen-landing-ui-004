@@ -1,9 +1,7 @@
 {
   "general": {
     "primaryLanguage": "SL",
-    "supportedLanguages": [
-      "EN"
-    ]
+    "supportedLanguages": ["EN"]
   },
   "home": {
     "websiteName": {

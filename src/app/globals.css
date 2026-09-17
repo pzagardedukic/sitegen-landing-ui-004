@@ -43,3 +43,41 @@ svg {
   display: block;
   max-width: 100%;
 }
+
+/*
+ * SEO snapshot island. The head bootstrap marks a saved non-primary language as pending,
+ * and the snapshot is in the primary language, so it must stay hidden until the live
+ * page is ready — otherwise an English visitor reads Slovenian first.
+ */
+html[data-sitegen-pending-language] #sitegen-primary-snapshot,
+html[data-sitegen-ready="true"] #sitegen-primary-snapshot,
+html[data-sitegen-ready="true"] #sitegen-language-recovery {
+  display: none !important;
+}
+
+/* Retry panel the bootstrap fills when the chosen language never loads. */
+#sitegen-language-recovery:not(:empty) {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #faf7f6;
+  color: #1a1a1a;
+  text-align: center;
+  font:
+    16px/1.5 var(--font-figtree),
+    system-ui,
+    sans-serif;
+}
+
+#sitegen-language-recovery button {
+  margin-top: 16px;
+  padding: 10px 18px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}

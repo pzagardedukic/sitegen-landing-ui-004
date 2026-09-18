@@ -456,8 +456,10 @@ Primerjalna točka `e550fdf`, obe gradnji postreženi lokalno; brskalnik Playwri
 - 6.5: 9 od 12 strank čistih v celotnem teku; preostale tri so imele samo prekinjene zahteve.
   Ponovitev z naslovi: vse so vdelani Googlov zemljevid na `/kontakt/`.
 - 6.6: objavljena stran — 44 od 44 kanoničnih povezav pravilnih, en `og:image`, brez
-  `localhost` in podvojene osnovne poti. **Popravkov iz te faze še nima**; ponovna objava
-  čaka na odobritev.
+  `localhost` in podvojene osnovne poti. **Popravki te faze so bili medtem objavljeni**
+  (`gh-pages`, `09d0905`): živa stran izpisuje „404 - Stran ni najdena | …" in „Pogoji in
+  zasebnost | …", njena različica `1789666914379_555229d296a3` pa se ujema z
+  `out/data/meta.json`. Preverjeno 18. 9. 2026.
 
 **Odprto kot issue (na vseh temah, kjer velja)**
 

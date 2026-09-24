@@ -3,7 +3,10 @@
   "basePath": "/sitegen-landing-ui-004",
   "siteOrigin": "https://pzagardedukic.github.io",
   "primaryLanguage": "SL",
-  "supportedLanguages": ["SL", "EN"],
+  "supportedLanguages": [
+    "SL",
+    "EN"
+  ],
   "structure": "{\"primaryLanguage\":\"SL\",\"languages\":[\"EN\",\"SL\"],\"optionalSections\":{\"blog\":true,\"careers\":true,\"catalogues\":true,\"clients\":true,\"events\":true,\"experience\":true,\"faq\":true,\"gallery\":true,\"portfolio\":true,\"pricing\":true,\"reviews\":true,\"schedule\":true,\"services\":true,\"subscribe\":true,\"team\":true,\"videos\":true},\"counts\":{\"portfolio\":6,\"blog\":5,\"pricing\":10,\"careers\":3,\"events\":5}}",
   "routes": [
     {

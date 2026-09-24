@@ -3,7 +3,9 @@
     "websiteType": "BOOKING",
     "businessSector": "BEAUTY_AND_WELLNESS",
     "primaryLanguage": "SL",
-    "supportedLanguages": ["EN"]
+    "supportedLanguages": [
+      "EN"
+    ]
   },
   "theme": {
     "colors": {
@@ -1206,7 +1208,12 @@
         "categoryId": "schedule-massage",
         "rows": [
           {
-            "cells": ["Dan", "Termini", "Vrsta", "Terapevtka"]
+            "cells": [
+              "Dan",
+              "Termini",
+              "Vrsta",
+              "Terapevtka"
+            ]
           },
           {
             "cells": [
@@ -1225,7 +1232,12 @@
             ]
           },
           {
-            "cells": ["Sobota", "09:00 / 11:30", "Vse vrste", "Eva"]
+            "cells": [
+              "Sobota",
+              "09:00 / 11:30",
+              "Vse vrste",
+              "Eva"
+            ]
           }
         ]
       },
@@ -1235,10 +1247,20 @@
         "categoryId": "schedule-face",
         "rows": [
           {
-            "cells": ["Dan", "Termini", "Obravnava", "Trajanje"]
+            "cells": [
+              "Dan",
+              "Termini",
+              "Obravnava",
+              "Trajanje"
+            ]
           },
           {
-            "cells": ["Torek", "09:00 / 14:00", "Ritual obraza", "60 min"]
+            "cells": [
+              "Torek",
+              "09:00 / 14:00",
+              "Ritual obraza",
+              "60 min"
+            ]
           },
           {
             "cells": [
@@ -1249,7 +1271,12 @@
             ]
           },
           {
-            "cells": ["Petek", "11:00 / 16:00", "Lifting brez igel", "45 min"]
+            "cells": [
+              "Petek",
+              "11:00 / 16:00",
+              "Lifting brez igel",
+              "45 min"
+            ]
           }
         ]
       },
@@ -1259,7 +1286,12 @@
         "categoryId": "schedule-nails",
         "rows": [
           {
-            "cells": ["Dan", "Okno", "Storitev", "Mesta"]
+            "cells": [
+              "Dan",
+              "Okno",
+              "Storitev",
+              "Mesta"
+            ]
           },
           {
             "cells": [
@@ -1270,10 +1302,20 @@
             ]
           },
           {
-            "cells": ["Sreda", "12:00 – 18:00", "Medicinska pedikura", "1"]
+            "cells": [
+              "Sreda",
+              "12:00 – 18:00",
+              "Medicinska pedikura",
+              "1"
+            ]
           },
           {
-            "cells": ["Sobota", "09:00 – 13:00", "Spa pedikura", "2"]
+            "cells": [
+              "Sobota",
+              "09:00 – 13:00",
+              "Spa pedikura",
+              "2"
+            ]
           }
         ]
       }
